@@ -171,5 +171,10 @@ namespace Farmhash.Sharp
                 return Hash32(buf, len);
             }
         }
+
+        public static unsafe ulong Hash64(byte[] s, int len)
+        {
+            return 0;
+        }
     }
 }
