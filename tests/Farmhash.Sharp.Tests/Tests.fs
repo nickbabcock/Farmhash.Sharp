@@ -18,7 +18,7 @@ let (``hash32 len 0 to 4 cases``:obj[][]) = [|
 let ``hash32 len 0 to 4`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash32(bytes, bytes.Length)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 
 let (``hash32 len 5 to 12 cases``:obj[][]) = [|
@@ -36,7 +36,7 @@ let (``hash32 len 5 to 12 cases``:obj[][]) = [|
 let ``hash32 len 5 to 12`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash32(bytes, bytes.Length)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash32 len 13 to 24 cases``:obj[][]) = [|
   [| "fred@example.com"; 0x7acdc357u |]
@@ -50,7 +50,7 @@ let (``hash32 len 13 to 24 cases``:obj[][]) = [|
 let ``hash32 len 13 to 24`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash32(bytes, bytes.Length)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash32 larger cases``:obj[][]) = [|
   [| "Go is a tool for managing Go source code.Usage:	go command [arguments]The commands are:    build       compile packages and dependencies    clean       remove object files    env         print Go environment information    fix         run go tool fix on packages    fmt         run gofmt on package sources    generate    generate Go files by processing source    get         download and install packages and dependencies    install     compile and install packages and dependencies    list        list packages    run         compile and run Go program    test        test packages    tool        run specified go tool    version     print Go version    vet         run go tool vet on packagesUse go help [command] for more information about a command.Additional help topics:    c           calling between Go and C    filetype    file types    gopath      GOPATH environment variable    importpath  import path syntax    packages    description of package lists    testflag    description of testing flags    testfunc    description of testing functionsUse go help [topic] for more information about that topic."; 0x9c8f96f3u |]
@@ -79,7 +79,7 @@ let (``hash32 larger cases``:obj[][]) = [|
 let ``hash32 larger`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash32(bytes, bytes.Length)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash64 len 0 to 16 cases``:obj[][]) = [|
   [| ""; 0x9ae16a3b2f90404fUL |]
@@ -104,7 +104,7 @@ let (``hash64 len 0 to 16 cases``:obj[][]) = [|
 let ``hash64 len 0 to 16`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash64 len 17 to 32 cases``:obj[][]) = [|
   [| "docklandsman@gmail.com"; 0xb678cf3842309f40UL |]
@@ -116,7 +116,7 @@ let (``hash64 len 17 to 32 cases``:obj[][]) = [|
 let ``hash64 len 17 to 32`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash64 len 33 to 64 cases``:obj[][]) = [|
   [| "Discard medicine more than two years old."; 0x9f9e3cdeb570f926UL |] 
@@ -134,7 +134,7 @@ let (``hash64 len 33 to 64 cases``:obj[][]) = [|
 let ``hash64 len 33 to 64`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
 
 let (``hash64 larger cases``:obj[][]) = [|
   [| "For every action there is an equal and opposite government program."; 0x8452fbb0c8f98c4fUL |]
@@ -152,4 +152,4 @@ let (``hash64 larger cases``:obj[][]) = [|
 let ``hash64 larger`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
   let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
-  Assert.AreEqual(actual, expected)
+  Assert.AreEqual(expected, actual)
