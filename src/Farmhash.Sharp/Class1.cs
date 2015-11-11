@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable SuggestVarOrType_BuiltInTypes
+using System.Runtime.CompilerServices;
 namespace Farmhash.Sharp
 {
     public class Class1
@@ -26,6 +27,7 @@ namespace Farmhash.Sharp
 
         const ulong kMul = 0x9ddfea08eb382d69UL;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Hash128to64(uint128_t x) {
             // Murmur-inspired hashing.
             ulong a = (Uint128Low64(x) ^ Uint128High64(x)) * kMul;
@@ -66,6 +68,7 @@ namespace Farmhash.Sharp
             return Fetch32(p);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint fmix(uint h)
         {
             h ^= h >> 16;
@@ -76,6 +79,7 @@ namespace Farmhash.Sharp
             return h;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32Len0to4(byte* s, int len)
         {
             uint b = 0;
@@ -89,6 +93,7 @@ namespace Farmhash.Sharp
             return fmix(Mur(b, Mur((uint) len, c)));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint Mur(uint a, uint h)
         {
             // Helper from Murmur3 for combining two 32-bit values.
@@ -100,6 +105,7 @@ namespace Farmhash.Sharp
             return h * 5 + 0xe6546b64;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32Len13to24(byte* s, int len, uint seed = 0) {
             uint a = Fetch(s - 4 + (len >> 1));
             uint b = Fetch(s + 4);
@@ -117,6 +123,7 @@ namespace Farmhash.Sharp
             return fmix(h);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32Len5to12(byte* s, int len, uint seed = 0)
         {
             uint a = (uint) len, b = (uint) (len * 5), c = 9, d = b + seed;
@@ -126,6 +133,7 @@ namespace Farmhash.Sharp
             return fmix(seed ^ Mur(c, Mur(b, Mur(a, d))));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32(byte* s, int len)
         {
             if (len <= 24)
@@ -186,7 +194,6 @@ namespace Farmhash.Sharp
             return h;
         }
 
-
         public static unsafe uint Hash32(byte[] s, int len)
         {
             fixed (byte* buf = s)
@@ -195,31 +202,39 @@ namespace Farmhash.Sharp
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Uint128Low64(uint128_t x)
         {
             return x.first;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Uint128High64(uint128_t x)
         {
             return x.second;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint128_t Uint128(ulong lo, ulong hi)
         {
             return new uint128_t(lo, hi);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong ShiftMix(ulong val)
         {
             return val ^ (val >> 47);
         }
 
-        private static ulong HashLen16(ulong u, ulong v) {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong HashLen16(ulong u, ulong v)
+        {
             return Hash128to64(Uint128(u, v));
         }
 
-        private static ulong HashLen16(ulong u, ulong v, ulong mul) {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong HashLen16(ulong u, ulong v, ulong mul)
+        {
             // Murmur-inspired hashing.
             ulong a = (u ^ v) * mul;
             a ^= (a >> 47);
@@ -231,6 +246,7 @@ namespace Farmhash.Sharp
 
         // Return a 16-byte hash for 48 bytes.  Quick and dirty.
         // Callers do best to use "random-looking" values for a and b.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint128_t WeakHashLen32WithSeeds(
             ulong w, ulong x, ulong y, ulong z, ulong a, ulong b) {
             a += w;
@@ -243,6 +259,7 @@ namespace Farmhash.Sharp
         }
 
         // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint128_t WeakHashLen32WithSeeds(
             byte* s, ulong a, ulong b) {
             return WeakHashLen32WithSeeds(Fetch64(s),
@@ -253,6 +270,7 @@ namespace Farmhash.Sharp
                                         b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen0to16(byte* s, ulong len)
         {
             if (len >= 8) {
@@ -279,6 +297,7 @@ namespace Farmhash.Sharp
             return k2;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen17to32(byte* s, ulong len)
         {
             ulong mul = k2 + len * 2;
@@ -290,13 +309,16 @@ namespace Farmhash.Sharp
                         a + Rotate64(b + k2, 18) + c, mul);
         }
 
-        private static ulong H(ulong x, ulong y, ulong mul, int r) {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong H(ulong x, ulong y, ulong mul, int r)
+        {
           ulong a = (x ^ y) * mul;
           a ^= (a >> 47);
           ulong b = (y ^ a) * mul;
           return Rotate64(b, r) * mul;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong H32(byte* s, ulong len, ulong mul,
                                         ulong seed0 = 0, ulong seed1 = 0) {
             ulong a = Fetch64(s) * k1;
@@ -311,6 +333,7 @@ namespace Farmhash.Sharp
         }
 
         // Return an 8-byte hash for 33 to 64 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen33to64(byte* s, ulong len)
         {
             ulong mul0 = k2 - 30;
@@ -321,6 +344,7 @@ namespace Farmhash.Sharp
         }
 
         // Return an 8-byte hash for 65 to 96 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen65to96(byte* s, ulong len)
         {
             ulong mul0 = k2 - 114;
@@ -331,6 +355,7 @@ namespace Farmhash.Sharp
             return (h2 * 9 + (h0 >> 17) + (h1 >> 21)) * mul1;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_uo(byte* s, ulong len)
         {
             ulong seed0 = 81;
@@ -426,6 +451,7 @@ namespace Farmhash.Sharp
         }
 
         // Return an 8-byte hash for 65 to 96 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_na(byte* s, ulong len)
         {
             ulong seed = 81;
@@ -481,10 +507,9 @@ namespace Farmhash.Sharp
             return HashLen16(HashLen16(v.first, w.first, mul) + ShiftMix(y) * k0 + z,
                              HashLen16(v.second, w.second, mul) + x,
                              mul);
-        }        
+        }
 
-
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe ulong Hash64(byte* s, ulong len)
         {
             if (len <= 32) {
