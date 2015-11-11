@@ -119,8 +119,8 @@ let ``hash64 len 17 to 32`` (str:string) expected =
   Assert.AreEqual(expected, actual)
 
 let (``hash64 len 33 to 64 cases``:obj[][]) = [|
-  [| "Discard medicine more than two years old."; 0x9f9e3cdeb570f926UL |] 
-  [| "He who has a shady past knows that nice guys finish last."; 0x2d072041b535155dUL |]
+  [| "Discard medicine more than two years old."; 0x2d072041b535155dUL |]
+  [| "He who has a shady past knows that nice guys finish last."; 0x9f9e3cdeb570f926UL |]
   [| "I wouldn't marry him with a ten foot pole."; 0x361b79df08615cd6UL |]
   [| "Free! Free!/A trip/to Mars/for 900/empty jars/Burma Shave"; 0xdcfb73d4de1111c6UL |]
   [| "The days of the digital watch are numbered.  -Tom Stoppard"; 0xd71bdfedb6182a5dUL |]
@@ -129,6 +129,7 @@ let (``hash64 len 33 to 64 cases``:obj[][]) = [|
   [| "If the enemy is within range, then so are you."; 0x1f232f3375914f0aUL |]
   [| "How can you write a big system without C++?  -Paul Glick"; 0xa29944470950e8e4UL |]
 |]
+
 [<Test>]
 [<TestCaseSource("hash64 len 33 to 64 cases")>]
 let ``hash64 len 33 to 64`` (str:string) expected =
@@ -144,7 +145,7 @@ let (``hash64 larger cases``:obj[][]) = [|
   [| "It's well we cannot hear the screams/That we create in others' dreams."; 0x796229f1faacec7eUL |]
   [| "You remind me of a TV show, but that's all right: I watch it anyway."; 0x98d2fbd5131a5860UL |]
   [| "Even if I could be Shakespeare, I think I should still choose to be Faraday. - A. Huxley"; 0x4c349a4ff7ac0c89UL |]
-  [| "The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule"; 0x98eff6958c5e91aUL |]
+  [| "The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule"; 0x66afe82d8931a3e7UL |]
   [| "Go is a tool for managing Go source code.Usage: go command [arguments]The commands are:    build       compile packages and dependencies    clean       remove object files    env         print Go environment information    fix         run go tool fix on packages    fmt         run gofmt on package sources    generate    generate Go files by processing source    get         download and install packages and dependencies    install     compile and install packages and dependencies    list        list packages    run         compile and run Go program    test        test packages    tool        run specified go tool    version     print Go version    vet         run go tool vet on packagesUse go help [command] for more information about a command.Additional help topics:    c           calling between Go and C    filetype    file types    gopath      GOPATH environment variable    importpath  import path syntax    packages    description of package lists    testflag    description of testing flags    testfunc    description of testing functionsUse go help [topic] for more information about that topic."; 0x21609f6764c635edUL |]
 |]
 [<Test>]
