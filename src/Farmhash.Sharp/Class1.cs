@@ -4,6 +4,17 @@ namespace Farmhash.Sharp
 {
     public class Class1
     {
+        public struct uint128_t
+        {
+            public ulong first, second;
+            public uint128_t(ulong first, ulong second)
+            {
+                this.first = first;
+                this.second = second;
+            }
+
+        }
+
         // Some primes between 2^63 and 2^64 for various uses.
         const ulong k0 = 0xc3a5c85c97cb3127U;
         const ulong k1 = 0xb492b66fbe98f273U;
@@ -13,12 +24,24 @@ namespace Farmhash.Sharp
         const uint c1 = 0xcc9e2d51;
         const uint c2 = 0x1b873593;
 
+        const ulong kMul = 0x9ddfea08eb382d69UL;
+
+        private static ulong Hash128to64(uint128_t x) {
+            // Murmur-inspired hashing.
+            ulong a = (Uint128Low64(x) ^ Uint128High64(x)) * kMul;
+            a ^= (a >> 47);
+            ulong b = (Uint128High64(x) ^ a) * kMul;
+            b ^= (b >> 47);
+            b *= kMul;
+            return b;
+        }
+
         private static uint Rotate32(uint val, int shift)
         {
             return shift == 0 ? val : (val >> shift) | (val << (32 - shift));
         }
 
-        private ulong Rotate64(ulong val, int shift)
+        private static ulong Rotate64(ulong val, int shift)
         {
             return shift == 0 ? val : (val >> shift) | (val << (64 - shift));
         }
@@ -172,9 +195,321 @@ namespace Farmhash.Sharp
             }
         }
 
-        public static unsafe ulong Hash64(byte[] s, int len)
+        private static ulong Uint128Low64(uint128_t x)
         {
-            return 0;
+            return x.first;
+        }
+
+        private static ulong Uint128High64(uint128_t x)
+        {
+            return x.second;
+        }
+
+        private static uint128_t Uint128(ulong lo, ulong hi)
+        {
+            return new uint128_t(lo, hi);
+        }
+
+        private static ulong ShiftMix(ulong val)
+        {
+            return val ^ (val >> 47);
+        }
+
+        private static ulong HashLen16(ulong u, ulong v) {
+            return Hash128to64(Uint128(u, v));
+        }
+
+        private static ulong HashLen16(ulong u, ulong v, ulong mul) {
+            // Murmur-inspired hashing.
+            ulong a = (u ^ v) * mul;
+            a ^= (a >> 47);
+            ulong b = (v ^ a) * mul;
+            b ^= (b >> 47);
+            b *= mul;
+            return b;
+        }
+
+        // Return a 16-byte hash for 48 bytes.  Quick and dirty.
+        // Callers do best to use "random-looking" values for a and b.
+        private static unsafe uint128_t WeakHashLen32WithSeeds(
+            ulong w, ulong x, ulong y, ulong z, ulong a, ulong b) {
+            a += w;
+            b = Rotate64(b + a + z, 21);
+            ulong c = a;
+            a += x;
+            a += y;
+            b += Rotate64(a, 44);
+            return Uint128(a + z, b + c);
+        }
+
+        // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
+        private static unsafe uint128_t WeakHashLen32WithSeeds(
+            byte* s, ulong a, ulong b) {
+            return WeakHashLen32WithSeeds(Fetch64(s),
+                                        Fetch64(s + 8),
+                                        Fetch64(s + 16),
+                                        Fetch64(s + 24),
+                                        a,
+                                        b);
+        }
+
+        private static unsafe ulong HashLen0to16(byte* s, ulong len)
+        {
+            if (len >= 8) {
+                ulong mul = k2 + len * 2;
+                ulong a = Fetch64(s) + k2;
+                ulong b = Fetch64(s + len - 8);
+                ulong c = Rotate64(b, 37) * mul + a;
+                ulong d = (Rotate64(a, 25) + b) * mul;
+                return HashLen16(c, d, mul);
+            }
+            if (len >= 4) {
+                ulong mul = k2 + len * 2;
+                ulong a = Fetch32(s);
+                return HashLen16(len + (a << 3), Fetch32(s + len - 4), mul);
+            }
+            if (len > 0) {
+                ushort a = s[0];
+                ushort b = s[len >> 1];
+                ushort c = s[len - 1];
+                uint y = ((uint)a) + (((uint)b) << 8);
+                uint z = (uint)(len + ((uint)c << 2));
+                return ShiftMix(y * k2 ^ z * k0) * k2;
+            }
+            return k2;
+        }
+
+        private static unsafe ulong HashLen17to32(byte* s, ulong len)
+        {
+            ulong mul = k2 + len * 2;
+            ulong a = Fetch64(s) * k1;
+            ulong b = Fetch64(s + 8);
+            ulong c = Fetch64(s + len - 8) * mul;
+            ulong d = Fetch64(s + len - 16) * k2;
+            return HashLen16(Rotate64(a + b, 43) + Rotate64(c, 30) + d,
+                        a + Rotate64(b + k2, 18) + c, mul);
+        }
+
+        private static ulong H(ulong x, ulong y, ulong mul, int r) {
+          ulong a = (x ^ y) * mul;
+          a ^= (a >> 47);
+          ulong b = (y ^ a) * mul;
+          return Rotate64(b, r) * mul;
+        }
+
+        private static unsafe ulong H32(byte* s, ulong len, ulong mul,
+                                        ulong seed0 = 0, ulong seed1 = 0) {
+            ulong a = Fetch64(s) * k1;
+            ulong b = Fetch64(s + 8);
+            ulong c = Fetch64(s + len - 8) * mul;
+            ulong d = Fetch64(s + len - 16) * k2;
+            ulong u = Rotate64(a + b, 43) + Rotate64(c, 30) + d + seed0;
+            ulong v = a + Rotate64(b + k2, 18) + c + seed1;
+            a = ShiftMix((u ^ v) * mul);
+            b = ShiftMix((v ^ a) * mul);
+            return b;
+        }
+
+        // Return an 8-byte hash for 33 to 64 bytes.
+        private static unsafe ulong HashLen33to64(byte* s, ulong len)
+        {
+            ulong mul0 = k2 - 30;
+            ulong mul1 = k2 - 30 + 2 * len;
+            ulong h0 = H32(s, 32, mul0);
+            ulong h1 = H32(s + len - 32, 32, mul1);
+            return ((h1 * mul1) + h0) * mul1;
+        }
+
+        // Return an 8-byte hash for 65 to 96 bytes.
+        private static unsafe ulong HashLen65to96(byte* s, ulong len)
+        {
+            ulong mul0 = k2 - 114;
+            ulong mul1 = k2 - 114 + 2 * len;
+            ulong h0 = H32(s, 32, mul0);
+            ulong h1 = H32(s + 32, 32, mul1);
+            ulong h2 = H32(s + len - 32, 32, mul1, h0, h1);
+            return (h2 * 9 + (h0 >> 17) + (h1 >> 21)) * mul1;
+        }
+
+        private static unsafe ulong Hash64_uo(byte* s, ulong len)
+        {
+            ulong seed0 = 81;
+            ulong seed1 = 0;
+
+            // For strings over 64 bytes we loop.  Internal state consists of
+            // 64 bytes: u, v, w, x, y, and z.
+            ulong x = seed0;
+            ulong y = seed1 * k2 + 113;
+            ulong z = ShiftMix(y * k2) * k2;
+            uint128_t v = Uint128(seed0, seed1);
+            uint128_t w = Uint128(0, 0);
+            ulong u = x - z;
+            x *= k2;
+            ulong mul = k2 + (u & 0x82);
+
+            // Set end so that after the loop we have 1 to 64 bytes left to process.
+            byte* end = s + ((len - 1) / 64) * 64;
+            byte* last64 = end + ((len - 1) & 63) - 63;
+            ulong tmp = 0;
+            do {
+                ulong a0 = Fetch64(s);
+                ulong a1 = Fetch64(s + 8);
+                ulong a2 = Fetch64(s + 16);
+                ulong a3 = Fetch64(s + 24);
+                ulong a4 = Fetch64(s + 32);
+                ulong a5 = Fetch64(s + 40);
+                ulong a6 = Fetch64(s + 48);
+                ulong a7 = Fetch64(s + 56);
+                x += a0 + a1;
+                y += a2;
+                z += a3;
+                v.first += a4;
+                v.second += a5 + a1;
+                w.first += a6;
+                w.second += a7;
+
+                x = Rotate64(x, 26);
+                x *= 9;
+                y = Rotate64(y, 29);
+                z *= mul;
+                v.first = Rotate64(v.first, 33);
+                v.second = Rotate64(v.second, 30);
+                w.first ^= x;
+                w.first *= 9;
+                z = Rotate64(z, 32);
+                z += w.second;
+                w.second += z;
+                z *= 9;
+                tmp = u;
+                u = y;
+                y = tmp;
+
+                z += a0 + a6;
+                v.first += a2;
+                v.second += a3;
+                w.first += a4;
+                w.second += a5 + a6;
+                x += a1;
+                y += a7;
+
+                y += v.first;
+                v.first += x - y;
+                v.second += w.first;
+                w.first += v.second;
+                w.second += x - y;
+                x += w.second;
+                w.second = Rotate64(w.second, 34);
+                tmp = u;
+                u = z;
+                z = tmp;
+                s += 64;
+            } while (s != end);
+            // Make s point to the last 64 bytes of input.
+            s = last64;
+            u *= 9;
+            v.second = Rotate64(v.second, 28);
+            v.first = Rotate64(v.first, 20);
+            w.first += ((len - 1) & 63);
+            u += y;
+            y += u;
+            x = Rotate64(y - x + v.first + Fetch64(s + 8), 37) * mul;
+            y = Rotate64(y ^ v.second ^ Fetch64(s + 48), 42) * mul;
+            x ^= w.second * 9;
+            y += v.first + Fetch64(s + 40);
+            z = Rotate64(z + w.first, 33) * mul;
+            v = WeakHashLen32WithSeeds(s, v.second * mul, x + w.first);
+            w = WeakHashLen32WithSeeds(s + 32, z + w.second, y + Fetch64(s + 16));
+            return H(HashLen16(v.first + x, w.first ^ y, mul) + z - u,
+                    H(v.second + y, w.second + z, k2, 30) ^ x,
+                    k2,
+                    31);
+        }
+
+        // Return an 8-byte hash for 65 to 96 bytes.
+        private static unsafe ulong Hash64_na(byte* s, ulong len)
+        {
+            ulong seed = 81;
+
+            // For strings over 64 bytes we loop.  Internal state consists of
+            // 56 bytes: v, w, x, y, and z.
+            ulong x = seed;
+            ulong y = seed * k1 + 113;
+            ulong z = ShiftMix(y * k2 + 113) * k2;
+            uint128_t v = Uint128(0, 0);
+            uint128_t w = Uint128(0, 0);
+            x = x * k2 + Fetch64(s);
+
+            ulong tmp = 0;
+
+            // Set end so that after the loop we have 1 to 64 bytes left to process.
+            byte* end = s + ((len - 1) / 64) * 64;
+            byte* last64 = end + ((len - 1) & 63) - 63;
+            do {
+                x = Rotate64(x + y + v.first + Fetch64(s + 8), 37) * k1;
+                y = Rotate64(y + v.second + Fetch64(s + 48), 42) * k1;
+                x ^= w.second;
+                y += v.first + Fetch64(s + 40);
+                z = Rotate64(z + w.first, 33) * k1;
+                v = WeakHashLen32WithSeeds(s, v.second * k1, x + w.first);
+                w = WeakHashLen32WithSeeds(s + 32, z + w.second, y + Fetch64(s + 16));
+
+                tmp = z;
+                z = x;
+                x = z;
+
+                s += 64;
+            } while (s != end);
+
+            ulong mul = k1 + ((z & 0xff) << 1);
+            // Make s point to the last 64 bytes of input.
+            s = last64;
+            w.first += ((len - 1) & 63);
+            v.first += w.first;
+            w.first += v.first;
+            x = Rotate64(x + y + v.first + Fetch64(s + 8), 37) * mul;
+            y = Rotate64(y + v.second + Fetch64(s + 48), 42) * mul;
+            x ^= w.second * 9;
+            y += v.first * 9 + Fetch64(s + 40);
+            z = Rotate64(z + w.first, 33) * mul;
+            v = WeakHashLen32WithSeeds(s, v.second * mul, x + w.first);
+            w = WeakHashLen32WithSeeds(s + 32, z + w.second, y + Fetch64(s + 16));
+
+            tmp = z;
+            z = x;
+            x = z;
+
+            return HashLen16(HashLen16(v.first, w.first, mul) + ShiftMix(y) * k0 + z,
+                             HashLen16(v.second, w.second, mul) + x,
+                             mul);
+        }        
+
+
+
+        public static unsafe ulong Hash64(byte* s, ulong len)
+        {
+            if (len <= 32) {
+                if (len <= 16) {
+                    return HashLen0to16(s, len);
+                } else {
+                    return HashLen17to32(s, len);
+                }
+            } else if (len <= 64) {
+                return HashLen33to64(s, len);
+            }  else if (len <= 96) {
+                return HashLen65to96(s, len);
+            } else if (len <= 256) {
+                return Hash64_na(s, len);
+            } else {
+                return Hash64_uo(s, len);
+            }
+        }
+
+        public static unsafe ulong Hash64(byte[] s, ulong len)
+        {
+            fixed (byte* buf = s)
+            {
+                return Hash64(buf, len);
+            }
         }
     }
 }
