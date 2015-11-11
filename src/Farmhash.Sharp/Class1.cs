@@ -27,6 +27,7 @@ namespace Farmhash.Sharp
 
         const ulong kMul = 0x9ddfea08eb382d69UL;
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L126-L138
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Hash128to64(uint128_t x) {
             // Murmur-inspired hashing.
@@ -38,11 +39,13 @@ namespace Farmhash.Sharp
             return b;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L209-L212
         private static uint Rotate32(uint val, int shift)
         {
             return shift == 0 ? val : (val >> shift) | (val << (32 - shift));
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L214-L217
         private static ulong Rotate64(ulong val, int shift)
         {
             return shift == 0 ? val : (val >> shift) | (val << (64 - shift));
@@ -53,11 +56,13 @@ namespace Farmhash.Sharp
             return Rotate32(val, shift);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L192-L196
         private static unsafe ulong Fetch64(byte* p)
         {
             return *(ulong*) p;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L198-L202
         private static unsafe uint Fetch32(byte* p)
         {
             return *(uint*)p;
@@ -68,6 +73,7 @@ namespace Farmhash.Sharp
             return Fetch32(p);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L360-L369
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint fmix(uint h)
         {
@@ -79,10 +85,11 @@ namespace Farmhash.Sharp
             return h;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1042-L1051
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint Hash32Len0to4(byte* s, int len)
+        private static unsafe uint Hash32Len0to4(byte* s, int len, uint seed = 0)
         {
-            uint b = 0;
+            uint b = seed;
             uint c = 9;
             for (int i = 0; i < len; i++)
             {
@@ -93,6 +100,7 @@ namespace Farmhash.Sharp
             return fmix(Mur(b, Mur((uint) len, c)));
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L371-L379
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint Mur(uint a, uint h)
         {
@@ -105,6 +113,7 @@ namespace Farmhash.Sharp
             return h * 5 + 0xe6546b64;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1025-L1040
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32Len13to24(byte* s, int len, uint seed = 0) {
             uint a = Fetch(s - 4 + (len >> 1));
@@ -123,6 +132,7 @@ namespace Farmhash.Sharp
             return fmix(h);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1053-L1059
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32Len5to12(byte* s, int len, uint seed = 0)
         {
@@ -133,6 +143,7 @@ namespace Farmhash.Sharp
             return fmix(seed ^ Mur(c, Mur(b, Mur(a, d))));
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint Hash32(byte* s, int len)
         {
@@ -202,36 +213,42 @@ namespace Farmhash.Sharp
             }
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Uint128Low64(uint128_t x)
         {
             return x.first;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong Uint128High64(uint128_t x)
         {
             return x.second;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint128_t Uint128(ulong lo, ulong hi)
         {
             return new uint128_t(lo, hi);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L417-L419
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong ShiftMix(ulong val)
         {
             return val ^ (val >> 47);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L421-L423
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong HashLen16(ulong u, ulong v)
         {
             return Hash128to64(Uint128(u, v));
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L425-L433
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong HashLen16(ulong u, ulong v, ulong mul)
         {
@@ -244,6 +261,7 @@ namespace Farmhash.Sharp
             return b;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L472-L483
         // Return a 16-byte hash for 48 bytes.  Quick and dirty.
         // Callers do best to use "random-looking" values for a and b.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,6 +276,7 @@ namespace Farmhash.Sharp
             return Uint128(a + z, b + c);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L485-L494
         // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe uint128_t WeakHashLen32WithSeeds(
@@ -270,6 +289,7 @@ namespace Farmhash.Sharp
                                         b);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1710-L1733
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen0to16(byte* s, ulong len)
         {
@@ -297,6 +317,7 @@ namespace Farmhash.Sharp
             return k2;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L460-L470
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen17to32(byte* s, ulong len)
         {
@@ -309,6 +330,7 @@ namespace Farmhash.Sharp
                         a + Rotate64(b + k2, 18) + c, mul);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L585-L590
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong H(ulong x, ulong y, ulong mul, int r)
         {
@@ -318,6 +340,7 @@ namespace Farmhash.Sharp
           return Rotate64(b, r) * mul;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L700-L711
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong H32(byte* s, ulong len, ulong mul,
                                         ulong seed0 = 0, ulong seed1 = 0) {
@@ -332,6 +355,7 @@ namespace Farmhash.Sharp
             return b;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L713-L720
         // Return an 8-byte hash for 33 to 64 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen33to64(byte* s, ulong len)
@@ -343,6 +367,7 @@ namespace Farmhash.Sharp
             return ((h1 * mul1) + h0) * mul1;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L722-L730
         // Return an 8-byte hash for 65 to 96 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen65to96(byte* s, ulong len)
@@ -355,6 +380,7 @@ namespace Farmhash.Sharp
             return (h2 * 9 + (h0 >> 17) + (h1 >> 21)) * mul1;
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L592-L681
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_uo(byte* s, ulong len)
         {
@@ -450,6 +476,7 @@ namespace Farmhash.Sharp
                     31);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L513-L566
         // Return an 8-byte hash for 65 to 96 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_na(byte* s, ulong len)
@@ -509,6 +536,7 @@ namespace Farmhash.Sharp
                              mul);
         }
 
+        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe ulong Hash64(byte* s, ulong len)
         {
