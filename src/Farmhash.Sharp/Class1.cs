@@ -25,20 +25,6 @@ namespace Farmhash.Sharp
         const uint c1 = 0xcc9e2d51;
         const uint c2 = 0x1b873593;
 
-        const ulong kMul = 0x9ddfea08eb382d69UL;
-
-        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L126-L138
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong Hash128to64(uint128_t x) {
-            // Murmur-inspired hashing.
-            ulong a = (Uint128Low64(x) ^ Uint128High64(x)) * kMul;
-            a ^= (a >> 47);
-            ulong b = (Uint128High64(x) ^ a) * kMul;
-            b ^= (b >> 47);
-            b *= kMul;
-            return b;
-        }
-
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L209-L212
         private static uint Rotate32(uint val, int shift)
         {
@@ -215,20 +201,6 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong Uint128Low64(uint128_t x)
-        {
-            return x.first;
-        }
-
-        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong Uint128High64(uint128_t x)
-        {
-            return x.second;
-        }
-
-        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint128_t Uint128(ulong lo, ulong hi)
         {
             return new uint128_t(lo, hi);
@@ -239,13 +211,6 @@ namespace Farmhash.Sharp
         private static ulong ShiftMix(ulong val)
         {
             return val ^ (val >> 47);
-        }
-
-        // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L421-L423
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong HashLen16(ulong u, ulong v)
-        {
-            return Hash128to64(Uint128(u, v));
         }
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L425-L433
@@ -265,7 +230,7 @@ namespace Farmhash.Sharp
         // Return a 16-byte hash for 48 bytes.  Quick and dirty.
         // Callers do best to use "random-looking" values for a and b.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint128_t WeakHashLen32WithSeeds(
+        private static uint128_t WeakHashLen32WithSeeds(
             ulong w, ulong x, ulong y, ulong z, ulong a, ulong b) {
             a += w;
             b = Rotate64(b + a + z, 21);
@@ -310,7 +275,7 @@ namespace Farmhash.Sharp
                 ushort a = s[0];
                 ushort b = s[len >> 1];
                 ushort c = s[len - 1];
-                uint y = ((uint)a) + (((uint)b) << 8);
+                uint y = a + ((uint)b << 8);
                 uint z = (uint)(len + ((uint)c << 2));
                 return ShiftMix(y * k2 ^ z * k0) * k2;
             }
@@ -401,7 +366,6 @@ namespace Farmhash.Sharp
             // Set end so that after the loop we have 1 to 64 bytes left to process.
             byte* end = s + ((len - 1) / 64) * 64;
             byte* last64 = end + ((len - 1) & 63) - 63;
-            ulong tmp = 0;
             do {
                 ulong a0 = Fetch64(s);
                 ulong a1 = Fetch64(s + 8);
@@ -431,7 +395,8 @@ namespace Farmhash.Sharp
                 z += w.second;
                 w.second += z;
                 z *= 9;
-                tmp = u;
+
+                ulong tmp = u;
                 u = y;
                 y = tmp;
 
@@ -492,7 +457,7 @@ namespace Farmhash.Sharp
             uint128_t w = Uint128(0, 0);
             x = x * k2 + Fetch64(s);
 
-            ulong tmp = 0;
+            ulong tmp;
 
             // Set end so that after the loop we have 1 to 64 bytes left to process.
             byte* end = s + ((len - 1) / 64) * 64;
@@ -508,7 +473,7 @@ namespace Farmhash.Sharp
 
                 tmp = z;
                 z = x;
-                x = z;
+                x = tmp;
 
                 s += 64;
             } while (s != end);
@@ -529,7 +494,7 @@ namespace Farmhash.Sharp
 
             tmp = z;
             z = x;
-            x = z;
+            x = tmp;
 
             return HashLen16(HashLen16(v.first, w.first, mul) + ShiftMix(y) * k0 + z,
                              HashLen16(v.second, w.second, mul) + x,
@@ -548,7 +513,7 @@ namespace Farmhash.Sharp
                 }
             } else if (len <= 64) {
                 return HashLen33to64(s, len);
-            }  else if (len <= 96) {
+            } else if (len <= 96) {
                 return HashLen65to96(s, len);
             } else if (len <= 256) {
                 return Hash64_na(s, len);
