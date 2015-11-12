@@ -1,38 +1,36 @@
-[![Issue Stats](http://issuestats.com/github/fsprojects/ProjectScaffold/badge/issue)](http://issuestats.com/github/fsprojects/ProjectScaffold)
-[![Issue Stats](http://issuestats.com/github/fsprojects/ProjectScaffold/badge/pr)](http://issuestats.com/github/fsprojects/ProjectScaffold)
+# Farmhash.Sharp
 
-# ProjectScaffold
-
-This project can be used to scaffold a prototypical .NET solution including file system layout and tooling. This includes a build process that: 
-
-* updates all AssemblyInfo files
-* compiles the application and runs all test projects
-* generates [SourceLinks](https://github.com/ctaggart/SourceLink)
-* generates API docs based on XML document tags
-* generates [documentation based on Markdown files](http://fsprojects.github.io/ProjectScaffold/writing-docs.html)
-* generates [NuGet](http://www.nuget.org) packages
-* and allows a simple [one step release process](http://fsprojects.github.io/ProjectScaffold/release-process.html).
-
-In order to start the scaffolding process run 
+To build everything:
 
     > build.cmd // on windows    
     $ ./build.sh  // on unix
     
-Read the [Getting started tutorial](http://fsprojects.github.io/ProjectScaffold/index.html#Getting-started) to learn more.
+Documentation: http://nickbabcock.github.io/Farmhash.Sharp
 
-Documentation: http://fsprojects.github.io/ProjectScaffold
+## Motiviation
 
+On a regular basis, I need a non-cryptographic hash calculated from a portion of a byte array. This byte array
+may end of becoming a string, but allocating a string just to throw it away for `GetHashCode` caused too much
+GC pressure and resulted in degraded performance. Additionally, `GetHashCode` produces only a 32bit hash
+
+My requirements became:
+
+* Must be able to operate on a subsequence of a byte array
+* Must be able to produce a 64bit output
+* Must produce a hash with a low chance of collision
+* Must make zero heap allocations
+* Must be fast for short subsequences (many of the strings I see are short)
+
+When dealing with 64bit hashes there is a 1 in a billion chance for collision given two hundred thousand
+values, which aligns with my domain perfectly. Whereas, for 32bit hashes, two hundred thousand values is
+almost guaranteed to produce a collision. For more information on collision probabilities, see the [Preshing
+on Programming article][]
+
+[Preshing on Programming article]: http://preshing.com/20110504/hash-collision-probabilities/
 
 ## Build Status
 
 Mono | .NET
 ---- | ----
-[![Mono CI Build Status](https://img.shields.io/travis/fsprojects/ProjectScaffold/master.svg)](https://travis-ci.org/fsprojects/ProjectScaffold) | [![.NET Build Status](https://img.shields.io/appveyor/ci/fsgit/ProjectScaffold/master.svg)](https://ci.appveyor.com/project/fsgit/projectscaffold)
+[![Mono CI Build Status](https://img.shields.io/travis/nickbabcock/Farmhash.Sharp/master.svg)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) | [![.NET Build Status](https://img.shields.io/appveyor/ci/fsgit/ProjectScaffold/master.svg)](https://ci.appveyor.com/project/fsgit/projectscaffold)
 
-## Maintainer(s)
-
-- [@forki](https://github.com/forki)
-- [@pblasucci](https://github.com/pblasucci)
-- [@sergey-tihon](https://github.com/sergey-tihon)
-
-The default maintainer account for projects under "fsprojects" is [@fsprojectsgit](https://github.com/fsprojectsgit) - F# Community Project Incubation Space (repo management)

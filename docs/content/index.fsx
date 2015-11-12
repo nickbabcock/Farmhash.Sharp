@@ -39,7 +39,7 @@ printfn "'hello' 32bit hash: %x" (Farmhash.Hash32(bytes, bytes.Length))
 printfn "'hello' 64bit hash: %x" (Farmhash.Hash64(bytes, bytes.LongLength))
 
 (**
-Some more info
+Some additional resources
 
  * [Tutorial](tutorial.html) contains a walkthrough of the library.
 
@@ -61,9 +61,9 @@ The library is available under MIT, which allows modification and
 redistribution for both commercial and non-commercial purposes. For more information see the 
 [License file][license] in the GitHub repository.
 
-  [content]: https://github.com/fsprojects/Farmhash.Sharp/tree/master/docs/content
-  [gh]: https://github.com/fsprojects/Farmhash.Sharp
-  [issues]: https://github.com/fsprojects/Farmhash.Sharp/issues
-  [readme]: https://github.com/fsprojects/Farmhash.Sharp/blob/master/README.md
-  [license]: https://github.com/fsprojects/Farmhash.Sharp/blob/master/LICENSE.txt
+  [content]: https://github.com/nickbabcock/Farmhash.Sharp/tree/master/docs/content
+  [gh]: https://github.com/nickbabcock/Farmhash.Sharp
+  [issues]: https://github.com/nickbabcock/Farmhash.Sharp/issues
+  [readme]: https://github.com/nickbabcock/Farmhash.Sharp/blob/master/README.md
+  [license]: https://github.com/nickbabcock/Farmhash.Sharp/blob/master/LICENSE.txt
 *)
