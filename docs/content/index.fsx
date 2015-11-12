@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/Farmhash.Sharp"
 
 (**
 Farmhash.Sharp
@@ -23,25 +23,27 @@ Documentation
 Example
 -------
 
-This example demonstrates using a function defined in this sample library.
+Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
+for computing [Google's Farmhash][] algorithm for .NET. Below, the only two
+accessible functions are demonstrated.
+
+[Google's Farmhash]: https://github.com/google/farmhash
 
 *)
 #r "Farmhash.Sharp.dll"
 open Farmhash.Sharp
+open System.Text
 
-printfn "hello = %i" <| Library.hello 0
+let bytes = Encoding.ASCII.GetBytes("hello")
+printfn "'hello' 32bit hash: %x" (Farmhash.Hash32(bytes, bytes.Length))
+printfn "'hello' 64bit hash: %x" (Farmhash.Hash64(bytes, bytes.LongLength))
 
 (**
 Some more info
 
-Samples & documentation
------------------------
+ * [Tutorial](tutorial.html) contains a walkthrough of the library.
 
-The library comes with comprehensible documentation. 
-It can include tutorials automatically generated from `*.fsx` files in [the content folder][content]. 
-The API reference is automatically generated from Markdown comments in the library implementation.
-
- * [Tutorial](tutorial.html) contains a further explanation of this sample library.
+ * [Benchmarks](benchmarks.html) details how this port of Farmhash stacks up against other hashing algorithms
 
  * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
    and functions in the library. This includes additional brief samples on using most of the
@@ -55,9 +57,9 @@ the project and submit pull requests. If you're adding a new public API, please 
 consider adding [samples][content] that can be turned into a documentation. You might
 also want to read the [library design notes][readme] to understand how it works.
 
-The library is available under Public Domain license, which allows modification and 
+The library is available under MIT, which allows modification and 
 redistribution for both commercial and non-commercial purposes. For more information see the 
-[License file][license] in the GitHub repository. 
+[License file][license] in the GitHub repository.
 
   [content]: https://github.com/fsprojects/Farmhash.Sharp/tree/master/docs/content
   [gh]: https://github.com/fsprojects/Farmhash.Sharp
