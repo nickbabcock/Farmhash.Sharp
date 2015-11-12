@@ -1,6 +1,7 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
+    CityHash.Net (1.0.1)
     FAKE (4.8.0)
     FSharp.Compiler.Service (1.4.0.6)
     FSharp.Formatting (2.12.0)
@@ -19,6 +20,15 @@ NUGET
     Octokit (0.16.0)
       Microsoft.Net.Http
     SourceLink.Fake (1.1.0)
+    System.Data.HashFunction.CityHash (1.8.2)
+      System.Data.HashFunction.Core (>= 1.8.2.0)
+      System.Data.HashFunction.Interfaces (>= 1.0.0.0)
+    System.Data.HashFunction.Core (1.8.2)
+      System.Data.HashFunction.Interfaces (>= 1.0.0.0)
+    System.Data.HashFunction.Interfaces (1.0.0.1)
+    System.Data.HashFunction.SpookyHash (1.8.2)
+      System.Data.HashFunction.Core (>= 1.8.2.0)
+      System.Data.HashFunction.Interfaces (>= 1.0.0.0)
     xxHashSharp (1.0.0)
 GITHUB
   remote: fsharp/FAKE

@@ -1,10 +1,13 @@
 source https://nuget.org/api/v2
 
+nuget CityHash.Net
 nuget FSharp.Formatting
 nuget NUnit 
 nuget NUnit.Runners
 nuget FAKE
 nuget SourceLink.Fake
+nuget System.Data.HashFunction.CityHash
+nuget System.Data.HashFunction.SpookyHash
 nuget xxHashSharp
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx
