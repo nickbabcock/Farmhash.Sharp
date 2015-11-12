@@ -4,6 +4,9 @@
 using System.Runtime.CompilerServices;
 namespace Farmhash.Sharp
 {
+    /// <summary>
+    /// Class that can calculate 32bit and 64bit hashes using Google's farmhash algorithm
+    /// </summary>
     public class Farmhash
     {
         private struct uint128_t
@@ -26,10 +29,12 @@ namespace Farmhash.Sharp
         private const uint c2 = 0x1b873593;
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L209-L212
-        private static uint Rotate32(uint val, int shift) => shift == 0 ? val : (val >> shift) | (val << (32 - shift));
+        private static uint Rotate32(uint val, int shift) =>
+            shift == 0 ? val : (val >> shift) | (val << (32 - shift));
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L214-L217
-        private static ulong Rotate64(ulong val, int shift) => shift == 0 ? val : (val >> shift) | (val << (64 - shift));
+        private static ulong Rotate64(ulong val, int shift) =>
+            shift == 0 ? val : (val >> shift) | (val << (64 - shift));
 
         private static uint Rotate(uint val, int shift) => Rotate32(val, shift);
 
@@ -173,6 +178,12 @@ namespace Farmhash.Sharp
             return h;
         }
 
+        /// <summary>
+        /// Calculates a 32bit hash from a given byte array upto a certain length
+        /// </summary>
+        /// <param name="s">Byte array to calculate the hash on</param>
+        /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
+        /// <returns>A 32bit hash</returns>
         public static unsafe uint Hash32(byte[] s, int len)
         {
             fixed (byte* buf = s)
@@ -301,7 +312,7 @@ namespace Farmhash.Sharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen33to64(byte* s, ulong len)
         {
-            ulong mul0 = k2 - 30;
+            const ulong mul0 = k2 - 30;
             ulong mul1 = k2 - 30 + 2 * len;
             ulong h0 = H32(s, 32, mul0);
             ulong h1 = H32(s + len - 32, 32, mul1);
@@ -498,6 +509,12 @@ namespace Farmhash.Sharp
             }
         }
 
+        /// <summary>
+        /// Calculates a 64bit hash from a given byte array upto a certain length
+        /// </summary>
+        /// <param name="s">Byte array to calculate the hash on</param>
+        /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
+        /// <returns>A 64bit hash</returns>
         public static unsafe ulong Hash64(byte[] s, ulong len)
         {
             fixed (byte* buf = s)
