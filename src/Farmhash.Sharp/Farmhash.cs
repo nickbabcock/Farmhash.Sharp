@@ -6,7 +6,7 @@ namespace Farmhash.Sharp
 {
     public class Farmhash
     {
-        public struct uint128_t
+        private struct uint128_t
         {
             public ulong first, second;
             public uint128_t(ulong first, ulong second)
@@ -31,7 +31,7 @@ namespace Farmhash.Sharp
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L214-L217
         private static ulong Rotate64(ulong val, int shift) => shift == 0 ? val : (val >> shift) | (val << (64 - shift));
 
-        public static uint Rotate(uint val, int shift) => Rotate32(val, shift);
+        private static uint Rotate(uint val, int shift) => Rotate32(val, shift);
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L192-L196
         private static unsafe ulong Fetch64(byte* p) => *(ulong*) p;
@@ -479,7 +479,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ulong Hash64(byte* s, ulong len)
+        private static unsafe ulong Hash64(byte* s, ulong len)
         {
             if (len <= 32) {
                 if (len <= 16) {
