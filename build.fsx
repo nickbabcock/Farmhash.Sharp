@@ -327,6 +327,17 @@ Target "Release" (fun _ ->
     |> Async.RunSynchronously
 )
 
+Target "Benchmark" (fun _ ->
+    trace "Starting benchmarks"
+
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- ("bin/Farmhash.Sharp.Benchmarks/Farmhash.Sharp.Benchmarks.exe")
+        ) (System.TimeSpan.FromMinutes 5.)
+
+    if result <> 0 then failwith "Failed result from Benchmark tests"
+)
+
 Target "BuildPackage" DoNothing
 
 // --------------------------------------------------------------------------------------
@@ -339,6 +350,7 @@ Target "All" DoNothing
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
+  =?> ("Benchmark", isLocalBuild)
   ==> "GenerateReferenceDocs"
   ==> "GenerateDocs"
   ==> "All"
