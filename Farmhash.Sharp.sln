@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,6 +35,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Farmhash.Sharp.Tests", "tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farmhash.Sharp", "src\Farmhash.Sharp\Farmhash.Sharp.csproj", "{55A07C68-612D-4581-8C81-1296B51BD688}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farmhash.Sharp.Benchmarks", "src\Farmhash.Sharp.Benchmarks\Farmhash.Sharp.Benchmarks.csproj", "{DBA299F7-62C6-45D4-9898-9D451A91E68F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{55A07C68-612D-4581-8C81-1296B51BD688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55A07C68-612D-4581-8C81-1296B51BD688}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55A07C68-612D-4581-8C81-1296B51BD688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA299F7-62C6-45D4-9898-9D451A91E68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA299F7-62C6-45D4-9898-9D451A91E68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA299F7-62C6-45D4-9898-9D451A91E68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA299F7-62C6-45D4-9898-9D451A91E68F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
