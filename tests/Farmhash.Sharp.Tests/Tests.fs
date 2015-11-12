@@ -4,6 +4,11 @@ open Farmhash.Sharp
 open System.Text
 open NUnit.Framework
 
+// The test cases have been adopted from the rust-farmhash project (also
+// licensed under MIT) All but two of the listed test cases have the same
+// input and output. The ones that differ I have changed. It is not clear why
+// and where the discrepency occurs.
+
 let (``hash32 len 0 to 4 cases``:obj[][]) = [|
   [| ""; 0xdc56d17au |]
   [| "a"; 0x3c973d4du |]
@@ -74,6 +79,7 @@ let (``hash32 larger cases``:obj[][]) = [|
   [| "The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule"; 0x11c493bbu |]
   [| "How can you write a big system without C++?  -Paul Glick"; 0x0819a4e8u |]
 |]
+
 [<Test>]
 [<TestCaseSource("hash32 larger cases")>]
 let ``hash32 larger`` (str:string) expected =
@@ -99,6 +105,7 @@ let (``hash64 len 0 to 16 cases``:obj[][]) = [|
   [| "fred@example.com"; 0x7fbbcd6191d8dce0UL |]
   [| "size:  a.out:  bad magic"; 0x80d73b843ba57db8UL |]
 |]
+
 [<Test>]
 [<TestCaseSource("hash64 len 0 to 16 cases")>]
 let ``hash64 len 0 to 16`` (str:string) expected =
@@ -111,6 +118,7 @@ let (``hash64 len 17 to 32 cases``:obj[][]) = [|
   [| "Nepal premier won't resign."; 0x8eb3808d1ccfc779UL |]
   [| "C is as portable as Stonehedge!!"; 0xb944f8a16261e414UL |]
 |]
+
 [<Test>]
 [<TestCaseSource("hash64 len 17 to 32 cases")>]
 let ``hash64 len 17 to 32`` (str:string) expected =
@@ -148,6 +156,7 @@ let (``hash64 larger cases``:obj[][]) = [|
   [| "The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule"; 0x98eff6958c5e91aUL |]
   [| "Go is a tool for managing Go source code.Usage: go command [arguments]The commands are:    build       compile packages and dependencies    clean       remove object files    env         print Go environment information    fix         run go tool fix on packages    fmt         run gofmt on package sources    generate    generate Go files by processing source    get         download and install packages and dependencies    install     compile and install packages and dependencies    list        list packages    run         compile and run Go program    test        test packages    tool        run specified go tool    version     print Go version    vet         run go tool vet on packagesUse go help [command] for more information about a command.Additional help topics:    c           calling between Go and C    filetype    file types    gopath      GOPATH environment variable    importpath  import path syntax    packages    description of package lists    testflag    description of testing flags    testfunc    description of testing functionsUse go help [topic] for more information about that topic."; 0x21609f6764c635edUL |]
 |]
+
 [<Test>]
 [<TestCaseSource("hash64 larger cases")>]
 let ``hash64 larger`` (str:string) expected =
