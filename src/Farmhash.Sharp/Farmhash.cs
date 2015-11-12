@@ -7,7 +7,7 @@ namespace Farmhash.Sharp
     /// <summary>
     /// Class that can calculate 32bit and 64bit hashes using Google's farmhash algorithm
     /// </summary>
-    public class Farmhash
+    public static class Farmhash
     {
         private struct uint128_t
         {
