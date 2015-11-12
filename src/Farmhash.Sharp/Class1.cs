@@ -1,4 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
+// ReSharper disable SuggestVarOrType_Elsewhere
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 using System.Runtime.CompilerServices;
 namespace Farmhash.Sharp
@@ -17,47 +18,29 @@ namespace Farmhash.Sharp
         }
 
         // Some primes between 2^63 and 2^64 for various uses.
-        const ulong k0 = 0xc3a5c85c97cb3127U;
-        const ulong k1 = 0xb492b66fbe98f273U;
-        const ulong k2 = 0x9ae16a3b2f90404fU;
+        private const ulong k0 = 0xc3a5c85c97cb3127U;
+        private const ulong k1 = 0xb492b66fbe98f273U;
+        private const ulong k2 = 0x9ae16a3b2f90404fU;
 
         // Magic numbers for 32-bit hashing.  Copied from Murmur3.
-        const uint c1 = 0xcc9e2d51;
-        const uint c2 = 0x1b873593;
+        private const uint c1 = 0xcc9e2d51;
+        private const uint c2 = 0x1b873593;
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L209-L212
-        private static uint Rotate32(uint val, int shift)
-        {
-            return shift == 0 ? val : (val >> shift) | (val << (32 - shift));
-        }
+        private static uint Rotate32(uint val, int shift) => shift == 0 ? val : (val >> shift) | (val << (32 - shift));
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L214-L217
-        private static ulong Rotate64(ulong val, int shift)
-        {
-            return shift == 0 ? val : (val >> shift) | (val << (64 - shift));
-        }
+        private static ulong Rotate64(ulong val, int shift) => shift == 0 ? val : (val >> shift) | (val << (64 - shift));
 
-        public static uint Rotate(uint val, int shift)
-        {
-            return Rotate32(val, shift);
-        }
+        public static uint Rotate(uint val, int shift) => Rotate32(val, shift);
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L192-L196
-        private static unsafe ulong Fetch64(byte* p)
-        {
-            return *(ulong*) p;
-        }
+        private static unsafe ulong Fetch64(byte* p) => *(ulong*) p;
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L198-L202
-        private static unsafe uint Fetch32(byte* p)
-        {
-            return *(uint*)p;
-        }
+        private static unsafe uint Fetch32(byte* p) => *(uint*)p;
 
-        private static unsafe uint Fetch(byte* p)
-        {
-            return Fetch32(p);
-        }
+        private static unsafe uint Fetch(byte* p) => Fetch32(p);
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L360-L369
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -201,17 +184,11 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static uint128_t Uint128(ulong lo, ulong hi)
-        {
-            return new uint128_t(lo, hi);
-        }
+        private static uint128_t Uint128(ulong lo, ulong hi) => new uint128_t(lo, hi);
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L417-L419
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong ShiftMix(ulong val)
-        {
-            return val ^ (val >> 47);
-        }
+        private static ulong ShiftMix(ulong val) => val ^ val >> 47;
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L425-L433
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -299,10 +276,10 @@ namespace Farmhash.Sharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong H(ulong x, ulong y, ulong mul, int r)
         {
-          ulong a = (x ^ y) * mul;
-          a ^= (a >> 47);
-          ulong b = (y ^ a) * mul;
-          return Rotate64(b, r) * mul;
+            ulong a = (x ^ y) * mul;
+            a ^= a >> 47;
+            ulong b = (y ^ a) * mul;
+            return Rotate64(b, r) * mul;
         }
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L700-L711
@@ -337,7 +314,7 @@ namespace Farmhash.Sharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong HashLen65to96(byte* s, ulong len)
         {
-            ulong mul0 = k2 - 114;
+            const ulong mul0 = k2 - 114;
             ulong mul1 = k2 - 114 + 2 * len;
             ulong h0 = H32(s, 32, mul0);
             ulong h1 = H32(s + 32, 32, mul1);
@@ -349,8 +326,8 @@ namespace Farmhash.Sharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_uo(byte* s, ulong len)
         {
-            ulong seed0 = 81;
-            ulong seed1 = 0;
+            const ulong seed0 = 81;
+            const ulong seed1 = 0;
 
             // For strings over 64 bytes we loop.  Internal state consists of
             // 64 bytes: u, v, w, x, y, and z.
@@ -446,12 +423,12 @@ namespace Farmhash.Sharp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe ulong Hash64_na(byte* s, ulong len)
         {
-            ulong seed = 81;
+            const ulong seed = 81;
 
             // For strings over 64 bytes we loop.  Internal state consists of
             // 56 bytes: v, w, x, y, and z.
             ulong x = seed;
-            ulong y = seed * k1 + 113;
+            ulong y; unchecked { y = seed * k1 + 113; }
             ulong z = ShiftMix(y * k2 + 113) * k2;
             uint128_t v = Uint128(0, 0);
             uint128_t w = Uint128(0, 0);
