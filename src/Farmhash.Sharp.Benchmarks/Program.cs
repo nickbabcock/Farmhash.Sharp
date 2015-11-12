@@ -23,11 +23,13 @@ namespace Farmhash.Sharp.Benchmarks
 
         private static readonly MD5 md5 = MD5.Create();
         private static readonly System.Data.HashFunction.CityHash hcity = new System.Data.HashFunction.CityHash(32);
+        private static readonly System.Data.HashFunction.CityHash hcity64 = new System.Data.HashFunction.CityHash(64);
         private static readonly SpookyHashV2 Spooky = new SpookyHashV2(32);
+        private static readonly SpookyHashV2 Spooky64 = new SpookyHashV2(64);
 
         static void Main()
         {
-            Console.WriteLine("Iterations per millisecond");
+            Console.WriteLine("Iterations per millisecond 32bit");
             Console.WriteLine("Name\tSmallest\tSmaller\tSmall\tMedium\tLarge\tLargest");
             ProfileSuite("Farmhash", 10000, bytes => Farmhash.Hash32(bytes, bytes.Length));
             ProfileSuite("xxHashSharp", 10000, bytes => xxHash.CalculateHash(bytes));
@@ -35,6 +37,17 @@ namespace Farmhash.Sharp.Benchmarks
             ProfileSuite("String hashCode", 10000, (string str) => str.GetHashCode());
             ProfileSuite("HashFunction CityHash", 10000, (byte[] bytes) => hcity.ComputeHash(bytes));
             ProfileSuite("HashFunction Spooky", 1000, (byte[] bytes) => Spooky.ComputeHash(bytes));
+            ProfileSuite("MD5sum", 100, bytes => md5.ComputeHash(bytes));
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Iterations per millisecond 64bit");
+            Console.WriteLine("Name\tSmallest\tSmaller\tSmall\tMedium\tLarge\tLarge st");
+            ProfileSuite("Farmhash", 10000, bytes => Farmhash.Hash64(bytes, (ulong) bytes.LongLength));
+            ProfileSuite("xxHashSharp", 10000, bytes => xxHash.CalculateHash(bytes));
+            ProfileSuite("CityHash.Net", 1000, str => CityHash.CityHash.CityHash64(str));
+            ProfileSuite("HashFunction CityHash", 10000, (byte[] bytes) => hcity64.ComputeHash(bytes));
+            ProfileSuite("HashFunction Spooky", 1000, (byte[] bytes) => Spooky64.ComputeHash(bytes));
             ProfileSuite("MD5sum", 100, bytes => md5.ComputeHash(bytes));
         }
 
