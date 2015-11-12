@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using xxHashSharp;
 
 namespace Farmhash.Sharp.Benchmarks
 {
@@ -20,15 +21,22 @@ namespace Farmhash.Sharp.Benchmarks
 
         static void Main()
         {
-            var smallestFarm = Profile(10000, () => Farmhash.Hash32(Smallest, Smallest.Length));
-            var smallerFarm = Profile(10000, () => Farmhash.Hash32(Smaller, Smaller.Length));
-            var smallFarm = Profile(10000, () => Farmhash.Hash32(Small, Small.Length));
-            var mediumFarm = Profile(10000, () => Farmhash.Hash32(Medium, Medium.Length));
-            var largeFarm = Profile(10000, () => Farmhash.Hash32(Large, Large.Length));
-            var largestFarm = Profile(10000, () => Farmhash.Hash32(Largest, Largest.Length));
             Console.WriteLine("Iterations per millisecond");
-            Console.WriteLine("Smallest\tSmaller\tSmall\tMedium\tLarge\tLargest");
-            Console.WriteLine("{0:N}\t{1:N}\t{2:N}\t{3:N}\t{4:N}\t{5:N}", smallestFarm, smallerFarm, smallFarm, mediumFarm, largeFarm, largestFarm);
+            Console.WriteLine("Name\tSmallest\tSmaller\tSmall\tMedium\tLarge\tLargest");
+            ProfileSuite("Farmhash", 10000, bytes => Farmhash.Hash32(bytes, bytes.Length));
+            ProfileSuite("xxHashSharp", 10000, bytes => xxHash.CalculateHash(bytes));
+        }
+
+        private static void ProfileSuite(string description, int iterations, Action<byte[]> calc)
+        {
+            var smallest = Profile(iterations, () => calc(Smallest));
+            var smaller = Profile(iterations, () => calc(Smaller));
+            var small = Profile(iterations, () => calc(Small));
+            var medium = Profile(iterations, () => calc(Medium));
+            var large = Profile(iterations, () => calc(Large));
+            var largest = Profile(iterations, () => calc(Largest));
+
+            Console.WriteLine("{0}\t{1:N}\t{2:N}\t{3:N}\t{4:N}\t{5:N}\t{6:N}", description, smallest, smaller, small, medium, large, largest);
         }
 
         private static double Profile(int iterations, Action func)

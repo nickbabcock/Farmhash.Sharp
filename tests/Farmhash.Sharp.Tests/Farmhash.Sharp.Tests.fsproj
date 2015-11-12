@@ -76,17 +76,17 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-      <Paket>True</Paket>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Farmhash.Sharp\Farmhash.Sharp.csproj">
       <Name>Farmhash.Sharp</Name>
       <Project>{55a07c68-612d-4581-8c81-1296b51bd688}</Project>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
   </ItemGroup>
 </Project>
