@@ -17,7 +17,7 @@ let (``hash32 len 0 to 4 cases``:obj[][]) = [|
 [<TestCaseSource("hash32 len 0 to 4 cases")>]
 let ``hash32 len 0 to 4`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash32(bytes, bytes.Length)
+  let actual = Farmhash.Hash32(bytes, bytes.Length)
   Assert.AreEqual(expected, actual)
 
 
@@ -35,7 +35,7 @@ let (``hash32 len 5 to 12 cases``:obj[][]) = [|
 [<TestCaseSource("hash32 len 5 to 12 cases")>]
 let ``hash32 len 5 to 12`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash32(bytes, bytes.Length)
+  let actual = Farmhash.Hash32(bytes, bytes.Length)
   Assert.AreEqual(expected, actual)
 
 let (``hash32 len 13 to 24 cases``:obj[][]) = [|
@@ -49,7 +49,7 @@ let (``hash32 len 13 to 24 cases``:obj[][]) = [|
 [<TestCaseSource("hash32 len 13 to 24 cases")>]
 let ``hash32 len 13 to 24`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash32(bytes, bytes.Length)
+  let actual = Farmhash.Hash32(bytes, bytes.Length)
   Assert.AreEqual(expected, actual)
 
 let (``hash32 larger cases``:obj[][]) = [|
@@ -78,7 +78,7 @@ let (``hash32 larger cases``:obj[][]) = [|
 [<TestCaseSource("hash32 larger cases")>]
 let ``hash32 larger`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash32(bytes, bytes.Length)
+  let actual = Farmhash.Hash32(bytes, bytes.Length)
   Assert.AreEqual(expected, actual)
 
 let (``hash64 len 0 to 16 cases``:obj[][]) = [|
@@ -103,7 +103,7 @@ let (``hash64 len 0 to 16 cases``:obj[][]) = [|
 [<TestCaseSource("hash64 len 0 to 16 cases")>]
 let ``hash64 len 0 to 16`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
+  let actual = Farmhash.Hash64(bytes, uint64 bytes.LongLength)
   Assert.AreEqual(expected, actual)
 
 let (``hash64 len 17 to 32 cases``:obj[][]) = [|
@@ -115,7 +115,7 @@ let (``hash64 len 17 to 32 cases``:obj[][]) = [|
 [<TestCaseSource("hash64 len 17 to 32 cases")>]
 let ``hash64 len 17 to 32`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
+  let actual = Farmhash.Hash64(bytes, uint64 bytes.LongLength)
   Assert.AreEqual(expected, actual)
 
 let (``hash64 len 33 to 64 cases``:obj[][]) = [|
@@ -134,7 +134,7 @@ let (``hash64 len 33 to 64 cases``:obj[][]) = [|
 [<TestCaseSource("hash64 len 33 to 64 cases")>]
 let ``hash64 len 33 to 64`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
+  let actual = Farmhash.Hash64(bytes, uint64 bytes.LongLength)
   Assert.AreEqual(expected, actual)
 
 let (``hash64 larger cases``:obj[][]) = [|
@@ -152,5 +152,5 @@ let (``hash64 larger cases``:obj[][]) = [|
 [<TestCaseSource("hash64 larger cases")>]
 let ``hash64 larger`` (str:string) expected =
   let bytes = Encoding.ASCII.GetBytes(str)
-  let actual = Class1.Hash64(bytes, uint64 bytes.LongLength)
+  let actual = Farmhash.Hash64(bytes, uint64 bytes.LongLength)
   Assert.AreEqual(expected, actual)

@@ -4,7 +4,7 @@
 using System.Runtime.CompilerServices;
 namespace Farmhash.Sharp
 {
-    public class Class1
+    public class Farmhash
     {
         public struct uint128_t
         {
@@ -14,7 +14,6 @@ namespace Farmhash.Sharp
                 this.first = first;
                 this.second = second;
             }
-
         }
 
         // Some primes between 2^63 and 2^64 for various uses.
