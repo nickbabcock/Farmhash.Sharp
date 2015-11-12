@@ -1,5 +1,5 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
+// This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin/Farmhash.Sharp"
 
@@ -46,6 +46,9 @@ machine being ran on and how your project is compiled:
 - A project executed on a 64bit machine, but doesn't prefer 32bit, should
   always use Hash64, even if only a 32bit hash is wanted. The 64bit hash is
   always faster.
+
+For more information on disabling the 32bit preference, see the following [blog
+post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
 
 *)
 
