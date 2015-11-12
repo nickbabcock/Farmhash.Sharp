@@ -7,7 +7,8 @@
 Farmhash.Sharp
 ======================
 
-Documentation
+Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
+for computing [Google's Farmhash][] algorithm for .NET
 
 <div class="row">
   <div class="span1"></div>
@@ -23,9 +24,7 @@ Documentation
 Example
 -------
 
-Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
-for computing [Google's Farmhash][] algorithm for .NET. Below, the only two
-accessible functions are demonstrated.
+Below, the only two accessible functions are demonstrated.
 
 [Google's Farmhash]: https://github.com/google/farmhash
 
