@@ -60,7 +60,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1042-L1051
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static uint Hash32Len0to4(byte[] s, int len, uint seed = 0)
+        private static uint Hash32Len0to4(byte[] s, uint len, uint seed = 0)
         {
             uint b = seed;
             uint c = 9;
@@ -69,7 +69,7 @@ namespace Farmhash.Sharp
                 b = b * c1 + s[i];
                 c ^= b;
             }
-            return fmix(Mur(b, Mur((uint) len, c)));
+            return fmix(Mur(b, Mur(len, c)));
         }
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L371-L379
@@ -87,14 +87,14 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1025-L1040
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint Hash32Len13to24(byte* s, int len, uint seed = 0) {
+        private static unsafe uint Hash32Len13to24(byte* s, uint len, uint seed = 0) {
             uint a = Fetch(s - 4 + (len >> 1));
             uint b = Fetch(s + 4);
             uint c = Fetch(s + len - 8);
             uint d = Fetch(s + (len >> 1));
             uint e = Fetch(s);
             uint f = Fetch(s + len - 4);
-            uint h = (uint) (d * c1 + len + seed);
+            uint h = d * c1 + len + seed;
             a = Rotate(a, 12) + f;
             h = Mur(c, h) + a;
             a = Rotate(a, 3) + c;
@@ -106,9 +106,9 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1053-L1059
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint Hash32Len5to12(byte* s, int len, uint seed = 0)
+        private static unsafe uint Hash32Len5to12(byte* s, uint len, uint seed = 0)
         {
-            uint a = (uint) len, b = (uint) (len * 5), c = 9, d = b + seed;
+            uint a = len, b = len * 5, c = 9, d = b + seed;
             a += Fetch(s);
             b += Fetch(s + len - 4);
             c += Fetch(s + ((len >> 1) & 4));
@@ -117,7 +117,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint Hash32(byte* s, int len)
+        private static unsafe uint Hash32(byte* s, uint len)
         {
             if (len <= 24)
             {
@@ -125,7 +125,7 @@ namespace Farmhash.Sharp
                     Hash32Len13to24(s, len);
             }
 
-            uint h = (uint) len, g = (uint) (c1 * len), f = g;
+            uint h = len, g = c1 * len, f = g;
             uint a0 = Rotate(Fetch(s + len - 4) * c1, 17) * c2;
             uint a1 = Rotate(Fetch(s + len - 8) * c1, 17) * c2;
             uint a2 = Rotate(Fetch(s + len - 16) * c1, 17) * c2;
@@ -145,7 +145,7 @@ namespace Farmhash.Sharp
             g = g * 5 + 0xe6546b64;
             f += a4;
             f = Rotate(f, 19) + 113;
-            int iters = (len - 1) / 20;
+            uint iters = (len - 1) / 20;
             do
             {
                 uint a = Fetch(s);
@@ -191,12 +191,12 @@ namespace Farmhash.Sharp
             // millisecond.
             if (len <= 4)
             {
-                return Hash32Len0to4(s, len);
+                return Hash32Len0to4(s, (uint)len);
             }
 
             fixed (byte* buf = s)
             {
-                return Hash32(buf, len);
+                return Hash32(buf, (uint)len);
             }
         }
 
@@ -523,11 +523,11 @@ namespace Farmhash.Sharp
         /// <param name="s">Byte array to calculate the hash on</param>
         /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
         /// <returns>A 64bit hash</returns>
-        public static unsafe ulong Hash64(byte[] s, ulong len)
+        public static unsafe ulong Hash64(byte[] s, long len)
         {
             fixed (byte* buf = s)
             {
-                return Hash64(buf, len);
+                return Hash64(buf, (ulong)len);
             }
         }
     }
