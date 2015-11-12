@@ -195,9 +195,9 @@ namespace Farmhash.Sharp
         {
             // Murmur-inspired hashing.
             ulong a = (u ^ v) * mul;
-            a ^= (a >> 47);
+            a ^= a >> 47;
             ulong b = (v ^ a) * mul;
-            b ^= (b >> 47);
+            b ^= b >> 47;
             b *= mul;
             return b;
         }
@@ -305,7 +305,7 @@ namespace Farmhash.Sharp
             ulong mul1 = k2 - 30 + 2 * len;
             ulong h0 = H32(s, 32, mul0);
             ulong h1 = H32(s + len - 32, 32, mul1);
-            return ((h1 * mul1) + h0) * mul1;
+            return (h1 * mul1 + h0) * mul1;
         }
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L722-L730
@@ -340,7 +340,7 @@ namespace Farmhash.Sharp
             ulong mul = k2 + (u & 0x82);
 
             // Set end so that after the loop we have 1 to 64 bytes left to process.
-            byte* end = s + ((len - 1) / 64) * 64;
+            byte* end = s + (len - 1) / 64 * 64;
             byte* last64 = end + ((len - 1) & 63) - 63;
             do {
                 ulong a0 = Fetch64(s);
@@ -401,7 +401,7 @@ namespace Farmhash.Sharp
             u *= 9;
             v.second = Rotate64(v.second, 28);
             v.first = Rotate64(v.first, 20);
-            w.first += ((len - 1) & 63);
+            w.first += (len - 1) & 63;
             u += y;
             y += u;
             x = Rotate64(y - x + v.first + Fetch64(s + 8), 37) * mul;
@@ -436,7 +436,7 @@ namespace Farmhash.Sharp
             ulong tmp;
 
             // Set end so that after the loop we have 1 to 64 bytes left to process.
-            byte* end = s + ((len - 1) / 64) * 64;
+            byte* end = s + (len - 1) / 64 * 64;
             byte* last64 = end + ((len - 1) & 63) - 63;
             do {
                 x = Rotate64(x + y + v.first + Fetch64(s + 8), 37) * k1;
@@ -457,7 +457,7 @@ namespace Farmhash.Sharp
             ulong mul = k1 + ((z & 0xff) << 1);
             // Make s point to the last 64 bytes of input.
             s = last64;
-            w.first += ((len - 1) & 63);
+            w.first += (len - 1) & 63;
             v.first += w.first;
             w.first += v.first;
             x = Rotate64(x + y + v.first + Fetch64(s + 8), 37) * mul;
