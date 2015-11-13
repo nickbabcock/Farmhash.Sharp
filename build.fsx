@@ -350,7 +350,6 @@ Target "All" DoNothing
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
-  =?> ("Benchmark", isLocalBuild)
   ==> "GenerateReferenceDocs"
   ==> "GenerateDocs"
   ==> "All"
@@ -363,6 +362,13 @@ Target "All" DoNothing
 #endif
   ==> "NuGet"
   ==> "BuildPackage"
+
+"Clean"
+  ==> "AssemblyInfo"
+  ==> "Build"
+  ==> "CopyBinaries"
+  ==> "RunTests"
+  =?> ("Benchmark", isLocalBuild)
 
 "CleanDocs"
   ==> "GenerateHelp"
