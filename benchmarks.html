@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Benchmarking
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Port of Google's farm hash algorithm"/>
+    <meta name="author" content="Nick Babcock"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/Farmhash.Sharp/content/style.css" />
+    <script type="text/javascript" src="/Farmhash.Sharp/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/nickbabcock/Farmhash.Sharp">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/Farmhash.Sharp/index.html">Farmhash.Sharp</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Benchmarking" class="anchor" href="#Benchmarking">Benchmarking</a></h1>
+
+<p>The following benchmarks pit Farmhash against various hashing algorithms. The
+numbers represent the number of  hash calculations per milliseconds. The
+numbers may be hard to look at, but the conclusion that should be drawn is
+that one should use 64bit hash on 64bit architecture for the fastest possible
+hash function.</p>
+
+<h2><a name="Benchmark-Cases" class="anchor" href="#Benchmark-Cases">Benchmark Cases</a></h2>
+
+<ul>
+<li>Smallest: Four bytes "doge"</li>
+<li>Smaller: eleven bytes "hello world"</li>
+<li>Small: twenty-four bytes "Hello I'm Farmhash.Sharp"</li>
+<li>Medium: hundred bytes of periods</li>
+<li>Large: thousand bytes of periods</li>
+<li>Largest: ten-thousand bytes of periods</li>
+</ul>
+
+<h2><a name="32bit-Benchmarks" class="anchor" href="#32bit-Benchmarks">32bit Benchmarks</a></h2>
+
+<table>
+<thead>
+<tr class="header">
+<th><p>Name</p></th>
+<th><p>Smallest</p></th>
+<th><p>Smaller</p></th>
+<th><p>Small</p></th>
+<th><p>Medium</p></th>
+<th><p>Large</p></th>
+<th><p>Largest</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Farmhash</p></td>
+<td><p>90464.99</p></td>
+<td><p>79222.56</p></td>
+<td><p>74943.79</p></td>
+<td><p>26819.72</p></td>
+<td><p>3588.73</p></td>
+<td><p>376.77</p></td>
+</tr>
+<tr class="even">
+<td><p>xxHashSharp</p></td>
+<td><p>111300.73</p></td>
+<td><p>61394.89</p></td>
+<td><p>21485.66</p></td>
+<td><p>3497.22</p></td>
+<td><p>593.65</p></td>
+<td><p>59.33</p></td>
+</tr>
+<tr class="odd">
+<td><p>CityHash.Net</p></td>
+<td><p>7193.21</p></td>
+<td><p>5460.50</p></td>
+<td><p>3976.99</p></td>
+<td><p>1498.16</p></td>
+<td><p>171.48</p></td>
+<td><p>17.68</p></td>
+</tr>
+<tr class="even">
+<td><p>String-hashCode</p></td>
+<td><p>171174.26</p></td>
+<td><p>120685.49</p></td>
+<td><p>71547.82</p></td>
+<td><p>17821.50</p></td>
+<td><p>2182.77</p></td>
+<td><p>219.60</p></td>
+</tr>
+<tr class="odd">
+<td><p>HashFunction-CityHash</p></td>
+<td><p>31679.66</p></td>
+<td><p>19870.44</p></td>
+<td><p>13399.80</p></td>
+<td><p>4743.14</p></td>
+<td><p>565.86</p></td>
+<td><p>57.60</p></td>
+</tr>
+<tr class="even">
+<td><p>HashFunction-Spooky</p></td>
+<td><p>1934.78</p></td>
+<td><p>1960.25</p></td>
+<td><p>1922.31</p></td>
+<td><p>1404.34</p></td>
+<td><p>434.73</p></td>
+<td><p>54.06</p></td>
+</tr>
+<tr class="odd">
+<td><p>MD5sum</p></td>
+<td><p>788.60</p></td>
+<td><p>810.59</p></td>
+<td><p>795.88</p></td>
+<td><p>748.13</p></td>
+<td><p>348.11</p></td>
+<td><p>54.34</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>While 32bit Farmhash is the fastest for byte arrays twenty-four bytes or
+larger, for smaller byte arrays xxHashSharp and the native hash code function
+for strings take the cake.</p>
+
+<h2><a name="64bit-Benchmarks" class="anchor" href="#64bit-Benchmarks">64bit Benchmarks</a></h2>
+
+<p>For 64bit benchmarking, I have removed the native string hash function because
+it returns only 32bit hashes. Also for 64bit benchmarking, the code was
+executed on a 64bit platform.</p>
+
+<table>
+<thead>
+<tr class="header">
+<th><p>Name</p></th>
+<th><p>Smallest</p></th>
+<th><p>Smaller</p></th>
+<th><p>Small</p></th>
+<th><p>Medium</p></th>
+<th><p>Large</p></th>
+<th><p>Largest</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Farmhash</p></td>
+<td><p>174114.92</p></td>
+<td><p>118586.45</p></td>
+<td><p>146527.30</p></td>
+<td><p>26649.61</p></td>
+<td><p>5763.67</p></td>
+<td><p>668.69</p></td>
+</tr>
+<tr class="even">
+<td><p>xxHashSharp</p></td>
+<td><p>112841.35</p></td>
+<td><p>58424.87</p></td>
+<td><p>22075.38</p></td>
+<td><p>5654.04</p></td>
+<td><p>538.75</p></td>
+<td><p>59.14</p></td>
+</tr>
+<tr class="odd">
+<td><p>CityHash.Net</p></td>
+<td><p>7095.22</p></td>
+<td><p>5598.48</p></td>
+<td><p>4376.62</p></td>
+<td><p>1432.02</p></td>
+<td><p>190.35</p></td>
+<td><p>18.98</p></td>
+</tr>
+<tr class="even">
+<td><p>HashFunction-CityHash</p></td>
+<td><p>29379.50</p></td>
+<td><p>24479.40</p></td>
+<td><p>21544.60</p></td>
+<td><p>5049.50</p></td>
+<td><p>930.30</p></td>
+<td><p>96.79</p></td>
+</tr>
+<tr class="odd">
+<td><p>HashFunction-Spooky</p></td>
+<td><p>1884.97</p></td>
+<td><p>1936.78</p></td>
+<td><p>1895.61</p></td>
+<td><p>1422.37</p></td>
+<td><p>440.12</p></td>
+<td><p>50.74</p></td>
+</tr>
+<tr class="even">
+<td><p>MD5sum</p></td>
+<td><p>811.07</p></td>
+<td><p>719.08</p></td>
+<td><p>776.32</p></td>
+<td><p>645.47</p></td>
+<td><p>291.14</p></td>
+<td><p>52.59</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>64bit Farmhash is the fastest algorithm.</p>
+
+
+        </div>
+        <div class="span3">
+          <img src="/Farmhash.Sharp/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">Farmhash.Sharp</li>
+            <li><a href="/Farmhash.Sharp/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/Farmhash.Sharp">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/nickbabcock/Farmhash.Sharp">Source Code on GitHub</a></li>
+            <li><a href="/Farmhash.Sharp/license.html">License</a></li>
+            <li><a href="/Farmhash.Sharp/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/Farmhash.Sharp/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+              <li><a href="/Farmhash.Sharp/reference/index.html">API Reference</a></li>
+              <li><a href="/Farmhash.Sharp/benchmarks.html">Benchmarks</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/nickbabcock/Farmhash.Sharp"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
