@@ -1,6 +1,6 @@
 # Farmhash.Sharp
 
-Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
+Farmhash.Sharp is an extremely simple, low-level, and blazingly fast library
 for computing [Google's Farmhash][] algorithm for .NET
 
 [Documentation](https://nickbabcock.github.io/Farmhash.Sharp)
@@ -22,7 +22,7 @@ build.cmd Benchmark
 ./build.sh Benchmark
 ```
 
-## Motiviation
+## Motivation
 
 On a regular basis, I need a non-cryptographic hash calculated from a portion of a byte array. This byte array
 may end of becoming a string, but allocating a string just to throw it away for `GetHashCode` caused too much
