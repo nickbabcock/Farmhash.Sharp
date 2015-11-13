@@ -32,5 +32,6 @@ on Programming article][]
 
 Mono | .NET
 ---- | ----
-[![Mono CI Build Status](https://img.shields.io/travis/nickbabcock/Farmhash.Sharp/master.svg)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) | [![.NET Build Status](https://img.shields.io/appveyor/ci/fsgit/ProjectScaffold/master.svg)](https://ci.appveyor.com/project/fsgit/projectscaffold)
+[![Mono CI Build Status](https://img.shields.io/travis/nickbabcock/Farmhash.Sharp/master.svg)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) | [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp)
+
 
