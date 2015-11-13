@@ -1,11 +1,26 @@
 # Farmhash.Sharp
 
-To build everything:
+Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
+for computing [Google's Farmhash][] algorithm for .NET
 
-    > build.cmd // on windows    
-    $ ./build.sh  // on unix
-    
-Documentation: http://nickbabcock.github.io/Farmhash.Sharp
+[Documentation](https://nickbabcock.github.io/Farmhash.Sharp)
+
+[Google's Farmhash]: https://github.com/google/farmhash
+
+To build everything, you'll need a recent version of F# and C# compilers
+installed:
+
+```
+build.cmd // on windows
+./build.sh  // on unix
+```
+
+To run the benchmarks:
+
+```
+build.cmd Benchmark
+./build.sh Benchmark
+```
 
 ## Motiviation
 

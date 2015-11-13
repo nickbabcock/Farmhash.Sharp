@@ -6,6 +6,13 @@ numbers may be hard to look at, but the conclusion that should be drawn is
 that one should use 64bit hash on 64bit architecture for the fastest possible
 hash function.
 
+To run the benchmarks:
+
+```
+build.cmd Benchmark
+./build.sh Benchmark
+```
+
 ## Benchmark Cases
 
 - Smallest: Four bytes "doge"
