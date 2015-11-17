@@ -2,6 +2,7 @@
 // ReSharper disable SuggestVarOrType_Elsewhere
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 using System.Runtime.CompilerServices;
+using System.Text;
 namespace Farmhash.Sharp
 {
     /// <summary>
@@ -198,6 +199,19 @@ namespace Farmhash.Sharp
             {
                 return Hash32(buf, (uint)len);
             }
+        }
+
+        /// <summary>
+        /// Calculates a 32bit hash from a given string assuming that the string is
+        /// UTF8 encoded. This method is used as a convenience method, if the string
+        /// is not UTF8 encoded, call the other hash function with the byte array.
+        /// </summary>
+        /// <param name="s">String to compute the 64bit hash</param>
+        /// <returns>A 32bit hash</returns>
+        public static ulong Hash32(string s)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(s);
+            return Hash32(data, data.Length);
         }
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.h#L70
@@ -529,6 +543,19 @@ namespace Farmhash.Sharp
             {
                 return Hash64(buf, (ulong)len);
             }
+        }
+
+        /// <summary>
+        /// Calculates a 64bit hash from a given string assuming that the string is
+        /// UTF8 encoded. This method is used as a convenience method, if the string
+        /// is not UTF8 encoded, call the other hash function with the byte array.
+        /// </summary>
+        /// <param name="s">String to compute the 64bit hash</param>
+        /// <returns>A 64bit hash</returns>
+        public static ulong Hash64(string s)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(s);
+            return Hash64(data, data.LongLength);
         }
     }
 }
