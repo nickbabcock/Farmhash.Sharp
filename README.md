@@ -25,7 +25,7 @@ build.cmd Benchmark
 ## Motivation
 
 On a regular basis, I need a non-cryptographic hash calculated from a portion of a byte array. This byte array
-may end of becoming a string, but allocating a string just to throw it away for `GetHashCode` caused too much
+may end up becoming a string, but allocating a string just to throw it away for `GetHashCode` caused too much
 GC pressure and resulted in degraded performance. Additionally, `GetHashCode` produces only a 32bit hash
 
 My requirements became:
