@@ -2,3 +2,4 @@ xxHashSharp
 CityHash.Net
 System.Data.HashFunction.CityHash
 System.Data.HashFunction.SpookyHash
+BenchmarkDotNet
