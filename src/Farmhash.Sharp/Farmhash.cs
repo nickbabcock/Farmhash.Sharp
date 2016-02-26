@@ -460,7 +460,7 @@ namespace Farmhash.Sharp
             // For strings over 64 bytes we loop.  Internal state consists of
             // 56 bytes: v, w, x, y, and z.
             ulong x = seed;
-            ulong y; unchecked { y = seed * k1 + 113; }
+            ulong y = unchecked(seed * k1 + 113);
             ulong z = ShiftMix(y * k2 + 113) * k2;
             uint128_t v = Uint128(0, 0);
             uint128_t w = Uint128(0, 0);
