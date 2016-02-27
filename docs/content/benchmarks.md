@@ -23,7 +23,7 @@ build.cmd Benchmark
 
 ## Median Time to Hash
 
-![Farmhash-benchmark1](/img/farmhash-benchmark1.png)
+![Farmhash-benchmark1](/Farmhash.Sharp/img/farmhash-benchmark1.png)
 
 The graph depicts the median time in nanoseconds to hash data of a certain
 size grouped by resulting hash size (eg. 32 or 64bit, which is not underlying
@@ -38,7 +38,7 @@ grip on smaller data, but falls off for larget data.
 
 ## Relative Throughput
 
-![Farmhash-benchmark2](/img/farmhash-benchmark2.png)
+![Farmhash-benchmark2](/Farmhash.Sharp/img/farmhash-benchmark2.png)
 
 The bar shows the relative throughput of each hash function relative to the
 fastest hash function in that category. So the higher the bar chart, the
