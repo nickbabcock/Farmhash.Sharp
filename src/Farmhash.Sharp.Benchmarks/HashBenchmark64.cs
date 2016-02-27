@@ -19,7 +19,7 @@ namespace Farmhash.Sharp.Benchmarks
         [Setup]
         public void SetupData()
         {
-            dataStr = new String('.', PayloadLength);
+            dataStr = new string('.', PayloadLength);
             data = Encoding.ASCII.GetBytes(dataStr);
         }
 
