@@ -42,7 +42,6 @@
 <div class="xmldoc">
 <p>Class that can calculate 32bit and 64bit hashes using Google's farmhash algorithm</p>
 
-
 </div>
   <h3>Static members</h3>
   <table class="table table-bordered member-list">
@@ -64,22 +63,56 @@
           <p>Calculates a 32bit hash from a given byte array upto a certain length</p>
 
 
-
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '2', 2)" onmouseover="showTip(event, '2', 2)">
-            Hash64(s, len)
+            Hash32(s)
           </code>
           <div class="tip" id="2">
+            <strong>Signature:</strong> s:string -&gt; uint64<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+          <p>Calculates a 32bit hash from a given string assuming that the string is
+UTF8 encoded. This method is used as a convenience method, if the string
+is not UTF8 encoded, call the other hash function with the byte array.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
+            Hash64(s, len)
+          </code>
+          <div class="tip" id="3">
             <strong>Signature:</strong> (s:byte [] * len:int64) -&gt; uint64<br />
                       </div>
         </td>
         <td class="xmldoc">
           <p>Calculates a 64bit hash from a given byte array upto a certain length</p>
 
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+            Hash64(s)
+          </code>
+          <div class="tip" id="4">
+            <strong>Signature:</strong> s:string -&gt; uint64<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+          <p>Calculates a 64bit hash from a given string assuming that the string is
+UTF8 encoded. This method is used as a convenience method, if the string
+is not UTF8 encoded, call the other hash function with the byte array.</p>
 
 
         </td>

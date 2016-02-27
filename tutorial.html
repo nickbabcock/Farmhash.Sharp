@@ -34,13 +34,10 @@
         <div class="span9" id="main">
           
 <h1><a name="Introducing-Farmhash-Sharp" class="anchor" href="#Introducing-Farmhash-Sharp">Introducing Farmhash.Sharp</a></h1>
-
 <p>As mentioned on the home page, Farmhash.Sharp is an extremly simple, low-
 level, and blazingly fast library for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a>
 algorithm for .NET</p>
-
 <p>Let's start out simple. Let's compute the 32 and 64bit hash of 'hi'.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -53,12 +50,10 @@ algorithm for .NET</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p>Farmhash only works with bytes and our text is composed of characters. To get
 bytes from our text, we need to decide on the encoding. Common examples are
 ASCII, UTF-8, and Windows-1252. In this tutorial, we're going to keep things
 simple and assume that our text is encoded as ASCII</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
@@ -67,24 +62,22 @@ simple and assume that our text is encoded as ASCII</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p>With our bytes handy, it is now time to calculate the hash! Choosing which
 hash to use may be the hardest decision in this library. If you need the
 lowest probability of collisions, then your choice is simple, go with Hash64.
 If you need the fastest speed then it depends on the architecture of the
 machine being ran on and how your project is compiled:</p>
-
 <ul>
 <li>A project executed on a 32bit machine should always prefer Hash32.</li>
 <li>A project executed on a 64bit machine, but prefers 32bit, should use Hash32</li>
-<li>A project executed on a 64bit machine, but doesn't prefer 32bit, should
+<li>
+A project executed on a 64bit machine, but doesn't prefer 32bit, should
 always use Hash64, even if only a 32bit hash is wanted. The 64bit hash is
-always faster.</li>
+always faster.
+</li>
 </ul>
-
 <p>For more information on disabling the 32bit preference, see the following <a href="http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/">blog
 post</a>.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -99,7 +92,6 @@ post</a>.</p>
 </code></pre></td>
 </tr>
 </table>
-
 <p>Congratulations, you're now an expert at using the Farmhash.Sharp library!</p>
 
 <div class="tip" id="fs1">namespace Farmhash</div>
@@ -112,13 +104,13 @@ post</a>.</p>
 <div class="tip" id="fs8">property Encoding.ASCII: Encoding</div>
 <div class="tip" id="fs9">Encoding.GetBytes(s: string) : byte []<br />Encoding.GetBytes(chars: char []) : byte []<br />Encoding.GetBytes(chars: char [], index: int, count: int) : byte []<br />Encoding.GetBytes(chars: nativeptr&lt;char&gt;, charCount: int, bytes: nativeptr&lt;byte&gt;, byteCount: int) : int<br />Encoding.GetBytes(s: string, charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int<br />Encoding.GetBytes(chars: char [], charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int</div>
 <div class="tip" id="fs10">val ( 32bit hash ) : uint32<br /><br />Full name: Tutorial.( 32bit hash )</div>
-<div class="tip" id="fs11">type Farmhash =<br />&#160;&#160;static member Hash32 : s:byte[] * len:int -&gt; uint32<br />&#160;&#160;static member Hash64 : s:byte[] * len:int64 -&gt; uint64<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
-<div class="tip" id="fs12">Farmhash.Hash32(s: byte [], len: int) : uint32</div>
+<div class="tip" id="fs11">type Farmhash =<br />&#160;&#160;static member Hash32 : s:string -&gt; uint64 + 1 overload<br />&#160;&#160;static member Hash64 : s:string -&gt; uint64 + 1 overload<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
+<div class="tip" id="fs12">Farmhash.Hash32(s: string) : uint64<br />Farmhash.Hash32(s: byte [], len: int) : uint32</div>
 <div class="tip" id="fs13">module Array<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="tip" id="fs14">val length : array:&#39;T [] -&gt; int<br /><br />Full name: Microsoft.FSharp.Collections.Array.length</div>
 <div class="tip" id="fs15">val ( 64bit hash ) : uint64<br /><br />Full name: Tutorial.( 64bit hash )</div>
 <div class="tip" id="fs16">Multiple items<br />val uint64 : value:&#39;T -&gt; uint64 (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.uint64<br /><br />--------------------<br />type uint64 = System.UInt64<br /><br />Full name: Microsoft.FSharp.Core.uint64</div>
-<div class="tip" id="fs17">Farmhash.Hash64(s: byte [], len: int64) : uint64</div>
+<div class="tip" id="fs17">Farmhash.Hash64(s: string) : uint64<br />Farmhash.Hash64(s: byte [], len: int64) : uint64</div>
 <div class="tip" id="fs18">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
 
         </div>

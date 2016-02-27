@@ -34,10 +34,8 @@
         <div class="span9" id="main">
           
 <h1><a name="Farmhash-Sharp" class="anchor" href="#Farmhash-Sharp">Farmhash.Sharp</a></h1>
-
 <p>Farmhash.Sharp is an extremly simple, low-level, and blazingly fast library
 for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a> algorithm for .NET</p>
-
 <div class="row">
   <div class="span1"></div>
   <div class="span6">
@@ -48,11 +46,8 @@ for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a>
   </div>
   <div class="span1"></div>
 </div>
-
 <h2><a name="Example" class="anchor" href="#Example">Example</a></h2>
-
 <p>Below, the only two accessible functions are demonstrated.</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -71,26 +66,23 @@ for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a>
 </code></pre></td>
 </tr>
 </table>
-
 <p>Some additional resources</p>
-
 <ul>
 <li><p><a href="tutorial.html">Tutorial</a> contains a walkthrough of the library.</p></li>
 <li><p><a href="benchmarks.html">Benchmarks</a> details how this port of Farmhash stacks up against other hashing algorithms</p></li>
-<li><p><a href="reference/index.html">API Reference</a> contains automatically generated documentation for all types, modules
+<li>
+<p><a href="reference/index.html">API Reference</a> contains automatically generated documentation for all types, modules
 and functions in the library. This includes additional brief samples on using most of the
-functions.</p></li>
+functions.</p>
+</li>
 </ul>
-
 <h2><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h2>
-
-<p>The project is hosted on <a href="https://github.com/nickbabcock/Farmhash.Sharp">GitHub</a> where you can <a href="https://github.com/nickbabcock/Farmhash.Sharp/issues">report issues</a>, fork 
-the project and submit pull requests. If you're adding a new public API, please also 
+<p>The project is hosted on <a href="https://github.com/nickbabcock/Farmhash.Sharp">GitHub</a> where you can <a href="https://github.com/nickbabcock/Farmhash.Sharp/issues">report issues</a>, fork
+the project and submit pull requests. If you're adding a new public API, please also
 consider adding <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
 also want to read the <a href="https://github.com/nickbabcock/Farmhash.Sharp/blob/master/README.md">library design notes</a> to understand how it works.</p>
-
-<p>The library is available under MIT, which allows modification and 
-redistribution for both commercial and non-commercial purposes. For more information see the 
+<p>The library is available under MIT, which allows modification and
+redistribution for both commercial and non-commercial purposes. For more information see the
 <a href="https://github.com/nickbabcock/Farmhash.Sharp/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
 
 <div class="tip" id="fs1">namespace Farmhash</div>
@@ -102,10 +94,10 @@ redistribution for both commercial and non-commercial purposes. For more informa
 <div class="tip" id="fs7">property Encoding.ASCII: Encoding</div>
 <div class="tip" id="fs8">Encoding.GetBytes(s: string) : byte []<br />Encoding.GetBytes(chars: char []) : byte []<br />Encoding.GetBytes(chars: char [], index: int, count: int) : byte []<br />Encoding.GetBytes(chars: nativeptr&lt;char&gt;, charCount: int, bytes: nativeptr&lt;byte&gt;, byteCount: int) : int<br />Encoding.GetBytes(s: string, charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int<br />Encoding.GetBytes(chars: char [], charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int</div>
 <div class="tip" id="fs9">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
-<div class="tip" id="fs10">type Farmhash =<br />&#160;&#160;static member Hash32 : s:byte[] * len:int -&gt; uint32<br />&#160;&#160;static member Hash64 : s:byte[] * len:int64 -&gt; uint64<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
-<div class="tip" id="fs11">Farmhash.Hash32(s: byte [], len: int) : uint32</div>
+<div class="tip" id="fs10">type Farmhash =<br />&#160;&#160;static member Hash32 : s:string -&gt; uint64 + 1 overload<br />&#160;&#160;static member Hash64 : s:string -&gt; uint64 + 1 overload<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
+<div class="tip" id="fs11">Farmhash.Hash32(s: string) : uint64<br />Farmhash.Hash32(s: byte [], len: int) : uint32</div>
 <div class="tip" id="fs12">property System.Array.Length: int</div>
-<div class="tip" id="fs13">Farmhash.Hash64(s: byte [], len: int64) : uint64</div>
+<div class="tip" id="fs13">Farmhash.Hash64(s: string) : uint64<br />Farmhash.Hash64(s: byte [], len: int64) : uint64</div>
 <div class="tip" id="fs14">property System.Array.LongLength: int64</div>
 
         </div>

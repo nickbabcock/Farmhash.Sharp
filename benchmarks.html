@@ -34,15 +34,23 @@
         <div class="span9" id="main">
           
 <h1><a name="Benchmarking" class="anchor" href="#Benchmarking">Benchmarking</a></h1>
-
-<p>The following benchmarks pit Farmhash against various hashing algorithms. The
-numbers represent the number of  hash calculations per milliseconds. The
-numbers may be hard to look at, but the conclusion that should be drawn is
-that one should use 64bit hash on 64bit architecture for the fastest possible
-hash function.</p>
-
+<p>Using <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>, the
+FarmHash.Sharp benchmarking code pits several non-cryptographic hash functions
+against each other in terms of throughput.</p>
+<p>Benchmarking was done on the following machine:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="ini">BenchmarkDotNet=v0.9.1.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz, ProcessorCount=8
+Frequency=3914059 ticks, Resolution=255.4893 ns
+HostCLR=MS.NET 4.0.30319.42000, Arch=64-bit RELEASE [RyuJIT]
+</code></pre></td></tr></table>
 <p>To run the benchmarks:</p>
-
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
@@ -51,182 +59,86 @@ hash function.</p>
 </code></pre></td>
 </tr>
 </table>
+<h2><a name="Median-Time-to-Hash" class="anchor" href="#Median-Time-to-Hash">Median Time to Hash</a></h2>
+<p><img src="/img/farmhash-benchmark1.png" alt="Farmhash-benchmark1" /></p>
+<p>The graph depicts the median time in nanoseconds to hash data of a certain
+size grouped by resulting hash size (eg. 32 or 64bit, which is not underlying
+machine architecture). A logarithmic scale had to be applied because other
+hash functions are so slow, they'd heavily skew the graph.</p>
+<p>We can see for 64bit, that when hashing data that is 1000 bytes (~1KB), that
+FarmHash is about 10x faster than the closest competitor.</p>
+<p>For 32bit hash functions, the built in <code>GetHashCode</code> on strings has a tight
+grip on smaller data, but falls off for larget data.</p>
+<h2><a name="Relative-Throughput" class="anchor" href="#Relative-Throughput">Relative Throughput</a></h2>
+<p><img src="/img/farmhash-benchmark2.png" alt="Farmhash-benchmark2" /></p>
+<p>The bar shows the relative throughput of each hash function relative to the
+fastest hash function in that category. So the higher the bar chart, the
+better.</p>
+<p>Here we combine resulting 32 and 64 bit hash functions for an interesting
+result. Across all data sizes, the FarmHash-64bit version is fastest, though
+for short string lengths, <code>GetHashCode</code> gives FarmHash a run for its money.</p>
+<h2><a name="Conclusion" class="anchor" href="#Conclusion">Conclusion</a></h2>
+<p>When deploying on a 64bit application, always choose the 64bit Farmhash
+version. If, for whatever reason, Farmhash isn't for you, choose xxHash for
+data of lengths less than 1000 bytes and HashFunction CityHash for lengths
+greater than 1000.</p>
+<p>And I'm just going to squirrel away the code used to generate the graph.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="R">library(ggplot2)
+library(dplyr)
 
-<h2><a name="Benchmark-Cases" class="anchor" href="#Benchmark-Cases">Benchmark Cases</a></h2>
+data &lt;- read.csv("farmhash-report.csv", sep=";") %&gt;%
+  select(Type, Method, Size=PayloadLength, Median)
 
-<ul>
-<li>Smallest: Four bytes "doge"</li>
-<li>Smaller: eleven bytes "hello world"</li>
-<li>Small: twenty-four bytes "Hello I'm Farmhash.Sharp"</li>
-<li>Medium: hundred bytes of periods</li>
-<li>Large: thousand bytes of periods</li>
-<li>Largest: ten-thousand bytes of periods</li>
-</ul>
+breaks &lt;- data %&gt;% select(Size) %&gt;% distinct() %&gt;% arrange(Size) %&gt;% t %&gt;% c
 
-<h2><a name="32bit-Benchmarks" class="anchor" href="#32bit-Benchmarks">32bit Benchmarks</a></h2>
+ggplot(data, aes(as.factor(Size), Median, group=Method, color=Method)) +
+  labs(title='Median Time to Hash', x='Data size (bytes)',
+       y='Time to hash (ns)') +
+  geom_line(size=1.5) +
+  scale_y_log10() +
+  facet_grid(Type ~ .)
 
-<table>
-<thead>
-<tr class="header">
-<th><p>Name</p></th>
-<th><p>Smallest</p></th>
-<th><p>Smaller</p></th>
-<th><p>Small</p></th>
-<th><p>Medium</p></th>
-<th><p>Large</p></th>
-<th><p>Largest</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Farmhash</p></td>
-<td><p>90464.99</p></td>
-<td><p>79222.56</p></td>
-<td><p>74943.79</p></td>
-<td><p>26819.72</p></td>
-<td><p>3588.73</p></td>
-<td><p>376.77</p></td>
-</tr>
-<tr class="even">
-<td><p>xxHashSharp</p></td>
-<td><p>111300.73</p></td>
-<td><p>61394.89</p></td>
-<td><p>21485.66</p></td>
-<td><p>3497.22</p></td>
-<td><p>593.65</p></td>
-<td><p>59.33</p></td>
-</tr>
-<tr class="odd">
-<td><p>CityHash.Net</p></td>
-<td><p>7193.21</p></td>
-<td><p>5460.50</p></td>
-<td><p>3976.99</p></td>
-<td><p>1498.16</p></td>
-<td><p>171.48</p></td>
-<td><p>17.68</p></td>
-</tr>
-<tr class="even">
-<td><p>String-hashCode</p></td>
-<td><p>171174.26</p></td>
-<td><p>120685.49</p></td>
-<td><p>71547.82</p></td>
-<td><p>17821.50</p></td>
-<td><p>2182.77</p></td>
-<td><p>219.60</p></td>
-</tr>
-<tr class="odd">
-<td><p>HashFunction-CityHash</p></td>
-<td><p>31679.66</p></td>
-<td><p>19870.44</p></td>
-<td><p>13399.80</p></td>
-<td><p>4743.14</p></td>
-<td><p>565.86</p></td>
-<td><p>57.60</p></td>
-</tr>
-<tr class="even">
-<td><p>HashFunction-Spooky</p></td>
-<td><p>1934.78</p></td>
-<td><p>1960.25</p></td>
-<td><p>1922.31</p></td>
-<td><p>1404.34</p></td>
-<td><p>434.73</p></td>
-<td><p>54.06</p></td>
-</tr>
-<tr class="odd">
-<td><p>MD5sum</p></td>
-<td><p>788.60</p></td>
-<td><p>810.59</p></td>
-<td><p>795.88</p></td>
-<td><p>748.13</p></td>
-<td><p>348.11</p></td>
-<td><p>54.34</p></td>
-</tr>
-</tbody>
-</table>
+relative &lt;- data %&gt;%
+  mutate(Name = paste(Method, Type, sep="-")) %&gt;%
+  select(-Method, -Type) %&gt;%
+  group_by(Size) %&gt;%
+  arrange(Median) %&gt;%
+  mutate(value = first(Median) / Median) %&gt;%
+  top_n(5, wt = value)
 
-
-<p>While 32bit Farmhash is the fastest for byte arrays twenty-four bytes or
-larger, for smaller byte arrays xxHashSharp and the native hash code function
-for strings take the cake.</p>
-
-<h2><a name="64bit-Benchmarks" class="anchor" href="#64bit-Benchmarks">64bit Benchmarks</a></h2>
-
-<p>For 64bit benchmarking, I have removed the native string hash function because
-it returns only 32bit hashes. Also for 64bit benchmarking, the code was
-executed on a 64bit platform.</p>
-
-<table>
-<thead>
-<tr class="header">
-<th><p>Name</p></th>
-<th><p>Smallest</p></th>
-<th><p>Smaller</p></th>
-<th><p>Small</p></th>
-<th><p>Medium</p></th>
-<th><p>Large</p></th>
-<th><p>Largest</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Farmhash</p></td>
-<td><p>174114.92</p></td>
-<td><p>118586.45</p></td>
-<td><p>146527.30</p></td>
-<td><p>26649.61</p></td>
-<td><p>5763.67</p></td>
-<td><p>668.69</p></td>
-</tr>
-<tr class="even">
-<td><p>xxHashSharp</p></td>
-<td><p>112841.35</p></td>
-<td><p>58424.87</p></td>
-<td><p>22075.38</p></td>
-<td><p>5654.04</p></td>
-<td><p>538.75</p></td>
-<td><p>59.14</p></td>
-</tr>
-<tr class="odd">
-<td><p>CityHash.Net</p></td>
-<td><p>7095.22</p></td>
-<td><p>5598.48</p></td>
-<td><p>4376.62</p></td>
-<td><p>1432.02</p></td>
-<td><p>190.35</p></td>
-<td><p>18.98</p></td>
-</tr>
-<tr class="even">
-<td><p>HashFunction-CityHash</p></td>
-<td><p>29379.50</p></td>
-<td><p>24479.40</p></td>
-<td><p>21544.60</p></td>
-<td><p>5049.50</p></td>
-<td><p>930.30</p></td>
-<td><p>96.79</p></td>
-</tr>
-<tr class="odd">
-<td><p>HashFunction-Spooky</p></td>
-<td><p>1884.97</p></td>
-<td><p>1936.78</p></td>
-<td><p>1895.61</p></td>
-<td><p>1422.37</p></td>
-<td><p>440.12</p></td>
-<td><p>50.74</p></td>
-</tr>
-<tr class="even">
-<td><p>MD5sum</p></td>
-<td><p>811.07</p></td>
-<td><p>719.08</p></td>
-<td><p>776.32</p></td>
-<td><p>645.47</p></td>
-<td><p>291.14</p></td>
-<td><p>52.59</p></td>
-</tr>
-</tbody>
-</table>
-
-
-<p>64bit Farmhash is the fastest algorithm.</p>
+ggplot(relative, aes(as.factor(Size), value)) +
+  geom_bar(aes(fill=Name), stat='identity', position='dodge') +
+  labs(title='Relative Throughput across Resulting Hash Size', 
+       x='Data size (bytes)', y="Relative Throughput")
+</code></pre></td></tr></table>
 
 
         </div>
