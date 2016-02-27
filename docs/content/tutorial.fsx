@@ -52,8 +52,8 @@ post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
 
 *)
 
-let ``32bit hash`` : uint = Farmhash.Hash32(bytes, Array.length nd)
-let ``64bit hash`` : uint64 = Farmhash.Hash64(bytes, Array.length nd)
+let ``32bit hash`` : uint = Farmhash.Hash32(bytes, Array.length bytes)
+let ``64bit hash`` : uint64 = Farmhash.Hash64(bytes, Array.length bytes)
 
 printfn "32bit hash: %x" ``32bit hash``
 printfn "64bit hash: %x" ``64bit hash``
