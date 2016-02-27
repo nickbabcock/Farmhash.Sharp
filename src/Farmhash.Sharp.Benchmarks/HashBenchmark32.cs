@@ -27,45 +27,24 @@ namespace Farmhash.Sharp.Benchmarks
         public int PayloadLength { get; set; }
 
         [Benchmark]
-        public byte[] Md5()
-        {
-            return md5.ComputeHash(data);
-        }
+        public byte[] Md5() => md5.ComputeHash(data);
 
         [Benchmark]
-        public uint FarmHash()
-        {
-            return Farmhash.Hash32(data, data.Length);
-        }
+        public uint FarmHash() => Farmhash.Hash32(data, data.Length);
 
         [Benchmark]
-        public uint XXHash()
-        {
-            return xxHash.CalculateHash(data);
-        }
+        public uint XXHash() => xxHash.CalculateHash(data);
 
         [Benchmark]
-        public uint CityHashNet()
-        {
-            return CityHash.CityHash.CityHash32(dataStr);
-        }
+        public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
 
         [Benchmark]
-        public int StringHashCode()
-        {
-            return dataStr.GetHashCode();
-        }
+        public int StringHashCode() => dataStr.GetHashCode();
 
         [Benchmark]
-        public byte[] HFCityHash()
-        {
-            return hcity.ComputeHash(data);
-        }
+        public byte[] HFCityHash() => hcity.ComputeHash(data);
 
         [Benchmark]
-        public byte[] SpookyHash()
-        {
-            return Spooky.ComputeHash(data);
-        }
+        public byte[] SpookyHash() => Spooky.ComputeHash(data);
     }
 }
