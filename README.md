@@ -1,7 +1,9 @@
 # Farmhash.Sharp
 
 Farmhash.Sharp is an extremely simple, low-level, and blazingly fast library
-for computing [Google's Farmhash][] algorithm for .NET
+for computing [Google's Farmhash][] algorithm for .NET. Compared to other non-
+cryptographic hash functions, this library is [2x-10x times
+faster](https://nickbabcock.github.io/Farmhash.Sharp/benchmarks.html).
 
 [Documentation](https://nickbabcock.github.io/Farmhash.Sharp)
 
