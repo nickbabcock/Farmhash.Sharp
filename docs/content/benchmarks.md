@@ -54,8 +54,8 @@ A good question would be how much efficiency is lost because we're using
 C# and not C++, as the original farmhash algorithm uses C++. You can find the
 benchmark code [here](https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3ffc22a1b70b7875dc0b5ae73be496a45fb28/src/Farmhash.Benchmarks).
 It uses two versions of the algorithm, one that uses hardware acceleration
-([SIMD](https://en.wikipedia.org/wiki/SIMD) instructions) and one that doesn't
-(denoted by no-ha in the next graph).
+([SIMD](https://en.wikipedia.org/wiki/SIMD) instructions), denoted by `-ha`
+in the graph, and another compilation that does not use hardware acceleration.
 
 ![Farmhash-benchmark3](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)
 
