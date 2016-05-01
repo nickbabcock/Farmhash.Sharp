@@ -108,13 +108,8 @@ And the code for the C# vs C++ graph:
 library(ggplot2)
 library(dplyr)
 
-benchmark <- c("farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha",
-               "farmhash","farmhash","farmhash","farmhash","farmhash","farmhash",
-               "Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp",
-               "Farmhash.Sharp")
-
-payload <- c(4, 11, 25, 100, 1000, 10000, 4, 11, 25, 100, 1000, 10000,
-             4, 11, 25, 100, 1000, 10000)
+benchmark <- rep(c("farmhash-ha", "farmhash", "Farmhash.Sharp"), each = 6)
+payload <- rep(c(4, 11, 25, 100, 1000, 10000), 3)
 
 # Throughput is measured in how many GB/s can be hashed
 throughput <- c(1.03503, 2.50114, 5.68304, 5.82953, 13.0187, 23.7148, 1.3749, 3.04061, 6.6442,
