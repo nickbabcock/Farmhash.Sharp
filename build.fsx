@@ -362,6 +362,7 @@ Target "Benchmark" (fun _ ->
     let result =
         ExecProcess (fun info ->
             info.FileName <- ("bin/Farmhash.Sharp.Benchmarks/Farmhash.Sharp.Benchmarks.exe")
+            info.WorkingDirectory <- "bin/Farmhash.Sharp.Benchmarks"
         ) (System.TimeSpan.FromMinutes 30.)
 
     if result <> 0 then failwith "Failed result from Benchmark tests"
