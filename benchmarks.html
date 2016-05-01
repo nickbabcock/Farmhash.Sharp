@@ -82,8 +82,8 @@ for short string lengths, <code>GetHashCode</code> gives FarmHash a run for its 
 C# and not C++, as the original farmhash algorithm uses C++. You can find the
 benchmark code <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3ffc22a1b70b7875dc0b5ae73be496a45fb28/src/Farmhash.Benchmarks">here</a>.
 It uses two versions of the algorithm, one that uses hardware acceleration
-(<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions) and one that doesn't
-(denoted by no-ha in the next graph).</p>
+(<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions), denoted by <code>-ha</code>
+in the graph, and another compilation that does not use hardware acceleration.</p>
 <p><img src="/Farmhash.Sharp/img/c-sharp-vs-cpp.png" alt="Farmhash-benchmark3" /></p>
 <p>I'm pleased to report that for small payloads (&lt;= 25 bytes), Farmhash.Sharp
 is around 75% as fast as the fastest configuration. It's only at larger payloads
