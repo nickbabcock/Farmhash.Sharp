@@ -77,6 +77,17 @@ better.</p>
 <p>Here we combine resulting 32 and 64 bit hash functions for an interesting
 result. Across all data sizes, the FarmHash-64bit version is fastest, though
 for short string lengths, <code>GetHashCode</code> gives FarmHash a run for its money.</p>
+<h2><a name="C-vs-C" class="anchor" href="#C-vs-C">C# vs. C++</a></h2>
+<p>A good question would be how much efficiency is lost because we're using
+C# and not C++, as the original farmhash algorithm uses C++. You can find the
+benchmark code <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3ffc22a1b70b7875dc0b5ae73be496a45fb28/src/Farmhash.Benchmarks">here</a>.
+It uses two versions of the algorithm, one that uses hardware acceleration
+(<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions) and one that doesn't
+(denoted by no-ha in the next graph).</p>
+<p><img src="/Farmhash.Sharp/img/c-sharp-vs-cpp.png" alt="Farmhash-benchmark3" /></p>
+<p>I'm pleased to report that for small payloads (&lt;= 25 bytes), Farmhash.Sharp
+is around 75% as fast as the fastest configuration. It's only at larger payloads
+do we see C++'s lead extend as hardware acceleration becomes more effective.</p>
 <h2><a name="Conclusion" class="anchor" href="#Conclusion">Conclusion</a></h2>
 <p>When deploying on a 64bit application, always choose the 64bit Farmhash
 version. If, for whatever reason, Farmhash isn't for you, choose xxHash for
@@ -137,6 +148,61 @@ relative &lt;- data %&gt;%
 ggplot(relative, aes(as.factor(Size), value)) +
   geom_bar(aes(fill=Name), stat='identity', position='dodge') +
   labs(title='Relative Throughput across Resulting Hash Size', 
+       x='Data size (bytes)', y="Relative Throughput")
+</code></pre></td></tr></table>
+<p>And the code for the C# vs C++ graph:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="R">library(ggplot2)
+library(dplyr)
+
+benchmark &lt;- c("farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha",
+               "farmhash","farmhash","farmhash","farmhash","farmhash","farmhash",
+               "Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp",
+               "Farmhash.Sharp")
+
+payload &lt;- c(4, 11, 25, 100, 1000, 10000, 4, 11, 25, 100, 1000, 10000,
+             4, 11, 25, 100, 1000, 10000)
+
+# Throughput is measured in how many GB/s can be hashed
+throughput &lt;- c(1.03503, 2.50114, 5.68304, 5.82953, 13.0187, 23.7148, 1.3749, 3.04061, 6.6442,
+                5.79228, 14.2568, 16.2982, 1.1241, 2.5563, 5.171, 2.80498, 5.86157, 6.528081)
+
+data &lt;- data.frame(benchmark, payload, throughput)
+
+relative &lt;- data %&gt;%
+  group_by(payload) %&gt;%
+  arrange(throughput) %&gt;%
+  mutate(value = throughput / last(throughput))
+
+ggplot(relative, aes(as.factor(payload), value)) +
+  geom_bar(aes(fill=benchmark), stat='identity', position='dodge') +
+  labs(title='Relative Throughput of Farmhash: C# vs C++',
        x='Data size (bytes)', y="Relative Throughput")
 </code></pre></td></tr></table>
 
