@@ -189,3 +189,5 @@ docs/content/release-notes.md
 docs/tools/FSharp.Formatting.svclog
 *.exe
 *.o
+benchmark-farmhash
+benchmark-farmhash-no-ha
