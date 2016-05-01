@@ -48,6 +48,21 @@ Here we combine resulting 32 and 64 bit hash functions for an interesting
 result. Across all data sizes, the FarmHash-64bit version is fastest, though
 for short string lengths, `GetHashCode` gives FarmHash a run for its money.
 
+## C# vs. C++
+
+A good question would be how much efficiency is lost because we're using
+C# and not C++, as the original farmhash algorithm uses C++. You can find the
+benchmark code [here](https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3ffc22a1b70b7875dc0b5ae73be496a45fb28/src/Farmhash.Benchmarks).
+It uses two versions of the algorithm, one that uses hardware acceleration
+([SIMD](https://en.wikipedia.org/wiki/SIMD) instructions) and one that doesn't
+(denoted by no-ha in the next graph).
+
+![Farmhash-benchmark3](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)
+
+I'm pleased to report that for small payloads (<= 25 bytes), Farmhash.Sharp
+is around 75% as fast as the fastest configuration. It's only at larger payloads
+do we see C++'s lead extend as hardware acceleration becomes more effective.
+
 ## Conclusion
 
 When deploying on a 64bit application, always choose the 64bit Farmhash
@@ -84,5 +99,36 @@ relative <- data %>%
 ggplot(relative, aes(as.factor(Size), value)) +
   geom_bar(aes(fill=Name), stat='identity', position='dodge') +
   labs(title='Relative Throughput across Resulting Hash Size', 
+       x='Data size (bytes)', y="Relative Throughput")
+```
+
+And the code for the C# vs C++ graph:
+
+```R
+library(ggplot2)
+library(dplyr)
+
+benchmark <- c("farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha","farmhash-ha",
+               "farmhash","farmhash","farmhash","farmhash","farmhash","farmhash",
+               "Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp","Farmhash.Sharp",
+               "Farmhash.Sharp")
+
+payload <- c(4, 11, 25, 100, 1000, 10000, 4, 11, 25, 100, 1000, 10000,
+             4, 11, 25, 100, 1000, 10000)
+
+# Throughput is measured in how many GB/s can be hashed
+throughput <- c(1.03503, 2.50114, 5.68304, 5.82953, 13.0187, 23.7148, 1.3749, 3.04061, 6.6442,
+                5.79228, 14.2568, 16.2982, 1.1241, 2.5563, 5.171, 2.80498, 5.86157, 6.528081)
+
+data <- data.frame(benchmark, payload, throughput)
+
+relative <- data %>%
+  group_by(payload) %>%
+  arrange(throughput) %>%
+  mutate(value = throughput / last(throughput))
+
+ggplot(relative, aes(as.factor(payload), value)) +
+  geom_bar(aes(fill=benchmark), stat='identity', position='dodge') +
+  labs(title='Relative Throughput of Farmhash: C# vs C++',
        x='Data size (bytes)', y="Relative Throughput")
 ```
