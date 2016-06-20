@@ -30,7 +30,7 @@ namespace Farmhash.Sharp.Benchmarks
         public byte[] Md5() => md5.ComputeHash(data);
 
         [Benchmark]
-        public ulong FarmHash() => Farmhash.Hash64(data, data.LongLength);
+        public ulong FarmHash() => Farmhash.Hash64(data, data.Length);
 
         [Benchmark]
         public uint XXHash() =>  xxHash.CalculateHash(data);

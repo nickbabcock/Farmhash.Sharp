@@ -265,7 +265,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1710-L1733
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong HashLen0to16(byte* s, ulong len)
+        private static unsafe ulong HashLen0to16(byte* s, uint len)
         {
             if (len >= 8) {
                 ulong mul = k2 + len * 2;
@@ -293,7 +293,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L460-L470
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong HashLen17to32(byte* s, ulong len)
+        private static unsafe ulong HashLen17to32(byte* s, uint len)
         {
             ulong mul = k2 + len * 2;
             ulong a = Fetch64(s) * k1;
@@ -316,7 +316,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L700-L711
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong H32(byte* s, ulong len, ulong mul,
+        private static unsafe ulong H32(byte* s, uint len, ulong mul,
                                         ulong seed0 = 0, ulong seed1 = 0) {
             ulong a = Fetch64(s) * k1;
             ulong b = Fetch64(s + 8);
@@ -332,7 +332,7 @@ namespace Farmhash.Sharp
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L713-L720
         // Return an 8-byte hash for 33 to 64 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong HashLen33to64(byte* s, ulong len)
+        private static unsafe ulong HashLen33to64(byte* s, uint len)
         {
             const ulong mul0 = k2 - 30;
             ulong mul1 = k2 - 30 + 2 * len;
@@ -344,7 +344,7 @@ namespace Farmhash.Sharp
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L722-L730
         // Return an 8-byte hash for 65 to 96 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong HashLen65to96(byte* s, ulong len)
+        private static unsafe ulong HashLen65to96(byte* s, uint len)
         {
             const ulong mul0 = k2 - 114;
             ulong mul1 = k2 - 114 + 2 * len;
@@ -356,7 +356,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L592-L681
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong Hash64_uo(byte* s, ulong len)
+        private static unsafe ulong Hash64_uo(byte* s, uint len)
         {
             const ulong seed0 = 81;
             const ulong seed1 = 0;
@@ -453,7 +453,7 @@ namespace Farmhash.Sharp
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L513-L566
         // Return an 8-byte hash for 65 to 96 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong Hash64_na(byte* s, ulong len)
+        private static unsafe ulong Hash64_na(byte* s, uint len)
         {
             const ulong seed = 81;
 
@@ -512,7 +512,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong Hash64(byte* s, ulong len)
+        private static unsafe ulong Hash64(byte* s, uint len)
         {
             if (len <= 32) {
                 if (len <= 16) {
@@ -537,11 +537,11 @@ namespace Farmhash.Sharp
         /// <param name="s">Byte array to calculate the hash on</param>
         /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
         /// <returns>A 64bit hash</returns>
-        public static unsafe ulong Hash64(byte[] s, long len)
+        public static unsafe ulong Hash64(byte[] s, int len)
         {
             fixed (byte* buf = s)
             {
-                return Hash64(buf, (ulong)len);
+                return Hash64(buf, (uint)len);
             }
         }
 
@@ -555,7 +555,7 @@ namespace Farmhash.Sharp
         public static ulong Hash64(string s)
         {
             byte[] data = Encoding.UTF8.GetBytes(s);
-            return Hash64(data, data.LongLength);
+            return Hash64(data, data.Length);
         }
     }
 }
