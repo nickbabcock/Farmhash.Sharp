@@ -43,5 +43,8 @@ namespace Farmhash.Sharp.Benchmarks
 
         [Benchmark]
         public byte[] SpookyHash() => Spooky64.ComputeHash(data);
+
+        [Benchmark]
+        public ulong SparrowXXHash() => SparrowHashing.XXHash64.Calculate(data, data.Length);
     }
 }
