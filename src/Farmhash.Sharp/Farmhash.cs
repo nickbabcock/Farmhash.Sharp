@@ -361,6 +361,10 @@ namespace Farmhash.Sharp
             ulong x = seed0;
             ulong y = seed1 * k2 + 113;
             ulong z = ShiftMix(y * k2) * k2;
+
+            // v and w used to be uint128_t(seed0, seed1), uint128_t(0, 0), but
+            // using only primitives meant a 40% performance increase, hence the
+            // deviation with original farmhash algorithm; see commit 380c059
             ulong v_first = seed0;
             ulong v_second = seed1;
             ulong w_first = 0;
