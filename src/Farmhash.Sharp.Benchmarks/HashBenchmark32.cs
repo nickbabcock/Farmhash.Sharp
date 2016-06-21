@@ -49,5 +49,14 @@ namespace Farmhash.Sharp.Benchmarks
 
         [Benchmark]
         public uint SparrowXXHash() => SparrowHashing.XXHash32.Calculate(data, data.Length);
+
+        [Benchmark]
+        public unsafe uint Spookily()
+        {
+            fixed (byte* buffer = data)
+            {
+                return SpookilySharp.SpookyHash.Hash32(buffer, data.Length, 0);
+            }
+        }
     }
 }
