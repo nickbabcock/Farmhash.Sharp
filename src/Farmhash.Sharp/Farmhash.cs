@@ -201,7 +201,7 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>Calculates a 32bit hash from a given string</summary>
-        public unsafe static ulong Hash32(string s)
+        public unsafe static uint Hash32(string s)
         {
             fixed (char* buffer = s)
             {
