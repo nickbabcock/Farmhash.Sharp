@@ -13,6 +13,8 @@ algorithm for .NET
 
 [Google's Farmhash]: https://github.com/google/farmhash
 
+If you clone and build this repo, this file `tutorial.fsx` is actually runnable.
+
 Let's start out simple. Let's compute the 32 and 64bit hash of 'hi'.
 
 *)
@@ -21,12 +23,25 @@ open Farmhash.Sharp
 
 let text = "hi"
 
+let ``32bit hash`` : uint32 = Farmhash.Hash32(text)
+let ``64bit hash`` : uint64 = Farmhash.Hash64(text)
+
+printfn "32bit hash: %x" ``32bit hash``
+printfn "64bit hash: %x" ``64bit hash``
+
 (**
 
-Farmhash only works with bytes and our text is composed of characters. To get
-bytes from our text, we need to decide on the encoding. Common examples are
-ASCII, UTF-8, and Windows-1252. In this tutorial, we're going to keep things
-simple and assume that our text is encoded as ASCII
+The 32bit hash will output a four byte hash (32 bits in length), while the
+64bit hash will output an eight byte hash (64 bits in length).
+
+The way Farmhash.Sharp knows how to hash a string of arbitrary encoding is to
+look the raw bytes that compose the string. This is great for convenience, but
+may not be the best if working directly with arrays or strings across
+encodings.
+
+To get bytes from our text, we need to decide on the encoding. Common examples
+are ASCII, UTF-8, and Windows-1252. In this tutorial, we're going to keep
+things simple and assume that our text is encoded as ASCII
 
 *)
 
@@ -52,11 +67,11 @@ post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
 
 *)
 
-let ``32bit hash`` : uint = Farmhash.Hash32(bytes, Array.length bytes)
-let ``64bit hash`` : uint64 = Farmhash.Hash64(bytes, Array.length bytes)
+let ``32bit byte hash`` : uint32 = Farmhash.Hash32(bytes, Array.length bytes)
+let ``64bit byte hash`` : uint64 = Farmhash.Hash64(bytes, Array.length bytes)
 
-printfn "32bit hash: %x" ``32bit hash``
-printfn "64bit hash: %x" ``64bit hash``
+printfn "32bit byte hash: %x" ``32bit byte hash``
+printfn "64bit byte hash: %x" ``64bit byte hash``
 
 (**
 
