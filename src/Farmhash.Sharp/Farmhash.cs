@@ -361,8 +361,10 @@ namespace Farmhash.Sharp
             ulong x = seed0;
             ulong y = seed1 * k2 + 113;
             ulong z = ShiftMix(y * k2) * k2;
-            uint128_t v = Uint128(seed0, seed1);
-            uint128_t w = Uint128(0, 0);
+            ulong v_first = seed0;
+            ulong v_second = seed1;
+            ulong w_first = 0;
+            ulong w_second = 0;
             ulong u = x - z;
             x *= k2;
             ulong mul = k2 + (u & 0x82);
@@ -382,22 +384,22 @@ namespace Farmhash.Sharp
                 x += a0 + a1;
                 y += a2;
                 z += a3;
-                v.first += a4;
-                v.second += a5 + a1;
-                w.first += a6;
-                w.second += a7;
+                v_first += a4;
+                v_second += a5 + a1;
+                w_first += a6;
+                w_second += a7;
 
                 x = Rotate64(x, 26);
                 x *= 9;
                 y = Rotate64(y, 29);
                 z *= mul;
-                v.first = Rotate64(v.first, 33);
-                v.second = Rotate64(v.second, 30);
-                w.first ^= x;
-                w.first *= 9;
+                v_first = Rotate64(v_first, 33);
+                v_second = Rotate64(v_second, 30);
+                w_first ^= x;
+                w_first *= 9;
                 z = Rotate64(z, 32);
-                z += w.second;
-                w.second += z;
+                z += w_second;
+                w_second += z;
                 z *= 9;
 
                 ulong tmp = u;
@@ -405,20 +407,20 @@ namespace Farmhash.Sharp
                 y = tmp;
 
                 z += a0 + a6;
-                v.first += a2;
-                v.second += a3;
-                w.first += a4;
-                w.second += a5 + a6;
+                v_first += a2;
+                v_second += a3;
+                w_first += a4;
+                w_second += a5 + a6;
                 x += a1;
                 y += a7;
 
-                y += v.first;
-                v.first += x - y;
-                v.second += w.first;
-                w.first += v.second;
-                w.second += x - y;
-                x += w.second;
-                w.second = Rotate64(w.second, 34);
+                y += v_first;
+                v_first += x - y;
+                v_second += w_first;
+                w_first += v_second;
+                w_second += x - y;
+                x += w_second;
+                w_second = Rotate64(w_second, 34);
                 tmp = u;
                 u = z;
                 z = tmp;
@@ -427,18 +429,18 @@ namespace Farmhash.Sharp
             // Make s point to the last 64 bytes of input.
             s = last64;
             u *= 9;
-            v.second = Rotate64(v.second, 28);
-            v.first = Rotate64(v.first, 20);
-            w.first += (len - 1) & 63;
+            v_second = Rotate64(v_second, 28);
+            v_first = Rotate64(v_first, 20);
+            w_first += (len - 1) & 63;
             u += y;
             y += u;
-            x = Rotate64(y - x + v.first + Fetch64(s + 8), 37) * mul;
-            y = Rotate64(y ^ v.second ^ Fetch64(s + 48), 42) * mul;
-            x ^= w.second * 9;
-            y += v.first + Fetch64(s + 40);
-            z = Rotate64(z + w.first, 33) * mul;
-            v = WeakHashLen32WithSeeds(s, v.second * mul, x + w.first);
-            w = WeakHashLen32WithSeeds(s + 32, z + w.second, y + Fetch64(s + 16));
+            x = Rotate64(y - x + v_first + Fetch64(s + 8), 37) * mul;
+            y = Rotate64(y ^ v_second ^ Fetch64(s + 48), 42) * mul;
+            x ^= w_second * 9;
+            y += v_first + Fetch64(s + 40);
+            z = Rotate64(z + w_first, 33) * mul;
+            uint128_t v = WeakHashLen32WithSeeds(s, v_second * mul, x + w_first);
+            uint128_t w = WeakHashLen32WithSeeds(s + 32, z + w_second, y + Fetch64(s + 16));
             return H(HashLen16(v.first + x, w.first ^ y, mul) + z - u,
                     H(v.second + y, w.second + z, k2, 30) ^ x,
                     k2,
