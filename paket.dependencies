@@ -3,8 +3,8 @@ source https://nuget.org/api/v2
 nuget BenchmarkDotNet
 nuget CityHash.Net
 nuget FSharp.Formatting
-nuget NUnit ~> 2
-nuget NUnit.Runners ~> 2
+nuget NUnit
+nuget NUnit.Runners
 nuget FAKE
 nuget SourceLink.Fake
 nuget System.Data.HashFunction.CityHash
