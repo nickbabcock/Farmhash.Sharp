@@ -378,8 +378,8 @@ Target "All" DoNothing
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
-  ==> "GenerateReferenceDocs"
-  ==> "GenerateDocs"
+  =?> ("GenerateReferenceDocs", isLocalBuild)
+  =?> ("GenerateDocs", isLocalBuild)
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
 
