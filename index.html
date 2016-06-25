@@ -47,7 +47,8 @@ for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a>
   <div class="span1"></div>
 </div>
 <h2><a name="Example" class="anchor" href="#Example">Example</a></h2>
-<p>Below, the only two accessible functions are demonstrated.</p>
+<p>Below are a couple of examples in F# (but Farmhash.Sharp is equally usable from
+C#, VB.NET, and any .NET language).</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -55,14 +56,16 @@ for computing <a href="https://github.com/google/farmhash">Google's Farmhash</a>
 <span class="l">5: </span>
 <span class="l">6: </span>
 <span class="l">7: </span>
+<span class="l">8: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">&quot;Farmhash.Sharp.dll&quot;</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Sharp</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">Text</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">bytes</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">Encoding</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">ASCII</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="f">GetBytes</span>(<span class="s">&quot;hello&quot;</span>)
-<span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="f">printfn</span> <span class="s">&quot;&#39;hello&#39; 32bit hash: </span><span class="pf">%x</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs10', 10)" onmouseover="showTip(event, 'fs10', 10)" class="t">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 11)" onmouseover="showTip(event, 'fs11', 11)" class="f">Hash32</span>(<span onmouseout="hideTip(event, 'fs5', 12)" onmouseover="showTip(event, 'fs5', 12)" class="i">bytes</span>, <span onmouseout="hideTip(event, 'fs5', 13)" onmouseover="showTip(event, 'fs5', 13)" class="i">bytes</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 14)" onmouseover="showTip(event, 'fs12', 14)" class="i">Length</span>))
-<span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="f">printfn</span> <span class="s">&quot;&#39;hello&#39; 64bit hash: </span><span class="pf">%x</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="t">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="f">Hash64</span>(<span onmouseout="hideTip(event, 'fs5', 18)" onmouseover="showTip(event, 'fs5', 18)" class="i">bytes</span>, <span onmouseout="hideTip(event, 'fs5', 19)" onmouseover="showTip(event, 'fs5', 19)" class="i">bytes</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="i">LongLength</span>))
+<span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="f">printfn</span> <span class="s">&quot;&#39;hello&#39; 32bit hash: </span><span class="pf">%x</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="f">Hash32</span>(<span class="s">&quot;hello&quot;</span>))
+<span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="f">printfn</span> <span class="s">&quot;&#39;hello&#39; 64bit hash: </span><span class="pf">%x</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="t">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="f">Hash64</span>(<span class="s">&quot;hello&quot;</span>))
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">arr</span> <span class="o">=</span> [| <span class="n">1uy</span> <span class="o">..</span> <span class="n">100uy</span> |]
+<span onmouseout="hideTip(event, 'fs3', 10)" onmouseover="showTip(event, 'fs3', 10)" class="f">printfn</span> <span class="s">&quot;byte array 64bit hash: </span><span class="pf">%x</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs4', 11)" onmouseover="showTip(event, 'fs4', 11)" class="t">Farmhash</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="f">Hash64</span>(<span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">arr</span>, <span onmouseout="hideTip(event, 'fs7', 14)" onmouseover="showTip(event, 'fs7', 14)" class="i">arr</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 15)" onmouseover="showTip(event, 'fs8', 15)" class="i">Length</span>))
 </code></pre></td>
 </tr>
 </table>
@@ -87,18 +90,12 @@ redistribution for both commercial and non-commercial purposes. For more informa
 
 <div class="tip" id="fs1">namespace Farmhash</div>
 <div class="tip" id="fs2">namespace Farmhash.Sharp</div>
-<div class="tip" id="fs3">namespace System</div>
-<div class="tip" id="fs4">namespace System.Text</div>
-<div class="tip" id="fs5">val bytes : byte []<br /><br />Full name: Index.bytes</div>
-<div class="tip" id="fs6">type Encoding =<br />&#160;&#160;member BodyName : string<br />&#160;&#160;member Clone : unit -&gt; obj<br />&#160;&#160;member CodePage : int<br />&#160;&#160;member DecoderFallback : DecoderFallback with get, set<br />&#160;&#160;member EncoderFallback : EncoderFallback with get, set<br />&#160;&#160;member EncodingName : string<br />&#160;&#160;member Equals : value:obj -&gt; bool<br />&#160;&#160;member GetByteCount : chars:char[] -&gt; int + 3 overloads<br />&#160;&#160;member GetBytes : chars:char[] -&gt; byte[] + 5 overloads<br />&#160;&#160;member GetCharCount : bytes:byte[] -&gt; int + 2 overloads<br />&#160;&#160;...<br /><br />Full name: System.Text.Encoding</div>
-<div class="tip" id="fs7">property Encoding.ASCII: Encoding</div>
-<div class="tip" id="fs8">Encoding.GetBytes(s: string) : byte []<br />Encoding.GetBytes(chars: char []) : byte []<br />Encoding.GetBytes(chars: char [], index: int, count: int) : byte []<br />Encoding.GetBytes(chars: nativeptr&lt;char&gt;, charCount: int, bytes: nativeptr&lt;byte&gt;, byteCount: int) : int<br />Encoding.GetBytes(s: string, charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int<br />Encoding.GetBytes(chars: char [], charIndex: int, charCount: int, bytes: byte [], byteIndex: int) : int</div>
-<div class="tip" id="fs9">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
-<div class="tip" id="fs10">type Farmhash =<br />&#160;&#160;static member Hash32 : s:string -&gt; uint64 + 1 overload<br />&#160;&#160;static member Hash64 : s:string -&gt; uint64 + 1 overload<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
-<div class="tip" id="fs11">Farmhash.Hash32(s: string) : uint64<br />Farmhash.Hash32(s: byte [], len: int) : uint32</div>
-<div class="tip" id="fs12">property System.Array.Length: int</div>
-<div class="tip" id="fs13">Farmhash.Hash64(s: string) : uint64<br />Farmhash.Hash64(s: byte [], len: int64) : uint64</div>
-<div class="tip" id="fs14">property System.Array.LongLength: int64</div>
+<div class="tip" id="fs3">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs4">type Farmhash =<br />&#160;&#160;static member Hash32 : s:string -&gt; uint32 + 1 overload<br />&#160;&#160;static member Hash64 : s:string -&gt; uint64 + 1 overload<br /><br />Full name: Farmhash.Sharp.Farmhash</div>
+<div class="tip" id="fs5">Farmhash.Hash32(s: string) : uint32<br />Farmhash.Hash32(s: byte [], len: int) : uint32</div>
+<div class="tip" id="fs6">Farmhash.Hash64(s: string) : uint64<br />Farmhash.Hash64(s: byte [], len: int) : uint64</div>
+<div class="tip" id="fs7">val arr : byte []<br /><br />Full name: Index.arr</div>
+<div class="tip" id="fs8">property System.Array.Length: int</div>
 
         </div>
         <div class="span3">
