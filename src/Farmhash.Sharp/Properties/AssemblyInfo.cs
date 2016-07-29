@@ -4,11 +4,11 @@ using System.Reflection;
 [assembly: AssemblyTitleAttribute("Farmhash.Sharp")]
 [assembly: AssemblyProductAttribute("Farmhash.Sharp")]
 [assembly: AssemblyDescriptionAttribute("Port of Google's farm hash algorithm")]
-[assembly: AssemblyVersionAttribute("0.2")]
-[assembly: AssemblyFileVersionAttribute("0.2")]
+[assembly: AssemblyVersionAttribute("0.3")]
+[assembly: AssemblyFileVersionAttribute("0.3")]
 namespace System {
     internal static class AssemblyVersionInformation {
-        internal const string Version = "0.2";
-        internal const string InformationalVersion = "0.2";
+        internal const string Version = "0.3";
+        internal const string InformationalVersion = "0.3";
     }
 }

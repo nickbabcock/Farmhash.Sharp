@@ -1,3 +1,6 @@
+### 0.3 - Unreleased
+* Support for .NET core
+
 ### 0.2 - June 25th 2016
 * String helper functions
 * 40% faster processing large (> 1KB) inputs

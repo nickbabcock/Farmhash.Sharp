@@ -1,5 +1,5 @@
 {
-  "version": "0.2",
+  "version": "0.3",
   "dependencies": {
     "Farmhash.Sharp": "*",
     "BenchmarkDotNet": "0.9.7-beta"
