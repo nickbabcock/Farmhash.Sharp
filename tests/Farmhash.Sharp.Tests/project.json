@@ -1,0 +1,36 @@
+{
+  "version": "0.2",
+  "buildOptions": {
+    "compilerName": "fsc",
+    "emitEntryPoint": true,
+    "compile": {
+      "includeFiles": [
+        "Tests.fs"
+      ]
+    }
+  },
+  "tools": {
+    "dotnet-compile-fsc": {
+      "version": "1.0.0-preview2-*",
+      "imports": "dnxcore50"
+    }
+  },
+  "testRunner": "nunit",
+  "dependencies": {
+    "Microsoft.FSharp.Core.netcore": "1.0.0-alpha-160727",
+    "NUnit": "3.4.1",
+    "Farmhash.Sharp": "*",
+    "dotnet-test-nunit": "3.4.0-beta-1"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "portable-net45+win8",
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0-*",
+          "type": "platform"
+        }
+      }
+    }
+  }
+}

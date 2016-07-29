@@ -1,18 +1,18 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System;
-using System.Data.HashFunction;
 using System.Security.Cryptography;
 using System.Text;
+
+#if !CORE
+using System.Data.HashFunction;
 using xxHashSharp;
+#endif
 
 namespace Farmhash.Sharp.Benchmarks
 {
     public class HashBenchmark32
     {
         private static readonly MD5 md5 = MD5.Create();
-        private static readonly System.Data.HashFunction.CityHash hcity = new System.Data.HashFunction.CityHash(32);
-        private static readonly SpookyHashV2 Spooky = new SpookyHashV2(32);
-
         private byte[] data;
         private string dataStr;
 
@@ -33,13 +33,20 @@ namespace Farmhash.Sharp.Benchmarks
         public uint FarmHash() => Farmhash.Hash32(data, data.Length);
 
         [Benchmark]
+        public int StringHashCode() => dataStr.GetHashCode();
+
+        [Benchmark]
+        public uint SparrowXXHash() => SparrowHashing.XXHash32.Calculate(data, data.Length);
+
+#if !CORE
+        private static readonly System.Data.HashFunction.CityHash hcity = new System.Data.HashFunction.CityHash(32);
+        private static readonly SpookyHashV2 Spooky = new SpookyHashV2(32);
+
+        [Benchmark]
         public uint XXHash() => xxHash.CalculateHash(data);
 
         [Benchmark]
         public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
-
-        [Benchmark]
-        public int StringHashCode() => dataStr.GetHashCode();
 
         [Benchmark]
         public byte[] HFCityHash() => hcity.ComputeHash(data);
@@ -47,8 +54,6 @@ namespace Farmhash.Sharp.Benchmarks
         [Benchmark]
         public byte[] SpookyHash() => Spooky.ComputeHash(data);
 
-        [Benchmark]
-        public uint SparrowXXHash() => SparrowHashing.XXHash32.Calculate(data, data.Length);
 
         [Benchmark]
         public unsafe uint Spookily()
@@ -58,5 +63,6 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash32(buffer, data.Length, 0);
             }
         }
+#endif
     }
 }

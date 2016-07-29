@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <None Include="paket.references" />
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

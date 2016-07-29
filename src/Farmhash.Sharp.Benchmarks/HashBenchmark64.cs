@@ -1,18 +1,18 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System;
-using System.Data.HashFunction;
 using System.Security.Cryptography;
 using System.Text;
+
+#if !CORE
+using System.Data.HashFunction;
 using xxHashSharp;
+#endif
 
 namespace Farmhash.Sharp.Benchmarks
 {
     public class HashBenchmark64
     {
         private static readonly MD5 md5 = MD5.Create();
-        private static readonly SpookyHashV2 Spooky64 = new SpookyHashV2(64);
-        private static readonly System.Data.HashFunction.CityHash hcity64 = new System.Data.HashFunction.CityHash(64);
-
         private byte[] data;
         private string dataStr;
 
@@ -33,6 +33,13 @@ namespace Farmhash.Sharp.Benchmarks
         public ulong FarmHash() => Farmhash.Hash64(data, data.Length);
 
         [Benchmark]
+        public ulong SparrowXXHash() => SparrowHashing.XXHash64.Calculate(data, data.Length);
+
+#if !CORE
+        private static readonly SpookyHashV2 Spooky64 = new SpookyHashV2(64);
+        private static readonly System.Data.HashFunction.CityHash hcity64 = new System.Data.HashFunction.CityHash(64);
+
+        [Benchmark]
         public uint XXHash() =>  xxHash.CalculateHash(data);
 
         [Benchmark]
@@ -45,9 +52,6 @@ namespace Farmhash.Sharp.Benchmarks
         public byte[] SpookyHash() => Spooky64.ComputeHash(data);
 
         [Benchmark]
-        public ulong SparrowXXHash() => SparrowHashing.XXHash64.Calculate(data, data.Length);
-
-        [Benchmark]
         public unsafe ulong Spookily()
         {
             fixed (byte* buffer = data)
@@ -55,5 +59,8 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash64(buffer, data.Length, 0);
             }
         }
+#endif
+
+
     }
 }

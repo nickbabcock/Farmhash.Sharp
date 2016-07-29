@@ -45,7 +45,7 @@ let authors = [ "Nick Babcock" ]
 // Tags for your project (for NuGet package)
 let tags = "hash algorithm farm-hash"
 
-// File system information 
+// File system information
 let solutionFile  = "Farmhash.Sharp.sln"
 
 // Pattern specifying assemblies to be tested using NUnit
@@ -53,7 +53,7 @@ let testAssemblies = "tests/**/bin/Release/*Tests*.dll"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "nickbabcock" 
+let gitOwner = "nickbabcock"
 let gitHome = "https://github.com/" + gitOwner
 
 // The name of the project on GitHub
@@ -70,7 +70,7 @@ let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/nickbabcock"
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
 // Helper active pattern for project types
-let (|Fsproj|Csproj|Vbproj|) (projFileName:string) = 
+let (|Fsproj|Csproj|Vbproj|) (projFileName:string) =
     match projFileName with
     | f when f.EndsWith("fsproj") -> Fsproj
     | f when f.EndsWith("csproj") -> Csproj
@@ -88,7 +88,7 @@ Target "AssemblyInfo" (fun _ ->
 
     let getProjectDetails projectPath =
         let projectName = System.IO.Path.GetFileNameWithoutExtension(projectPath)
-        ( projectPath, 
+        ( projectPath,
           projectName,
           System.IO.Path.GetDirectoryName(projectPath),
           (getAssemblyInfoAttributes projectName)
@@ -105,7 +105,7 @@ Target "AssemblyInfo" (fun _ ->
 )
 
 // Copies binaries from default VS location to expected bin folder
-// But keeps a subdirectory structure for each project in the 
+// But keeps a subdirectory structure for each project in the
 // src folder to support multiple project outputs
 Target "CopyBinaries" (fun _ ->
     !! "src/**/*.??proj"
@@ -152,7 +152,7 @@ Target "SourceLink" (fun _ ->
     let baseUrl = sprintf "%s/%s/{0}/%%var2%%" gitRaw project
     !! "src/**/*.??proj"
     |> Seq.iter (fun projFile ->
-        let proj = VsProj.LoadRelease projFile 
+        let proj = VsProj.LoadRelease projFile
         SourceLink.Index proj.CompilesNotLinked proj.OutputFilePdb __SOURCE_DIRECTORY__ baseUrl
     )
 )
@@ -163,7 +163,7 @@ Target "SourceLink" (fun _ ->
 // Build a NuGet package
 
 Target "NuGet" (fun _ ->
-    Paket.Pack(fun p -> 
+    Paket.Pack(fun p ->
         { p with
             OutputPath = "bin"
             Version = release.NugetVersion
@@ -171,7 +171,7 @@ Target "NuGet" (fun _ ->
 )
 
 Target "PublishNuget" (fun _ ->
-    Paket.Push(fun p -> 
+    Paket.Push(fun p ->
         { p with
             WorkingDir = "bin" })
 )
@@ -253,7 +253,7 @@ Target "GenerateHelpDebug" (fun _ ->
     generateHelp' true true
 )
 
-Target "KeepRunning" (fun _ ->    
+Target "KeepRunning" (fun _ ->
     use watcher = !! "docs/content/**/*.*" |> WatchChanges (fun changes ->
          generateHelp false
     )
@@ -269,7 +269,7 @@ Target "GenerateDocs" DoNothing
 
 let createIndexFsx lang =
     let content = """(*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
+// This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 #I "../../../bin"
 
@@ -345,14 +345,46 @@ Target "Release" (fun _ ->
 
     Branches.tag "" release.NugetVersion
     Branches.pushTag "" remote release.NugetVersion
-    
+
     // release on github
     createClient user pw
-    |> createDraft gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes 
-    // TODO: |> uploadFile "PATH_TO_FILE"    
+    |> createDraft gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes
+    // TODO: |> uploadFile "PATH_TO_FILE"
     |> releaseDraft
     |> Async.RunSynchronously
 )
+
+Target "SetVersionInProjectJSON" (fun _ ->
+    !! "./**/project.json"
+    |> Seq.iter (DotNetCli.SetVersionInProjectJson release.NugetVersion)
+)
+
+Target "Build.NetCore" (fun _ ->
+    DotNetCli.Restore id
+
+    !! "src/**/project.json"
+    |> DotNetCli.Build id
+)
+
+Target "RunTests.NetCore" (fun _ ->
+    !! "tests/**/project.json"
+    |> DotNetCli.Test id
+)
+
+Target "Nuget.AddNetCore" (fun _ ->
+    !! "src/Farmhash.Sharp/project.json"
+    |> DotNetCli.Pack id
+
+    let nupkg = sprintf "../../bin/Farmhash.Sharp.%s.nupkg" (release.NugetVersion)
+    let netcoreNupkg = sprintf "bin/Release/Farmhash.Sharp.%s.nupkg" (release.NugetVersion)
+
+    DotNetCli.RunCommand
+      (fun p -> { p with WorkingDir = "src/Farmhash.Sharp" })
+      (sprintf """mergenupkg --source "%s" --other "%s" --framework netstandard1.1""" nupkg netcoreNupkg)
+)
+
+
+let isDotnetSDKInstalled = DotNetCli.isInstalled()
 
 Target "Benchmark" (fun _ ->
     trace "Starting benchmarks"
@@ -375,20 +407,25 @@ Target "All" DoNothing
 
 "Clean"
   ==> "AssemblyInfo"
+  ==> "SetVersionInProjectJSON"
   ==> "Build"
+  =?> ("Build.NetCore", isDotnetSDKInstalled)
   ==> "CopyBinaries"
   ==> "RunTests"
+  // Until running F# tests on .net core supported...
+  // =?> ("RunTests.NetCore", isDotnetSDKInstalled)
   =?> ("GenerateReferenceDocs", isLocalBuild)
   =?> ("GenerateDocs", isLocalBuild)
   ==> "All"
   =?> ("ReleaseDocs",isLocalBuild)
 
-"All" 
+"All"
 #if MONO
 #else
   =?> ("SourceLink", Pdbstr.tryFind().IsSome )
 #endif
   ==> "NuGet"
+  =?> ("Nuget.AddNetCore", isDotnetSDKInstalled)
   ==> "BuildPackage"
 
 "Clean"
@@ -408,7 +445,7 @@ Target "All" DoNothing
 
 "GenerateHelp"
   ==> "KeepRunning"
-    
+
 "ReleaseDocs"
   ==> "Release"
 

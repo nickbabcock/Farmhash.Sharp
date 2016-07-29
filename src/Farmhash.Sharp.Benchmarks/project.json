@@ -1,0 +1,25 @@
+{
+  "version": "0.2",
+  "dependencies": {
+    "Farmhash.Sharp": "*",
+    "BenchmarkDotNet": "0.9.7-beta"
+  },
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "allowUnsafe": true,
+    "optimize": true,
+    "define": [
+      "CORE"
+    ]
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0-*",
+          "type": "platform"
+        }
+      }
+    }
+  }
+}

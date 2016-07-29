@@ -192,3 +192,5 @@ docs/tools/FSharp.Formatting.svclog
 *.o
 benchmark-farmhash
 benchmark-farmhash-no-ha
+**/project.lock.json
+BenchmarkDotNet.Artifacts/
