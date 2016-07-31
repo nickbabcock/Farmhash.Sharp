@@ -23,32 +23,52 @@ build.cmd Benchmark
 
 ## Median Time to Hash
 
-![Farmhash-benchmark1](/Farmhash.Sharp/img/farmhash-benchmark1.png)
+[![Farmhash-benchmark1](/Farmhash.Sharp/img/farmhash-benchmark1.png)](/Farmhash.Sharp/img/farmhash-benchmark1.png)
+
+That's a big graph, so to get a better idea of the data, you can click on it
+for maximum view.
 
 The graph depicts the median time in nanoseconds to hash data of a certain
 size grouped by resulting hash size (eg. 32 or 64bit, which is not underlying
 machine architecture). A logarithmic scale had to be applied because other
-hash functions are so slow, they'd heavily skew the graph.
+hash functions are so slow, they'd heavily skew the graph. Slow examples include,
+MD5, which I included as a baseline, SpookyHash, and HashFunctionCityHash to name
+a few. Intrinsically, these hash functions are not slow, but the C# implementation
+leaves a lot wanting in terms of performance.
 
-We can see for 64bit, that when hashing data that is 1000 bytes (~1KB), that
-FarmHash is about 10x faster than the closest competitor.
+Due to the sheer amount of data it may be hard to interpret the graph. It's included
+mostly for completeness before we narrow the data down to the fastest. But, what we
+can see is that n see for 64bit, that when hashing data that is 1000 bytes (~1KB) or less,
+Farmhash.Sharp is the clear winner.
 
 For 32bit hash functions, the built in `GetHashCode` on strings has a tight
 grip on smaller data, but falls off for larget data.
 
 ## Relative Throughput
 
-![Farmhash-benchmark2](/Farmhash.Sharp/img/farmhash-benchmark2.png)
+Now let's narrow the data down to the top three fastest implementation for each
+data size (4, 11, 25, etc bytes).
+
+[![Farmhash-benchmark2](/Farmhash.Sharp/img/farmhash-benchmark2.png)](/Farmhash.Sharp/img/farmhash-benchmark2.png)
 
 The bar shows the relative throughput of each hash function relative to the
 fastest hash function in that category. So the higher the bar chart, the
 better.
 
-Here we combine resulting 32 and 64 bit hash functions for an interesting
-result. Across all data sizes, the FarmHash-64bit version is fastest, though
-for short string lengths, `GetHashCode` gives FarmHash a run for its money.
+The results show that Farmhash.Sharp is the fastest or is in the top three for
+every category except for hashing 100 bytes. Notable shotout has to be given
+to the xxHash function [implemented in Ravendb](https://github.com/ayende/ravendb/blob/d43acf65e4e55b8789f3ea0d900bd44366ca81e0/Raven.Sparrow/Sparrow/Hashing.cs),
+as it starts to outpace Farmhash.Sharp in large inputs.
 
-![Farmhash-benchmark3](/Farmhash.Sharp/img/farmhash-benchmark3.png)
+## Absolute Throughput
+
+Relative throughput is only one metric. How many megabytes a second (MB/s) a algorithm
+can process is another:
+
+[![Farmhash-benchmark3](/Farmhash.Sharp/img/farmhash-benchmark3.png)](/Farmhash.Sharp/img/farmhash-benchmark3.png)
+
+Notice that the throughput is less for smaller inputs. This is because there is additional
+overhead to working with small objects and repeatedly calling the function.
 
 ## C# vs. C++
 
@@ -59,18 +79,19 @@ It uses two versions of the algorithm, one that uses hardware acceleration
 ([SIMD](https://en.wikipedia.org/wiki/SIMD) instructions), denoted by `-ha`
 in the graph, and another compilation that does not use hardware acceleration.
 
-![Farmhash-benchmark4](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)
+[![Farmhash-benchmark4](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)
 
 I'm pleased to report that for small payloads (<= 25 bytes), Farmhash.Sharp
-is around 75% as fast as the fastest configuration. It's only at larger payloads
+is around about the fastest if not the fastest. It's only at larger payloads
 do we see C++'s lead extend as hardware acceleration becomes more effective.
+Still, for large payloads, Farmhash.Sharp has half the throughput as hardware
+accelerated C++, which in my opinion, is quite impressive. 
 
 ## Conclusion
 
 When deploying on a 64bit application, always choose the 64bit Farmhash
-version. If, for whatever reason, Farmhash isn't for you, choose xxHash for
-data of lengths less than 1000 bytes and HashFunction CityHash for lengths
-greater than 1000.
+version. If, for whatever reason, Farmhash isn't for you, choose xxHash found
+in Ravendb.
 
 And I'm just going to squirrel away the code used to generate the graph.
 
