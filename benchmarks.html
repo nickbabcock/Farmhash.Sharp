@@ -44,7 +44,7 @@ against each other in terms of throughput.</p>
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip"><code lang="ini">BenchmarkDotNet=v0.9.1.0
+<td class="snippet"><pre class="fssnip"><code lang="ini">BenchmarkDotNet=v0.9.7.0
 OS=Microsoft Windows NT 6.2.9200.0
 Processor=Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz, ProcessorCount=8
 Frequency=3914059 ticks, Resolution=255.4893 ns
@@ -60,23 +60,39 @@ HostCLR=MS.NET 4.0.30319.42000, Arch=64-bit RELEASE [RyuJIT]
 </tr>
 </table>
 <h2><a name="Median-Time-to-Hash" class="anchor" href="#Median-Time-to-Hash">Median Time to Hash</a></h2>
-<p><img src="/Farmhash.Sharp/img/farmhash-benchmark1.png" alt="Farmhash-benchmark1" /></p>
+<p><a href="/Farmhash.Sharp/img/farmhash-benchmark1.png"><img src="/Farmhash.Sharp/img/farmhash-benchmark1.png" alt="Farmhash-benchmark1" /></a></p>
+<p>That's a big graph, so to get a better idea of the data, you can click on it
+for maximum view.</p>
 <p>The graph depicts the median time in nanoseconds to hash data of a certain
 size grouped by resulting hash size (eg. 32 or 64bit, which is not underlying
 machine architecture). A logarithmic scale had to be applied because other
-hash functions are so slow, they'd heavily skew the graph.</p>
-<p>We can see for 64bit, that when hashing data that is 1000 bytes (~1KB), that
-FarmHash is about 10x faster than the closest competitor.</p>
+hash functions are so slow, they'd heavily skew the graph. Slow examples include,
+MD5, which I included as a baseline, SpookyHash, and HashFunctionCityHash to name
+a few. Intrinsically, these hash functions are not slow, but the C# implementation
+leaves a lot wanting in terms of performance.</p>
+<p>Due to the sheer amount of data it may be hard to interpret the graph. It's included
+mostly for completeness before we narrow the data down to the fastest. But, what we
+can see is that n see for 64bit, that when hashing data that is 1000 bytes (~1KB) or less,
+Farmhash.Sharp is the clear winner.</p>
 <p>For 32bit hash functions, the built in <code>GetHashCode</code> on strings has a tight
 grip on smaller data, but falls off for larget data.</p>
 <h2><a name="Relative-Throughput" class="anchor" href="#Relative-Throughput">Relative Throughput</a></h2>
-<p><img src="/Farmhash.Sharp/img/farmhash-benchmark2.png" alt="Farmhash-benchmark2" /></p>
+<p>Now let's narrow the data down to the top three fastest implementation for each
+data size (4, 11, 25, etc bytes).</p>
+<p><a href="/Farmhash.Sharp/img/farmhash-benchmark2.png"><img src="/Farmhash.Sharp/img/farmhash-benchmark2.png" alt="Farmhash-benchmark2" /></a></p>
 <p>The bar shows the relative throughput of each hash function relative to the
 fastest hash function in that category. So the higher the bar chart, the
 better.</p>
-<p>Here we combine resulting 32 and 64 bit hash functions for an interesting
-result. Across all data sizes, the FarmHash-64bit version is fastest, though
-for short string lengths, <code>GetHashCode</code> gives FarmHash a run for its money.</p>
+<p>The results show that Farmhash.Sharp is the fastest or is in the top three for
+every category except for hashing 100 bytes. Notable shotout has to be given
+to the xxHash function <a href="https://github.com/ayende/ravendb/blob/d43acf65e4e55b8789f3ea0d900bd44366ca81e0/Raven.Sparrow/Sparrow/Hashing.cs">implemented in Ravendb</a>,
+as it starts to outpace Farmhash.Sharp in large inputs.</p>
+<h2><a name="Absolute-Throughput" class="anchor" href="#Absolute-Throughput">Absolute Throughput</a></h2>
+<p>Relative throughput is only one metric. How many megabytes a second (MB/s) a algorithm
+can process is another:</p>
+<p><a href="/Farmhash.Sharp/img/farmhash-benchmark3.png"><img src="/Farmhash.Sharp/img/farmhash-benchmark3.png" alt="Farmhash-benchmark3" /></a></p>
+<p>Notice that the throughput is less for smaller inputs. This is because there is additional
+overhead to working with small objects and repeatedly calling the function.</p>
 <h2><a name="C-vs-C" class="anchor" href="#C-vs-C">C# vs. C++</a></h2>
 <p>A good question would be how much efficiency is lost because we're using
 C# and not C++, as the original farmhash algorithm uses C++. You can find the
@@ -84,15 +100,16 @@ benchmark code <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3f
 It uses two versions of the algorithm, one that uses hardware acceleration
 (<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions), denoted by <code>-ha</code>
 in the graph, and another compilation that does not use hardware acceleration.</p>
-<p><img src="/Farmhash.Sharp/img/c-sharp-vs-cpp.png" alt="Farmhash-benchmark3" /></p>
+<p><a href="/Farmhash.Sharp/img/c-sharp-vs-cpp.png"><img src="/Farmhash.Sharp/img/c-sharp-vs-cpp.png" alt="Farmhash-benchmark4" /></a></p>
 <p>I'm pleased to report that for small payloads (&lt;= 25 bytes), Farmhash.Sharp
-is around 75% as fast as the fastest configuration. It's only at larger payloads
-do we see C++'s lead extend as hardware acceleration becomes more effective.</p>
+is around about the fastest if not the fastest. It's only at larger payloads
+do we see C++'s lead extend as hardware acceleration becomes more effective.
+Still, for large payloads, Farmhash.Sharp has half the throughput as hardware
+accelerated C++, which in my opinion, is quite impressive.</p>
 <h2><a name="Conclusion" class="anchor" href="#Conclusion">Conclusion</a></h2>
 <p>When deploying on a 64bit application, always choose the 64bit Farmhash
-version. If, for whatever reason, Farmhash isn't for you, choose xxHash for
-data of lengths less than 1000 bytes and HashFunction CityHash for lengths
-greater than 1000.</p>
+version. If, for whatever reason, Farmhash isn't for you, choose xxHash found
+in Ravendb.</p>
 <p>And I'm just going to squirrel away the code used to generate the graph.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -121,34 +138,88 @@ greater than 1000.</p>
 <span class="l">25: </span>
 <span class="l">26: </span>
 <span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
+<span class="l">45: </span>
+<span class="l">46: </span>
+<span class="l">47: </span>
+<span class="l">48: </span>
+<span class="l">49: </span>
+<span class="l">50: </span>
+<span class="l">51: </span>
+<span class="l">52: </span>
+<span class="l">53: </span>
+<span class="l">54: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip"><code lang="R">library(ggplot2)
 library(dplyr)
+library(stringr)
+library(readr)
 
-data &lt;- read.csv("farmhash-report.csv", sep=";") %&gt;%
-  select(Type, Method, Size=PayloadLength, Median)
+# Converts "2.313 ns" to 2.313
+toNs &lt;- function(x) {
+    split &lt;- str_split(x, " ")
+    num &lt;- as.numeric(gsub(",", "", split[[1]][[1]]))
+    factor &lt;- switch(split[[1]][[2]], ns=1, us=1000, ms=1000*1000)
+    num * factor
+}
+vtoNs &lt;- Vectorize(toNs)
 
-breaks &lt;- data %&gt;% select(Size) %&gt;% distinct() %&gt;% arrange(Size) %&gt;% t %&gt;% c
+core32 &lt;- read_csv2("core-HashBenchmark32-report.csv") %&gt;%
+    mutate(Bit='32bit', Jit='.NET Core')
+core64 &lt;- read_csv2("core-HashBenchmark64-report.csv") %&gt;%
+    mutate(Bit='64bit', Jit='.NET Core')
+net32 &lt;- read_csv2("HashBenchmark32-report.csv") %&gt;%
+    mutate(Bit='32bit', Jit='.NET 4.5')
+net64 &lt;- read_csv2("HashBenchmark64-report.csv") %&gt;%
+    mutate(Bit='64bit', Jit='.NET 4.5')
 
-ggplot(data, aes(as.factor(Size), Median, group=Method, color=Method)) +
-  labs(title='Median Time to Hash', x='Data size (bytes)',
-       y='Time to hash (ns)') +
-  geom_line(size=1.5) +
-  scale_y_log10() +
-  facet_grid(Type ~ .)
+# Combine all four sheets into one with parsed properties
+combined &lt;- bind_rows(core32, core64, net32, net64) %&gt;%
+    select(Method, PayloadLength, Median, StdDev, Bit, Jit) %&gt;%
+    mutate(Median = vtoNs(Median), StdDev = vtoNs(StdDev))
 
-relative &lt;- data %&gt;%
-  mutate(Name = paste(Method, Type, sep="-")) %&gt;%
-  select(-Method, -Type) %&gt;%
-  group_by(Size) %&gt;%
-  arrange(Median) %&gt;%
-  mutate(value = first(Median) / Median) %&gt;%
-  top_n(5, wt = value)
+ggplot(combined, mapping = aes(as.factor(PayloadLength), Median, group = Method, color = Method)) +
+    geom_line(size=1.5) +
+    scale_y_log10() +
+    facet_grid(Bit ~ Jit) +
+    xlab("Data size (bytes)") + ylab("Median (ns)") +
+    ggtitle("Comparison of Median Time To Hash Data Across Jit and Return Size with Logarithmic Scale")
 
-ggplot(relative, aes(as.factor(Size), value)) +
+relative &lt;- combined %&gt;%    
+  # Throughput converts bytes/ns to MB/s
+  mutate(Name = paste(Method, Bit, Jit, sep="-"),
+         Throughput = (PayloadLength / (1024 * 1024)) /
+            (Median / (1000*1000*1000))) %&gt;%
+  select(-Method, -Bit, -Jit) %&gt;%
+  group_by(PayloadLength) %&gt;%
+  mutate(value = min(Median) / Median) %&gt;%
+  top_n(3, wt = value)
+
+ggplot(relative, aes(as.factor(PayloadLength), value)) +
   geom_bar(aes(fill=Name), stat='identity', position='dodge') +
-  labs(title='Relative Throughput across Resulting Hash Size', 
-       x='Data size (bytes)', y="Relative Throughput")
+  labs(title='Relative Throughput of Top 3 Performers Per Data Size', 
+       x='Data size (bytes)', y="Relative Throughput to Top Perfomer")
+
+ggplot(relative, aes(as.factor(PayloadLength), Throughput)) +
+  geom_bar(aes(fill=Name), stat='identity', position='dodge') +
+  labs(title='Absolute Throughput of Top 3 Perfomers Per Data Size', 
+       x='Data size (bytes)', y="MB/s")
 </code></pre></td></tr></table>
 <p>And the code for the C# vs C++ graph:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
@@ -171,7 +242,6 @@ ggplot(relative, aes(as.factor(Size), value)) +
 <span class="l">18: </span>
 <span class="l">19: </span>
 <span class="l">20: </span>
-<span class="l">21: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip"><code lang="R">library(ggplot2)
 library(dplyr)
@@ -181,14 +251,13 @@ payload &lt;- rep(c(4, 11, 25, 100, 1000, 10000), 3)
 
 # Throughput is measured in how many GB/s can be hashed
 throughput &lt;- c(1.03503, 2.50114, 5.68304, 5.82953, 13.0187, 23.7148, 1.3749, 3.04061, 6.6442,
-                5.79228, 14.2568, 16.2982, 1.1241, 2.5563, 5.171, 2.80498, 5.86157, 6.528081)
+                5.79228, 14.2568, 16.2982, 1.359, 2.3488, 6.752, 3.058, 11.008, 13.637)
 
 data &lt;- data.frame(benchmark, payload, throughput)
 
 relative &lt;- data %&gt;%
   group_by(payload) %&gt;%
-  arrange(throughput) %&gt;%
-  mutate(value = throughput / last(throughput))
+  mutate(value = throughput / max(throughput))
 
 ggplot(relative, aes(as.factor(payload), value)) +
   geom_bar(aes(fill=benchmark), stat='identity', position='dodge') +
