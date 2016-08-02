@@ -38,11 +38,11 @@ leaves a lot wanting in terms of performance.
 
 Due to the sheer amount of data it may be hard to interpret the graph. It's included
 mostly for completeness before we narrow the data down to the fastest. But, what we
-can see is that n see for 64bit, that when hashing data that is 1000 bytes (~1KB) or less,
+can see is that for 64bit, that when hashing data that is 1000 bytes (~1KB) or less,
 Farmhash.Sharp is the clear winner.
 
 For 32bit hash functions, the built in `GetHashCode` on strings has a tight
-grip on smaller data, but falls off for larget data.
+grip on smaller data, but falls off for larger data.
 
 ## Relative Throughput
 
@@ -56,7 +56,8 @@ fastest hash function in that category. So the higher the bar chart, the
 better.
 
 The results show that Farmhash.Sharp is the fastest or is in the top three for
-every category except for hashing 100 bytes. Notable shotout has to be given
+every category except for hashing 100 bytes. Farmhash.Sharp clearly dominates
+for smaller input. Notable shotout has to be given
 to the xxHash function [implemented in Ravendb](https://github.com/ayende/ravendb/blob/d43acf65e4e55b8789f3ea0d900bd44366ca81e0/Raven.Sparrow/Sparrow/Hashing.cs),
 as it starts to outpace Farmhash.Sharp in large inputs.
 
