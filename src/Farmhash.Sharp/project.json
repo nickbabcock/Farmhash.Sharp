@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "System.Runtime": "4.1.0-rc2-24027"
+    "System.Runtime": "4.1.0"
   },
   "frameworks": {
     "netstandard1.1": {}
