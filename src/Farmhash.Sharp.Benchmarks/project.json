@@ -1,7 +1,9 @@
 {
   "version": "0.3",
   "dependencies": {
-    "Farmhash.Sharp": "*",
+    "Farmhash.Sharp": {
+      "target": "project"
+    },
     "BenchmarkDotNet": "0.9.8"
   },
   "buildOptions": {
