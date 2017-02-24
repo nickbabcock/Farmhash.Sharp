@@ -23,7 +23,7 @@ build.cmd Benchmark
 
 ## Median Time to Hash
 
-[![Farmhash-benchmark1](/Farmhash.Sharp/img/farmhash-benchmark1.png)](/Farmhash.Sharp/img/farmhash-benchmark1.png)
+![Farmhash-benchmark1](../files/img/farmhash-benchmark1.png)
 
 That's a big graph, so to get a better idea of the data, you can click on it
 for maximum view.
@@ -49,7 +49,7 @@ grip on smaller data, but falls off for larger data.
 Now let's narrow the data down to the top three fastest implementation for each
 data size (4, 11, 25, etc bytes).
 
-[![Farmhash-benchmark2](/Farmhash.Sharp/img/farmhash-benchmark2.png)](/Farmhash.Sharp/img/farmhash-benchmark2.png)
+![Farmhash-benchmark2](../files/img/farmhash-benchmark2.png)
 
 The bar shows the relative throughput of each hash function relative to the
 fastest hash function in that category. So the higher the bar chart, the
@@ -66,7 +66,7 @@ as it starts to outpace Farmhash.Sharp in large inputs.
 Relative throughput is only one metric. How many megabytes a second (MB/s) a algorithm
 can process is another:
 
-[![Farmhash-benchmark3](/Farmhash.Sharp/img/farmhash-benchmark3.png)](/Farmhash.Sharp/img/farmhash-benchmark3.png)
+![Farmhash-benchmark3](../files/img/farmhash-benchmark3.png)
 
 Notice that the throughput is less for smaller inputs. This is because there is additional
 overhead to working with small objects and repeatedly calling the function.
@@ -80,7 +80,7 @@ It uses two versions of the algorithm, one that uses hardware acceleration
 ([SIMD](https://en.wikipedia.org/wiki/SIMD) instructions), denoted by `-ha`
 in the graph, and another compilation that does not use hardware acceleration.
 
-[![Farmhash-benchmark4](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)](/Farmhash.Sharp/img/c-sharp-vs-cpp.png)
+![Farmhash-benchmark4](../files/img/c-sharp-vs-cpp.png)
 
 I'm pleased to report that for small payloads (<= 25 bytes), Farmhash.Sharp
 is around about the fastest if not the fastest. It's only at larger payloads
