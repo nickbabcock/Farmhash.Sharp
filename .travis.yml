@@ -1,5 +1,6 @@
 language: csharp
 mono: none
+dist: trusty
 dotnet: 1.0.1
 solution: Farmhash.Sharp.sln
 install:
