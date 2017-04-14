@@ -1,0 +1,5 @@
+os: Previous Visual Studio 2017
+build_script:
+  - dotnet restore
+  - dotnet test ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+test: off
