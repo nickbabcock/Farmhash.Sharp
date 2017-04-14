@@ -3,6 +3,26 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+
+    <Product>Farmhash.Sharp</Product>
+    <Description>A .NET Port of Google's blazingly fast hashing algorithm</Description>
+    <Copyright>Nick Babcock</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Nick Babcock</Authors>
+    <PackageTags>hash</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/dotnet/BenchmarkDotNet/master/docs/guide/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://nickbabcock.github.io/Farmhash.Sharp/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/nickbabcock/Farmhash.Sharp/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/nickbabcock/Farmhash.Sharp</RepositoryUrl>
+
+    <Major>0</Major>
+    <Minor>3</Minor>
+    <Revision>0</Revision>
+    <AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
+    <AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
+    <InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
+    <PackageVersion>$(Major).$(Minor).$(Revision)</PackageVersion>
   </PropertyGroup>
 
 </Project>
