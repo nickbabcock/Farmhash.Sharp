@@ -22,7 +22,7 @@
     <AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
     <AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
     <InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
-    <Version>$(Major).$(Minor).$(Revision)</Version>
+    <Version>$(Major).$(Minor).$(Revision)$(VersionSuffix)</Version>
     <FileVersion>$(Major).$(Minor).$(Revision)</FileVersion>
   </PropertyGroup>
 
