@@ -2,6 +2,9 @@ os: Previous Visual Studio 2017
 build_script:
   - dotnet restore
   - dotnet test ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
-  - '%DEVENV% ./Farmhash.Sharp.sln /Project "Classic" /Build'
+  - where nuget
+  - cd Classic
+  - msbuild Classic.csproj /p:OutputPath=bin\Debug
+  - cd ..
   - .\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe Classic\bin\Debug\Classic.dll
 test: off
