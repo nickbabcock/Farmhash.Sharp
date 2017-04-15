@@ -10,7 +10,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Nick Babcock</Authors>
     <PackageTags>hash</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/dotnet/BenchmarkDotNet/master/docs/guide/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://nickbabcock.github.io/Farmhash.Sharp/img/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://nickbabcock.github.io/Farmhash.Sharp/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/nickbabcock/Farmhash.Sharp/blob/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
