@@ -7,6 +7,7 @@ install:
   - dotnet restore
   - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
   - mono nuget.exe install Classic/packages.config
+  - ls -alR .
 script:
   - dotnet test ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - xbuild Classic/Classic.csproj
