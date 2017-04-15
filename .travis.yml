@@ -1,9 +1,13 @@
 language: csharp
-mono: none
+mono: latest
 dist: trusty
 dotnet: 1.0.1
 solution: Farmhash.Sharp.sln
 install:
   - dotnet restore
+  - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+  - mono nuget.exe install
 script:
   - dotnet test ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  - xbuild Classic/Classic.csproj
+  - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe Classic/bin/Debug/Classic.dll
