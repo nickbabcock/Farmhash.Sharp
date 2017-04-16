@@ -10,8 +10,8 @@ all: $(EXECUTABLE) $(EXECUTABLE_NO_HA)
 $(EXECUTABLE): $(OBJS) $(BENCH_DIR)/src/libbenchmark.a
 				g++ -g -o $@ $(OBJS) $(LINK_FLAGS) $(BENCH_DIR)/src/libbenchmark.a
 
-$(EXECUTABLE_NO_HA): $(OBJS_NO_HA)
-				g++ -g -o $@ $(OBJS_NO_HA) $(LINK_FLAGS)
+$(EXECUTABLE_NO_HA): $(OBJS_NO_HA) $(BENCH_DIR)/src/libbenchmark.a
+				g++ -g -o $@ $(OBJS_NO_HA) $(LINK_FLAGS) $(BENCH_DIR)/src/libbenchmark.a
 
 benchmark-farmhash.o: benchmark-farmhash.cpp
 
@@ -23,8 +23,8 @@ farmhash-no-ha.o: ../lib/farmhash/src/farmhash.cc ../lib/farmhash/src/farmhash.h
 
 $(BENCH_DIR)/src/libbenchmark.a:
 				cd $(BENCH_DIR) && \
-                cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_LTO=true .
-				make .
+                cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_LTO=true . && \
+				make
 
 clean:
 				rm -f $(OBJS) $(OBJS_NO_HA) $(EXECUTABLE) $(EXECUTABLE_NO_HA)
