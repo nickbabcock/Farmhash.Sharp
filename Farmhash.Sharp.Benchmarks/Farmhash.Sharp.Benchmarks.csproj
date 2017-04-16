@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp1.1;net46</TargetFrameworks>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
@@ -13,20 +14,30 @@
     <DefineConstants>$(DefineConstants);CORE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(P32BIT)' == ''">
-    <Prefer32Bit>False</Prefer32Bit>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(P32BIT)' != ''">
-    <Prefer32Bit>$(P32BIT)</Prefer32Bit>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.10.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Farmhash.Sharp\Farmhash.Sharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <PackageReference Include="CityHash.Net">
+      <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SpookilySharp">
+      <Version>1.1.5128</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.HashFunction.CityHash">
+      <Version>1.8.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.HashFunction.SpookyHash">
+      <Version>1.8.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="xxHashSharp">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Running;
 
 namespace Farmhash.Sharp.Benchmarks
 {
