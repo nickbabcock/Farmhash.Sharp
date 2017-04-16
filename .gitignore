@@ -261,3 +261,6 @@ __pycache__/
 *.pyc
 
 BenchmarkDotNet.Artifacts/
+*.o
+benchmark-farmhash
+benchmark-farmhash-no-ha
