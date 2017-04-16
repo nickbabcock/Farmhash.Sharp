@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
 
     <Product>Farmhash.Sharp</Product>
     <Description>A .NET Port of Google's blazingly fast hashing algorithm</Description>
