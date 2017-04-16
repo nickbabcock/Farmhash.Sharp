@@ -4,8 +4,14 @@ using System.Text;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-    [ClrJob, CoreJob, MonoJob]
+#if CORE
+    [CoreJob]
+#elif MONO
+    [MonoJob]
+#else
+    [ClrJob]
     [LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job]
+#endif
     public class HashBenchmark32
     {
         private byte[] data;
