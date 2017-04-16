@@ -7,6 +7,7 @@ namespace Farmhash.Sharp.Benchmarks
         static void Main(string[] args)
         {
             BenchmarkRunner.Run<HashBenchmark32>();
+            BenchmarkRunner.Run<HashBenchmark64>();
         }
     }
 }
