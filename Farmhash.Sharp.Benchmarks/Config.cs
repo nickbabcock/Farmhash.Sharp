@@ -14,16 +14,6 @@ namespace Farmhash.Sharp.Benchmarks
             {
                 Env = { Runtime = Runtime.Core, Jit = Jit.RyuJit, Platform = Platform.X64 }
             });
-#elif MONO
-            Add(new Job("mono-32bit")
-            {
-                Env = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X86 }
-            });
-
-            Add(new Job("mono-64bit")
-            {
-                Env = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X64 }
-            });
 #else
             Add(new Job("net-legacy-32bit")
             {
@@ -39,6 +29,17 @@ namespace Farmhash.Sharp.Benchmarks
             Add(new Job("net-ryu-64bit")
             {
                 Env = { Runtime = Runtime.Clr, Jit = Jit.RyuJit, Platform = Platform.X64 }
+            });
+#endif
+#if MONO
+            Add(new Job("mono-32bit")
+            {
+                Env = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X86 }
+            });
+
+            Add(new Job("mono-64bit")
+            {
+                Env = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X64 }
             });
 #endif
         }
