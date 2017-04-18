@@ -10,14 +10,6 @@ using xxHashSharp;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-//#if CORE
-//    [CoreJob]
-//#elif MONO
-//    [MonoJob]
-//#else
-//    [ClrJob]
-//    [LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job]
-//#endif
     [Config(typeof(Config))]
     public class HashBenchmark32
     {
