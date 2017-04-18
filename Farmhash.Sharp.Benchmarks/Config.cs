@@ -14,7 +14,8 @@ namespace Farmhash.Sharp.Benchmarks
             {
                 Env = { Runtime = Runtime.Core, Jit = Jit.RyuJit, Platform = Platform.X64 }
             });
-#else
+#endif
+#if CLASSIC
             Add(new Job("net-legacy-32bit")
             {
                 Env = { Runtime = Runtime.Clr, Jit = Jit.LegacyJit, Platform = Platform.X86 }
