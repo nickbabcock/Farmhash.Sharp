@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using System.Text;
 
 #if !CORE
@@ -9,14 +8,7 @@ using xxHashSharp;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-#if CORE
-    [CoreJob]
-#elif MONO
-    [MonoJob]
-#else
-    [ClrJob]
-    [LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job]
-#endif
+    [Config(typeof(Config))]
     public class HashBenchmark64
     {
         private byte[] data;
