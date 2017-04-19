@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Jobs;
+using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,7 +12,16 @@ using xxHashSharp;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-    [Config(typeof(Config))]
+    public class Config32 : ManualConfig
+    {
+        public Config32()
+        {
+            Add(new BaseConfig());
+            Add(new TagColumn("Kind", _ => "32bit hash"));
+        }
+    }
+
+    [Config(typeof(Config32))]
     public class HashBenchmark32
     {
         private byte[] data;

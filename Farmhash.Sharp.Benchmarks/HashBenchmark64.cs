@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System.Text;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Columns;
 
 #if !CORE
 using System.Data.HashFunction;
@@ -8,7 +10,16 @@ using xxHashSharp;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-    [Config(typeof(Config))]
+    public class Config64 : ManualConfig
+    {
+        public Config64()
+        {
+            Add(new BaseConfig());
+            Add(new TagColumn("Kind", _ => "64bit hash"));
+        }
+    }
+
+    [Config(typeof(Config64))]
     public class HashBenchmark64
     {
         private byte[] data;

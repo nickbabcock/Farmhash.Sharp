@@ -5,9 +5,9 @@ using BenchmarkDotNet.Jobs;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-    public class Config : ManualConfig
+    public class BaseConfig : ManualConfig
     {
-        public Config()
+        public BaseConfig()
         {
             Add(StatisticColumn.Mean);
             Add(StatisticColumn.StdErr);
