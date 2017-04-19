@@ -286,7 +286,7 @@ namespace Farmhash.Sharp
                 ushort b = s[len >> 1];
                 ushort c = s[len - 1];
                 uint y = a + ((uint)b << 8);
-                uint z = (uint)(len + ((uint)c << 2));
+                uint z = len + ((uint)c << 2);
                 return ShiftMix(y * k2 ^ z * k0) * k2;
             }
             return k2;
