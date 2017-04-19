@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Configs;
+﻿using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 
@@ -8,6 +9,10 @@ namespace Farmhash.Sharp.Benchmarks
     {
         public Config()
         {
+            Add(StatisticColumn.Mean);
+            Add(StatisticColumn.StdErr);
+            Add(StatisticColumn.StdDev);
+            Add(StatisticColumn.Median);
 #if CORE
             // dotnet cli toolchain supports only x64 compilation
             Add(new Job("core-64bit")
