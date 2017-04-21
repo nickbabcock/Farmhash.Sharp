@@ -1,6 +1,0 @@
-[submodule "lib/farmhash"]
-	path = lib/farmhash
-	url = https://github.com/google/farmhash.git
-[submodule "lib/benchmark"]
-	path = lib/benchmark
-	url = https://github.com/google/benchmark.git
