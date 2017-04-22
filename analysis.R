@@ -50,3 +50,38 @@ ggplot(mono_run, aes(as.factor(PayloadLength), Throughput)) +
   labs(x='Payload (bytes)', y='Throughput MB/s') + 
   ggtitle("Throughput by Jit Runtime",
           subtitle = "64bit Farmhash Performance on the Mono")
+
+# Now let's compare core, mono, and clr
+runtime_df <- df %>%
+  filter((Method == 'FarmHash')) %>%
+  select(Method, Job, Runtime, Kind, PayloadLength, Median, StdErr, StdDev, Throughput)
+
+ggplot(runtime_df, aes(as.factor(PayloadLength), Throughput)) +
+  geom_bar(aes(fill=Job), stat='identity', position='dodge') +
+  facet_grid(Kind ~ .) +
+  labs(x='Payload (bytes)', y='Throughput MB/s') + 
+  ggtitle("Throughput by Runtime",
+          subtitle = "32 and 64bit Farmhash Performance across Core, Mono, and Clr")
+
+# Let's limit our dealings with the top three runtimes:
+# - core-64bit
+# - mono-64bit
+# - net-ryu-64bit
+
+hash_plot <- function(job_name, hash_kind) {
+  n_df <- df %>% filter(Job == job_name & Kind == hash_kind) %>%
+    group_by(PayloadLength) %>%
+    mutate(Relative = Throughput / max(Throughput))
+  title <- paste("Highest Throughput for each Payload for", hash_kind, "on", job_name)
+  ggplot(n_df, aes(as.factor(PayloadLength), Relative)) +
+    geom_bar(aes(fill=Method), stat='identity', position='dodge') +
+    labs(x='Payload (bytes)', y='Relative Throughput (1.0 is highest throughput)') + 
+    ggtitle(title)
+}
+
+hash_plot('core-64bit', '32bit hash')
+hash_plot('core-64bit', '64bit hash')
+hash_plot('mono-64bit', '32bit hash')
+hash_plot('mono-64bit', '64bit hash')
+hash_plot('net-ryu-64bit', '32bit hash')
+hash_plot('net-ryu-64bit', '64bit hash')
