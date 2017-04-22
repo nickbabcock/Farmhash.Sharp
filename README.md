@@ -1,16 +1,15 @@
 # Farmhash.Sharp
 
 Farmhash.Sharp is an extremely simple, low-level, and blazingly fast library
-for computing [Google's Farmhash][] algorithm for .NET. Compared to other non-
-cryptographic hash functions, this library is [2x-10x times
-faster](https://nickbabcock.github.io/Farmhash.Sharp/benchmarks.html).
+for computing [Google's Farmhash][] algorithm for .NET. This repo contains a host
+of benchmark across various runtimes and hashing algorithms and none can compare
+to the all around performance of Farmhash.Sharp.
 
 [Documentation](https://nickbabcock.github.io/Farmhash.Sharp)
 
 [Google's Farmhash]: https://github.com/google/farmhash
 
-To build everything, you'll need a recent version of the .NET Core SDK F# and C# compilers
-installed:
+To build everything, you'll need a recent version of the .NET Core SDK:
 
 ```
 dotnet restore
@@ -26,7 +25,7 @@ GC pressure and resulted in degraded performance. Additionally, `GetHashCode` pr
 
 My requirements became:
 
-* Must be able to operate on a subsequence of a byte array
+* Must be able to operate on a leading subsequence of a byte array
 * Must be able to produce a 64bit output
 * Must produce a hash with a low chance of collision
 * Must make zero heap allocations
@@ -38,11 +37,3 @@ almost guaranteed to produce a collision. For more information on collision prob
 on Programming article][]
 
 [Preshing on Programming article]: http://preshing.com/20110504/hash-collision-probabilities/
-
-## Build Status
-
-Mono | .NET
----- | ----
-[![Mono CI Build Status](https://img.shields.io/travis/nickbabcock/Farmhash.Sharp/master.svg)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) | [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp)
-
-
