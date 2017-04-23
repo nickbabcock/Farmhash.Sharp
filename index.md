@@ -66,6 +66,8 @@ machine being ran on and how your project is compiled:
   always use Hash64, even if only a 32bit hash is wanted. The 64bit hash is
   always faster.
 
+See the benchmarking section for concrete numbers.
+
 For more information on disabling the 32bit preference, see the following [blog
 post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
 
@@ -92,69 +94,80 @@ against each other in terms of throughput.
 Benchmarking was done on the following machine:
 
 ```ini
-BenchmarkDotNet=v0.9.7.0
+BenchmarkDotNet=v0.10.3.0
 OS=Microsoft Windows NT 6.2.9200.0
 Processor=Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz, ProcessorCount=8
 Frequency=3914059 ticks, Resolution=255.4893 ns
-HostCLR=MS.NET 4.0.30319.42000, Arch=64-bit RELEASE [RyuJIT]
 ```
 
-To run the benchmarks:
+To run the benchmarks on the linux machine:
 
 ```
-build.cmd Benchmark
-./build.sh Benchmark
+sudo ./bench-core-and-mono.sh
 ```
 
-### Median Time to Hash
+Please do not take these graphs as absolute truths. Run the benchmark
+code yourself to confirm findings.
 
-[![Farmhash-benchmark1](img/farmhash-benchmark1.png)](img/farmhash-benchmark1.png)
+### Cryptographic vs Non-Cryptographic
 
-That's a big graph, so to get a better idea of the data, you can click on it
-for maximum view.
+For the first graph we will compare a cryptographic (albeit a bad one, as
+it's MD5) with Farmhash.Sharp, which is a non-cryptographic hash function.
+Whereas a non-cryptographic function only has to optimize against collisions
+and speed, a cryptographic function needs to also minimize pathological input.
 
-The graph depicts the median time in nanoseconds to hash data of a certain
-size grouped by resulting hash size (eg. 32 or 64bit, which is not underlying
-machine architecture). A logarithmic scale had to be applied because other
-hash functions are so slow, they'd heavily skew the graph. Slow examples include,
-MD5, which I included as a baseline, SpookyHash, and HashFunctionCityHash to name
-a few. Intrinsically, these hash functions are not slow, but the C# implementation
-leaves a lot wanting in terms of performance.
+[![Farmhash-benchmark1](img/crypt-vs-non-crypt.png)](img/crypt-vs-non-crypt.png)
 
-Due to the sheer amount of data it may be hard to interpret the graph. It's included
-mostly for completeness before we narrow the data down to the fastest. But, what we
-can see is that for 64bit, that when hashing data that is 1000 bytes (~1KB) or less,
-Farmhash.Sharp is the clear winner.
+Without getting bogged down into too many specifics, Farmhash easily crushes
+MD5.
 
-For 32bit hash functions, the built in `GetHashCode` on strings has a tight
-grip on smaller data, but falls off for larger data.
+### 32bit vs 64bit Runtime
 
-### Relative Throughput
+What may be surprising is that depending on the runtime Farmhash is running on,
+the throughput can be dramatically affected. To show this, I've restricted the
+data to only show the 64bit hash of Farmhash across different Clr Jit runtimes to
+see which Jit wins.
 
-Now let's narrow the data down to the top three fastest implementation for each
-data size (4, 11, 25, etc bytes).
+[![throughput-by-jit](img/throughput-by-jit.png)](img/throughput-by-jit.png)
 
-[![Farmhash-benchmark2](img/farmhash-benchmark2.png)](img/farmhash-benchmark2.png)
+I suppose the .NET team should be commended, as the latest Jit (their 64bit Ryu Jit)
+has 5-10x more throughput than the old Jit with results more pronounced against the
+legacy 32bit Jit.
 
-The bar shows the relative throughput of each hash function relative to the
-fastest hash function in that category. So the higher the bar chart, the
-better.
+Does mono have the same behavior?
 
-The results show that Farmhash.Sharp is the fastest or is in the top three for
-every category except for hashing 100 bytes. Farmhash.Sharp clearly dominates
-for smaller input. Notable shotout has to be given
-to the xxHash function [implemented in Ravendb](https://github.com/ayende/ravendb/blob/d43acf65e4e55b8789f3ea0d900bd44366ca81e0/Raven.Sparrow/Sparrow/Hashing.cs),
-as it starts to outpace Farmhash.Sharp in large inputs.
+[![mono-throughput](img/mono-throughput.png)](img/mono-throughput.png)
 
-### Absolute Throughput
+Nope. 32bit and 64bit Mono have approximately the same throughput for 64bit Farmhash.
+If you have a keen eye, you may have noticed that the y axis scale changed, which naturally
+lends itself to the question of how Mono, Clr, and the new Core runtime compare against
+each other.
 
-Relative throughput is only one metric. How many megabytes a second (MB/s) a algorithm
-can process is another:
+[![runtime-throughput](img/runtime-throughput.png)](img/runtime-throughput.png)
 
-[![Farmhash-benchmark3](img/farmhash-benchmark3.png)](img/farmhash-benchmark3.png)
+For both 32bit and 64bit Farmhash functions, the 64bit core and 64bit ryu runtimes
+win across any sized payload. Both the core and ryu probably use a lot of the same
+code under under the hood.
 
-Notice that the throughput is less for smaller inputs. This is because there is additional
-overhead to working with small objects and repeatedly calling the function.
+### Relative Throughput Across Non-Cryptographic Functions
+
+Restricting runtimes to just core-64bit, net-ryu-64bit, and mono-64bit let's
+see how Farmhash.Sharp stacks up against other non-cryptographic functions.
+I'll present all the graphs first with a brief synopsis afterwards. The graphs
+show the relative throughput of each hash function relative to the fastest
+hash function in that category. So the higher the bar chart, the better that
+hash function is for that payload size.
+
+[![core-64bit-32bit-hash](img/core-64bit-32bit-hash.png)](img/core-64bit-32bit-hash.png)
+[![core-64bit-64bit-hash](img/core-64bit-64bit-hash.png)](img/core-64bit-64bit-hash.png)
+[![mono-64bit-32bit-hash](img/mono-64bit-32bit-hash.png)](img/mono-64bit-32bit-hash.png)
+[![mono-64bit-64bit-hash](img/mono-64bit-64bit-hash.png)](img/mono-64bit-64bit-hash.png)
+[![net-ryu-64bit-32bit-hash](img/net-ryu-64bit-32bit-hash.png)](img/net-ryu-64bit-32bit-hash.png)
+[![net-ryu-64bit-64bit-hash](img/net-ryu-64bit-64bit-hash.png)](img/net-ryu-64bit-64bit-hash.png)
+
+- When neding a non cryptographic for a small payload (~ 11 bytes), one should almost always use Farmhash.Sharp
+- If using Mono, consider Sparrow's XXHash for large payloads
+- Else use Farmhash.Sharp!
 
 ### C# vs. C++
 
@@ -179,64 +192,7 @@ When deploying on a 64bit application, always choose the 64bit Farmhash
 version. If, for whatever reason, Farmhash isn't for you, choose xxHash found
 in Ravendb.
 
-And I'm just going to squirrel away the code used to generate the graph.
-
-```R
-library(ggplot2)
-library(dplyr)
-library(stringr)
-library(readr)
-
-# Converts "2.313 ns" to 2.313
-toNs <- function(x) {
-    split <- str_split(x, " ")
-    num <- as.numeric(gsub(",", "", split[[1]][[1]]))
-    factor <- switch(split[[1]][[2]], ns=1, us=1000, ms=1000*1000)
-    num * factor
-}
-vtoNs <- Vectorize(toNs)
-
-core32 <- read_csv2("core-HashBenchmark32-report.csv") %>%
-    mutate(Bit='32bit', Jit='.NET Core')
-core64 <- read_csv2("core-HashBenchmark64-report.csv") %>%
-    mutate(Bit='64bit', Jit='.NET Core')
-net32 <- read_csv2("HashBenchmark32-report.csv") %>%
-    mutate(Bit='32bit', Jit='.NET 4.5')
-net64 <- read_csv2("HashBenchmark64-report.csv") %>%
-    mutate(Bit='64bit', Jit='.NET 4.5')
-
-# Combine all four sheets into one with parsed properties
-combined <- bind_rows(core32, core64, net32, net64) %>%
-    select(Method, PayloadLength, Median, StdDev, Bit, Jit) %>%
-    mutate(Median = vtoNs(Median), StdDev = vtoNs(StdDev))
-
-ggplot(combined, mapping = aes(as.factor(PayloadLength), Median, group = Method, color = Method)) +
-    geom_line(size=1.5) +
-    scale_y_log10() +
-    facet_grid(Bit ~ Jit) +
-    xlab("Data size (bytes)") + ylab("Median (ns)") +
-    ggtitle("Comparison of Median Time To Hash Data Across Jit and Return Size with Logarithmic Scale")
-
-relative <- combined %>%    
-  # Throughput converts bytes/ns to MB/s
-  mutate(Name = paste(Method, Bit, Jit, sep="-"),
-         Throughput = (PayloadLength / (1024 * 1024)) /
-            (Median / (1000*1000*1000))) %>%
-  select(-Method, -Bit, -Jit) %>%
-  group_by(PayloadLength) %>%
-  mutate(value = min(Median) / Median) %>%
-  top_n(3, wt = value)
-
-ggplot(relative, aes(as.factor(PayloadLength), value)) +
-  geom_bar(aes(fill=Name), stat='identity', position='dodge') +
-  labs(title='Relative Throughput of Top 3 Performers Per Data Size', 
-       x='Data size (bytes)', y="Relative Throughput to Top Perfomer")
-
-ggplot(relative, aes(as.factor(PayloadLength), Throughput)) +
-  geom_bar(aes(fill=Name), stat='identity', position='dodge') +
-  labs(title='Absolute Throughput of Top 3 Perfomers Per Data Size', 
-       x='Data size (bytes)', y="MB/s")
-```
+Code used to generate the graphs can be found in analysis.R in the github repo.
 
 And the code for the C# vs C++ graph:
 
