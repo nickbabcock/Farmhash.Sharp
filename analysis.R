@@ -69,7 +69,9 @@ ggplot(runtime_df, aes(as.factor(PayloadLength), Throughput)) +
 # - net-ryu-64bit
 
 hash_plot <- function(job_name, hash_kind) {
-  n_df <- df %>% filter(Job == job_name & Kind == hash_kind) %>%
+  # Eliminate md5 methods from the graph as we know it's a cryptographic
+  # hash function and it's not really comparing apples to apples
+  n_df <- df %>% filter(Job == job_name & Kind == hash_kind & Method != 'Md5') %>%
     group_by(PayloadLength) %>%
     mutate(Relative = Throughput / max(Throughput))
   title <- paste("Highest Throughput for each Payload for", hash_kind, "on", job_name)
