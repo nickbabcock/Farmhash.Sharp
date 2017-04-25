@@ -221,8 +221,9 @@ ggplot(relative, aes(as.factor(payload), value)) +
 
 ## Changelog
 
-### 0.3 - Unreleased
-* Support for .NET core
+### 0.3 - April 25th 2017
+* Release Farmhash.Sharp under netstandard 1.0
+* Switch to new MSBuild project files
 
 ### 0.2 - June 25th 2016
 * String helper functions
