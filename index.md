@@ -194,31 +194,6 @@ in Ravendb.
 
 Code used to generate the graphs can be found in analysis.R in the github repo.
 
-And the code for the C# vs C++ graph:
-
-```R
-library(ggplot2)
-library(dplyr)
-
-benchmark <- rep(c("farmhash-ha", "farmhash", "Farmhash.Sharp"), each = 6)
-payload <- rep(c(4, 11, 25, 100, 1000, 10000), 3)
-
-# Throughput is measured in how many GB/s can be hashed
-throughput <- c(1.03503, 2.50114, 5.68304, 5.82953, 13.0187, 23.7148, 1.3749, 3.04061, 6.6442,
-                5.79228, 14.2568, 16.2982, 1.359, 2.3488, 6.752, 3.058, 11.008, 13.637)
-
-data <- data.frame(benchmark, payload, throughput)
-
-relative <- data %>%
-  group_by(payload) %>%
-  mutate(value = throughput / max(throughput))
-
-ggplot(relative, aes(as.factor(payload), value)) +
-  geom_bar(aes(fill=benchmark), stat='identity', position='dodge') +
-  labs(title='Relative Throughput of Farmhash: C# vs C++',
-       x='Data size (bytes)', y="Relative Throughput")
-```
-
 ## Changelog
 
 ### 0.3 - April 25th 2017
