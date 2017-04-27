@@ -87,3 +87,25 @@ hash_plot('mono-64bit', '32bit hash')
 hash_plot('mono-64bit', '64bit hash')
 hash_plot('net-ryu-64bit', '32bit hash')
 hash_plot('net-ryu-64bit', '64bit hash')
+
+# This is the C++ data. Since the benchmark doesn't output a csv these
+# numbers are handcoded from a C++ benchmark run
+cpp <- rep(c("farmhash-ha", "farmhash"), each = 6)
+cpp_loads <- rep(c(4, 11, 25, 100, 1000, 10000), 2)
+cpp_through <- c(911, 2037, 4862, 5460, 12500, 23520,
+                 1379, 3240, 6706, 5941, 14147, 16077)
+cpp_df <- data.frame(cpp, cpp_loads, cpp_through)
+colnames(cpp_df) <- c("Job", "PayloadLength", "Throughput")
+
+net_df <- df %>%
+  filter(Job == 'net-ryu-64bit' & Method == 'FarmHash' & Kind == '64bit hash') %>%
+  select(Job, PayloadLength, Throughput)
+
+new_df <- rbind(net_df, cpp_df) %>%
+  group_by(PayloadLength) %>%
+  mutate(Relative = Throughput / max(Throughput))
+
+ggplot(new_df, aes(as.factor(PayloadLength), Relative)) +
+  geom_bar(aes(fill=Job), stat='identity', position='dodge') +
+  labs(x='Payload (bytes)', y='Relative Throughput (1.0 is highest throughput)') +
+  ggtitle("Throughput of C++ Farmhash vs Farmhash.Sharp")
