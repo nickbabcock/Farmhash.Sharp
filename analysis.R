@@ -108,4 +108,5 @@ new_df <- rbind(net_df, cpp_df) %>%
 ggplot(new_df, aes(as.factor(PayloadLength), Relative)) +
   geom_bar(aes(fill=Job), stat='identity', position='dodge') +
   labs(x='Payload (bytes)', y='Relative Throughput (1.0 is highest throughput)') +
-  ggtitle("Throughput of C++ Farmhash vs Farmhash.Sharp")
+  ggtitle("Throughput of C++ Farmhash vs Farmhash.Sharp",
+          subtitle = "Where farmhash-ha uses hardware acceleration")
