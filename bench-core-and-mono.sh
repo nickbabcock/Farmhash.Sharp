@@ -13,5 +13,5 @@ export FrameworkPathOverride=/usr/lib/mono/4.5/
 sudo -u $USER dotnet build -c Release -f net46 /property:DefineConstants=MONO \
     Farmhash.Sharp.Benchmarks/Farmhash.Sharp.Benchmarks.csproj
 
-mono /home/nick/projects/Farmhash.Sharp/Farmhash.Sharp.Benchmarks/bin/Release/net46/Farmhash.Sharp.Benchmarks.exe
+mono Farmhash.Sharp.Benchmarks/bin/Release/net46/Farmhash.Sharp.Benchmarks.exe
 chown -R $USER.$USER BenchmarkDotNet.Artifacts
