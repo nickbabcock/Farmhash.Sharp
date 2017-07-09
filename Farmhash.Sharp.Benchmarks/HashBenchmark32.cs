@@ -21,7 +21,6 @@ namespace Farmhash.Sharp.Benchmarks
         }
     }
 
-    [Config(typeof(Config32))]
     public class HashBenchmark32
     {
         private byte[] data;

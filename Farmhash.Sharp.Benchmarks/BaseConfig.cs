@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Loggers;
 
 namespace Farmhash.Sharp.Benchmarks
 {
@@ -9,6 +10,7 @@ namespace Farmhash.Sharp.Benchmarks
     {
         public BaseConfig()
         {
+            Add(ConsoleLogger.Default);
             Add(StatisticColumn.Mean);
             Add(StatisticColumn.StdErr);
             Add(StatisticColumn.StdDev);
