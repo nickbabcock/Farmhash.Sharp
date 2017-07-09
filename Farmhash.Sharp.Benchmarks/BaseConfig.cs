@@ -14,7 +14,6 @@ namespace Farmhash.Sharp.Benchmarks
                 new BenchmarkDotNet.Reports.SummaryStyle
                 {
                     PrintUnitsInContent = false,
-                    PrintUnitsInHeader = true,
                     TimeUnit = BenchmarkDotNet.Horology.TimeUnit.Nanosecond
                 }));
 
