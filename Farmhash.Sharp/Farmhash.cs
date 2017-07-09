@@ -1,7 +1,9 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable SuggestVarOrType_Elsewhere
 // ReSharper disable SuggestVarOrType_BuiltInTypes
+
 using System.Runtime.CompilerServices;
+
 namespace Farmhash.Sharp
 {
     /// <summary>
@@ -526,31 +528,17 @@ namespace Farmhash.Sharp
         {
             if (len <= 32)
             {
-                if (len <= 16)
-                {
-                    return HashLen0to16(s, len);
-                }
-                else
-                {
-                    return HashLen17to32(s, len);
-                }
+                return len <= 16 ? HashLen0to16(s, len) : HashLen17to32(s, len);
             }
-            else if (len <= 64)
+            if (len <= 64)
             {
                 return HashLen33to64(s, len);
             }
-            else if (len <= 96)
+            if (len <= 96)
             {
                 return HashLen65to96(s, len);
             }
-            else if (len <= 256)
-            {
-                return Hash64_na(s, len);
-            }
-            else
-            {
-                return Hash64_uo(s, len);
-            }
+            return len <= 256 ? Hash64_na(s, len) : Hash64_uo(s, len);
         }
 
         /// <summary>
