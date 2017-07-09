@@ -10,7 +10,6 @@ namespace Farmhash.Sharp.Benchmarks
     {
         public BaseConfig()
         {
-            Add(ConsoleLogger.Default);
             Add(StatisticColumn.Mean);
             Add(StatisticColumn.StdErr);
             Add(StatisticColumn.StdDev);
