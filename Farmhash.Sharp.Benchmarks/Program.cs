@@ -5,9 +5,9 @@ using BenchmarkDotNet.Running;
 
 namespace Farmhash.Sharp.Benchmarks
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var runFarmhashOnly = args.Contains("--farmhash");
 
