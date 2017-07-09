@@ -568,7 +568,7 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>Calculates a 64bit hash from a given string</summary>
-        public unsafe static ulong Hash64(string s)
+        public static unsafe ulong Hash64(string s)
         {
             fixed (char* buffer = s)
             {
