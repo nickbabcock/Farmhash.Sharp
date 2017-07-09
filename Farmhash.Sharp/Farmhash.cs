@@ -528,6 +528,9 @@ namespace Farmhash.Sharp
         {
             if (len <= 32)
             {
+                // NOTE: Do not try and optimize HashLen0to16 to use an unfixed
+                // byte buffer. It increased hash times dramatically. Last attempted:
+                // 2017-07-09. Maybe .NET has improved in speed for fixing arrays?
                 return len <= 16 ? HashLen0to16(s, len) : HashLen17to32(s, len);
             }
             if (len <= 64)
