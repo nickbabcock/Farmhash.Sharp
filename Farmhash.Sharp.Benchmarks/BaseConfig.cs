@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Jobs;
 
 namespace Farmhash.Sharp.Benchmarks
@@ -9,6 +10,14 @@ namespace Farmhash.Sharp.Benchmarks
     {
         public BaseConfig()
         {
+            Add(new CsvExporter(CsvSeparator.CurrentCulture,
+                new BenchmarkDotNet.Reports.SummaryStyle
+                {
+                    PrintUnitsInContent = false,
+                    PrintUnitsInHeader = true,
+                    TimeUnit = BenchmarkDotNet.Horology.TimeUnit.Nanosecond
+                }));
+
             Add(StatisticColumn.Mean);
             Add(StatisticColumn.StdErr);
             Add(StatisticColumn.StdDev);
