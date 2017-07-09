@@ -28,7 +28,7 @@ namespace Farmhash.Sharp.Benchmarks
         private string dataStr;
         private static readonly MD5 md5 = MD5.Create();
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             dataStr = new string('.', PayloadLength);

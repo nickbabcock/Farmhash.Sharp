@@ -25,7 +25,7 @@ namespace Farmhash.Sharp.Benchmarks
         private byte[] data;
         private string dataStr;
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             dataStr = new string('.', PayloadLength);
