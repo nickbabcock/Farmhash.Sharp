@@ -3,16 +3,9 @@ library(readr)
 
 df <- read_csv("./benchmarks.csv")
 
-# First we need to scrub the thousand separator and the unit
-# suffix in the numeric columns. This may not be a problem in 10.4.
-# Calculate the payload by taking computing MB/s. There are 10^6
-# bytes in a MB and 10^9 nanoseconds in a second
-df <- df %>%
-  mutate(Mean = as.numeric(gsub(',', '', gsub('.{3}$', '', Mean))),
-         StdErr = as.numeric(gsub(',', '', gsub('.{3}$', '', StdErr))),
-         StdDev = as.numeric(gsub(',', '', gsub('.{3}$', '', StdErr))),
-         Median = as.numeric(gsub(',', '', gsub('.{3}$', '', Median))),
-         Throughput = PayloadLength * 10^9 / (Mean * 10^6))
+# Calculate the throughput by computing MB/s. There are 10^6 bytes in a
+# MB and 10^9 nanoseconds in a second.
+df <- mutate(df, Throughput = PayloadLength * 10^9 / (Mean * 10^6))
 
 # The first thing we're going to do is show the difference between
 # a cryptographic function (albeit a bad one) and a non-cryptographic
