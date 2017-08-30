@@ -5,6 +5,10 @@ for computing [Google's Farmhash][] algorithm for .NET. This repo contains a hos
 of benchmark across various runtimes and hashing algorithms and none can compare
 to the all around performance of Farmhash.Sharp.
 
+Install from [NuGet](https://www.nuget.org/packages/Farmhash.Sharp/):
+
+> dotnet add package Farmhash.Sharp
+
 Farmhash.Sharp is built against NET Standard 1.0 so can be ran on any of the following:
 
 - Full .NET Framework
