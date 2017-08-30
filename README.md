@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nickbabcock/Farmhash.Sharp.svg?branch=master)](https://travis-ci.org/nickbabcock/Farmhash.Sharp)
+
 # Farmhash.Sharp
 
 Farmhash.Sharp is an extremely simple, low-level, and blazingly fast library
