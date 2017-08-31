@@ -24,12 +24,10 @@ Farmhash.Sharp is built against NET Standard 1.0 so can be ran on any of the fol
 
 [Google's Farmhash]: https://github.com/google/farmhash
 
-To build everything, you'll need a recent version of the .NET Core SDK:
+To build and test everything with the .NET Core 2.0 SDK:
 
 ```
-dotnet restore
-dotnet build
-dotnet test Farmhash.Test/Farmhash.Test.csproj
+dotnet test -f netcoreapp2.0 Farmhash.Test/Farmhash.Test.csproj
 ```
 
 ## Motivation
