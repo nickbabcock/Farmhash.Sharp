@@ -3,8 +3,6 @@ build_script:
   - dotnet restore
   - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - nuget.exe install Classic\packages.config -OutputDirectory packages
-  - cd Classic
-  - msbuild Classic.csproj /p:OutputPath=bin\Debug
-  - cd ..
+  - msbuild Classic/Classic.csproj
   - .\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe Classic\bin\Debug\Classic.dll
 test: off
