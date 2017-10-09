@@ -10,5 +10,5 @@ install:
 script:
   - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - msbuild Classic/Classic.csproj
-  - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe Classic/bin/Debug/Classic.dll
+  - mono ./packages/xunit.runner.console.2.3.0/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
   - 'cd Farmhash.Benchmarks && make all'
