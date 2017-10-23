@@ -264,3 +264,4 @@ BenchmarkDotNet.Artifacts/
 *.o
 benchmark-farmhash
 benchmark-farmhash-no-ha
+nuget.exe
