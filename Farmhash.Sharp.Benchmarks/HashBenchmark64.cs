@@ -52,7 +52,7 @@ namespace Farmhash.Sharp.Benchmarks
         public ulong CityHashNet() => CityHash.CityHash.CityHash64(dataStr);
 
         [Benchmark]
-        public byte[] HashFunctionCityHash() => hcity64.ComputeHash(data);
+        public byte[] HFCityHash() => hcity64.ComputeHash(data);
 
         [Benchmark]
         public byte[] SpookyHash() => Spooky64.ComputeHash(data);
