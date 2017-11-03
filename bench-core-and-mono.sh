@@ -6,7 +6,7 @@ THE_USER=${SUDO_USER:=$USER}
 sudo -u $THE_USER dotnet restore
 sudo -u $THE_USER dotnet restore -r net46
 
-dotnet run -c Release -f netcoreapp1.1 -p \
+dotnet run -c Release -f netcoreapp2.0 -p \
     Farmhash.Sharp.Benchmarks/Farmhash.Sharp.Benchmarks.csproj
 
 sudo -u $THE_USER cp -r BenchmarkDotNet.Artifacts BenchmarkDotNet.Artifacts-temp
