@@ -149,25 +149,35 @@ For both 32bit and 64bit Farmhash functions, the 64bit core and 64bit ryu runtim
 win across any sized payload. Both the core and ryu probably use a lot of the same
 code under under the hood.
 
-### Relative Throughput Across Non-Cryptographic Functions
+### Comparison with other libraries
 
-Restricting runtimes to just core-64bit, net-ryu-64bit, and mono-64bit let's
-see how Farmhash.Sharp stacks up against other non-cryptographic functions.
-I'll present all the graphs first with a brief synopsis afterwards. The graphs
-show the relative throughput of each hash function relative to the fastest
-hash function in that category. So the higher the bar chart, the better that
-hash function is for that payload size.
+The following benchmark was done:
 
-[![core-64bit-32bit-hash](img/core-64bit-32bit-hash.png)](img/core-64bit-32bit-hash.png)
-[![core-64bit-64bit-hash](img/core-64bit-64bit-hash.png)](img/core-64bit-64bit-hash.png)
-[![mono-64bit-32bit-hash](img/mono-64bit-32bit-hash.png)](img/mono-64bit-32bit-hash.png)
-[![mono-64bit-64bit-hash](img/mono-64bit-64bit-hash.png)](img/mono-64bit-64bit-hash.png)
-[![net-ryu-64bit-32bit-hash](img/net-ryu-64bit-32bit-hash.png)](img/net-ryu-64bit-32bit-hash.png)
-[![net-ryu-64bit-64bit-hash](img/net-ryu-64bit-64bit-hash.png)](img/net-ryu-64bit-64bit-hash.png)
+- For each payload (4, 11, 25, 100, 1000, 10000)
+  - For each platform (.NET Core 64bit, Mono 32/64, .NET legacy 32/64, .NET Ryu 64bit)
+    - Determine the throughput of calculating a 32bit and 64bit hash
 
-- When neding a non cryptographic for a small payload (~ 11 bytes), one should almost always use Farmhash.Sharp
-- If using Mono, consider Sparrow's XXHash for large payloads
-- Else use Farmhash.Sharp!
+Please click on the image for a better look!
+
+In each configuration, which library has the highest throughput compared competitors?
+
+[![relative-throughput](img/relative-throughput.png)](img/relative-throughput.png)
+
+Previous heatmap detailed relative throughput, but that was for each facet's
+payload size. How can one tell if in terms of absolute throughput what
+configuration yields the highest throughput at a given payload size. Welcome to
+the next heatmap.
+
+[![absolute-throughput](img/absolute-throughput.png)](img/absolute-throughput.png)
+
+What are some takeaways? Well, if you are constrained to a platform you are
+deploying, you'll choose the library that performed the best relative to others
+according to your constraints. If you're interested in highest throughput:
+
+- Stick with 64bit hash functions
+- Stick with either .NET Core or .NET Ryu
+- For small payloads (~ 11 bytes) use Farmhash.Sharp
+- For larger payloads, Farmhash.Sharp remains competitive, but the XXHash found in Sparrow's codebase and Spookily are good options as well.
 
 ### C# vs. C++
 
