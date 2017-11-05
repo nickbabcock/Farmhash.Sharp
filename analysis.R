@@ -84,7 +84,7 @@ df2 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
 # payload size. How can one tell if in terms of absolute throughput what
 # configuration yields the highest throughput at a given payload size. Welcome to
 # the next heatmap.
-df3 <- df %>% mutate(Throughput = Throughput / 1000)
+df3 <- df %>% mutate(Throughput = Throughput / 1000) %>%
   group_by(PayloadLength) %>%
   mutate(Relative = Throughput / max(Throughput)) %>%
   ungroup() %>%
