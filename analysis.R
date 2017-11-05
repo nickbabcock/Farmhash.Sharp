@@ -56,30 +56,55 @@ ggplot(runtime_df, aes(as.factor(PayloadLength), Throughput)) +
   ggtitle("Throughput by Runtime",
           subtitle = "32 and 64bit Farmhash Performance across Core, Mono, and Clr")
 
-# Let's limit our dealings with the top three runtimes:
-# - core-64bit
-# - mono-64bit
-# - net-ryu-64bit
+# Moving on to comparing relative throughput of every hashing library, on every
+# platform, for all payload sizes, for 32bit and 64bit hashes. Careful, this
+# heatmap contains a lot of good information!
+df2 <- df %>% group_by(Job, Kind, PayloadLength) %>%
+  mutate(Relative = Throughput / max(Throughput)) %>%
+  ungroup() %>%
+  select(Job, Kind, Method, PayloadLength, Relative, Throughput) %>%
+  complete(Job, Kind, Method, PayloadLength)
 
-hash_plot <- function(job_name, hash_kind) {
-  # Eliminate md5 methods from the graph as we know it's a cryptographic
-  # hash function and it's not really comparing apples to apples
-  n_df <- df %>% filter(Job == job_name & Kind == hash_kind & Method != 'Md5') %>%
-    group_by(PayloadLength) %>%
-    mutate(Relative = Throughput / max(Throughput))
-  title <- paste("Highest Throughput for each Payload for", hash_kind, "on", job_name)
-  ggplot(n_df, aes(as.factor(PayloadLength), Relative)) +
-    geom_bar(aes(fill=Method), stat='identity', position='dodge') +
-    labs(x='Payload (bytes)', y='Relative Throughput (1.0 is highest throughput)') + 
-    ggtitle(title)
-}
+df2 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
+  geom_tile(aes(fill = Relative), color = "white") +
+  facet_grid(Job ~ Kind) +
+  scale_x_discrete(position = "top") +
+  scale_fill_gradient(name = "", low = "white", high = "steelblue", na.value = "#D8D8D8", labels = c("lowest", "highest"), breaks = c(0,1)) +
+  xlab("Hash Library") +
+  ylab("Payload Size (bytes)") +
+  geom_text(size=2.5, aes(label = ifelse(is.na(Relative), "NA", format(round(Relative, 2), digits = 3)))) +
+  theme(legend.position="bottom") +
+  theme(axis.text.x.top=element_text(angle=45, hjust=0, vjust=0)) +
+  theme(plot.caption = element_text(hjust=0)) +
+  ggtitle("Non-cryptographic Hash Functions with Relative Throughput",
+          subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
+  labs(caption = "Shaded by payload and facet. For instance, SparrowXXHash has 70% of the throughput of Farmhash.Sharp\nwhen calculating the 64bit hash and both given a 4 byte payload on the .NET Ryu platform (64bits)")
 
-hash_plot('core-64bit', '32bit hash')
-hash_plot('core-64bit', '64bit hash')
-hash_plot('mono-64bit', '32bit hash')
-hash_plot('mono-64bit', '64bit hash')
-hash_plot('net-ryu-64bit', '32bit hash')
-hash_plot('net-ryu-64bit', '64bit hash')
+# Previous heatmap detailed relative throughput, but that was for each facet's
+# payload size. How can one tell if in terms of absolute throughput what
+# configuration yields the highest throughput at a given payload size. Welcome to
+# the next heatmap.
+df3 <- df %>% mutate(Throughput = Throughput / 1000)
+  group_by(PayloadLength) %>%
+  mutate(Relative = Throughput / max(Throughput)) %>%
+  ungroup() %>%
+  select(Job, Kind, Method, PayloadLength, Relative, Throughput) %>%
+  complete(Job, Kind, Method, PayloadLength)
+
+df3 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
+  geom_tile(aes(fill = Relative), color = "white") +
+  facet_grid(Job ~ Kind) +
+  scale_x_discrete(position = "top") +
+  scale_fill_gradient(name = "", low = "white", high = "steelblue", na.value = "#D8D8D8", labels = c("lowest", "highest"), breaks = c(0,1)) +
+  xlab("Hash Library") +
+  ylab("Payload Size (bytes)") +
+  geom_text(size=2.5, aes(label = ifelse(is.na(Relative), "NA", format(round(Throughput, 1), digits = 3)))) +
+  theme(axis.text.x.top=element_text(angle=45, hjust=0, vjust=0)) +
+  theme(legend.position="bottom") +
+  theme(plot.caption = element_text(hjust=0)) +
+  ggtitle("Non-cryptographic Hash Functions with Throughput (GB/s)",
+          subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
+  labs(caption = "Shaded by payload. For instance, for payloads of 4 bytes, the fastest is\nFarmhash.Sharp on .NET Ryu 64bit calculating 64bit hashes (1.2 GB/s)")
 
 # This is the C++ data. Since the benchmark doesn't output a csv these
 # numbers are handcoded from a C++ benchmark run
