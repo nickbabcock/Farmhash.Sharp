@@ -120,7 +120,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe uint Hash32(byte* s, uint len)
+        public static unsafe uint Hash32(byte* s, uint len)
         {
             if (len <= 24)
             {
@@ -524,7 +524,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong Hash64(byte* s, uint len)
+        public static unsafe ulong Hash64(byte* s, uint len)
         {
             if (len <= 32)
             {
