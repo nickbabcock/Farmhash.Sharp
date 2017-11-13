@@ -1,3 +1,6 @@
+### 0.4 - November 13th 2017
+* Expose internal methods using byte pointers as part of the public interface (#12)
+
 ### 0.3 - April 25th 2017
 * Release Farmhash.Sharp under netstandard 1.0
 * Switch to new MSBuild project files
