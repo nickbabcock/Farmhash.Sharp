@@ -34,6 +34,23 @@ Console.WriteLine("32-bit hash: {0}", Farmhash.Hash32(str));
 //   not be the same in future versions
 {% endhighlight %}
 
+## Installation and Compatibility
+
+Install from [NuGet](https://www.nuget.org/packages/Farmhash.Sharp/):
+
+```
+dotnet add package Farmhash.Sharp
+```
+
+Farmhash.Sharp is built against NET Standard 1.0 so can be ran on any of the following:
+
+- Full .NET Framework
+- Mono
+- .NET Core
+
+Since 0.4, Farmhash.Sharp contains methods that are part of the public API and
+marked `unsafe`. Almost all platforms should be unaffected by this detail.
+
 ## Tutorial
 
 The 32bit hash will output a four byte hash (32 bits in length), while the
