@@ -1,12 +1,24 @@
 Travis: [![Build Status](https://travis-ci.org/nickbabcock/Farmhash.Sharp.svg?branch=master)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) Appveyor: [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp)
 
-
 # Farmhash.Sharp
 
-Farmhash.Sharp is an extremely simple, low-level, and blazingly fast library
-for computing [Google's Farmhash][] algorithm for .NET. This repo contains a host
-of benchmark across various runtimes and hashing algorithms and none can compare
-to the all around performance of Farmhash.Sharp.
+[Farmhash.Sharp](https://nickbabcock.github.io/Farmhash.Sharp) is a .NET port
+of [Google's Farmhash](https://github.com/google/farmhash) algorithm for
+calculating 32bit and 64bit non-cryptographic hashes. Farmhash.Sharp has great
+performance characteristics when calculating 64bit hashes, especially on short
+strings or a subsequence of byte arrays. See
+[benchmarks](https://nickbabcock.github.io/Farmhash.Sharp#comparison-with-other-libraries)
+comparing other libraries to Farmhash.Sharp.
+
+## Quickstart
+
+```csharp
+using Farmhash.Sharp;
+
+ulong hash = Farmhash.Hash64("Hello world");
+```
+
+## Installation and Compatibility
 
 Install from [NuGet](https://www.nuget.org/packages/Farmhash.Sharp/):
 
@@ -20,9 +32,10 @@ Farmhash.Sharp is built against NET Standard 1.0 so can be ran on any of the fol
 - Mono
 - .NET Core
 
-[Documentation](https://nickbabcock.github.io/Farmhash.Sharp)
+Since 0.4, Farmhash.Sharp contains methods that are part of the public API and
+marked `unsafe`. Almost all platforms should be unaffected by this detail.
 
-[Google's Farmhash]: https://github.com/google/farmhash
+## Building
 
 To build and test everything with the .NET Core 2.0 SDK:
 
