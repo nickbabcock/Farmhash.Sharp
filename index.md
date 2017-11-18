@@ -2,11 +2,12 @@
 layout: default
 ---
 
-Farmhash.Sharp is an extremly simple, low-level, non-cryptographic, and
-blazingly fast library for computing [Google's Farmhash][] algorithm for .NET.
-[Install from NuGet](http://www.nuget.org/packages/Farmhash.Sharp/)
-
-[Google's Farmhash]: https://github.com/google/farmhash
+Farmhash.Sharp is a .NET port of [Google's
+Farmhash](https://github.com/google/farmhash) algorithm for calculating 32bit
+and 64bit non-cryptographic hashes. Farmhash.Sharp has great performance
+characteristics when calculating 64bit hashes, especially on short strings or a
+subsequence of byte arrays. See [benchmarks](#comparison-with-other-libraries)
+comparing other libraries to Farmhash.Sharp.
 
 ## Quick Sample
 
