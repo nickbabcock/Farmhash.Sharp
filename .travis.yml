@@ -11,4 +11,8 @@ script:
   - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - msbuild Classic/Classic.csproj
   - mono ./packages/xunit.runner.console.2.3.0/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
-  - 'cd Farmhash.Benchmarks && make all'
+
+  # Travis CI doesn't support all the hardware accelerations in farmhash, so we
+  # only build the version without hardware acceleration. It's still a good
+  # test to make sure our build system is setup
+  - 'cd Farmhash.Benchmarks && make benchmark-farmhash-no-ha'
