@@ -72,17 +72,11 @@ byte[] bytes = Encoding.ASCII.GetBytes(text)
 
 {% endhighlight %}
 
-With our bytes handy, it is now time to calculate the hash! Choosing which
-hash to use may be the hardest decision in this library. If you need the
-lowest probability of collisions, then your choice is simple, go with Hash64.
-If you need the fastest speed then it depends on the architecture of the
-machine being ran on and how your project is compiled:
-
-- A project executed on a 32bit machine should always prefer Hash32.
-- A project executed on a 64bit machine, but prefers 32bit, should use Hash32
-- A project executed on a 64bit machine, but doesn't prefer 32bit, should
-  always use Hash64, even if only a 32bit hash is wanted. The 64bit hash is
-  always faster.
+With our bytes handy, it is now time to calculate the hash! Choosing which hash
+to use may be the hardest decision in this library. If you need the lowest
+probability of collisions and speed, then your choice is simple, go with
+Hash64. Else memory constraints will make you want to lean towards calculating
+32bit hash.
 
 See the benchmarking section for concrete numbers.
 
