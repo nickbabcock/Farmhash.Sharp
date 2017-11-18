@@ -15,4 +15,4 @@ script:
   # Travis CI doesn't support all the hardware accelerations in farmhash, so we
   # only build the version without hardware acceleration. It's still a good
   # test to make sure our build system is setup
-  - 'cd Farmhash.Benchmarks && make benchmark-farmhash-no-ha'
+  - 'cd Farmhash.Benchmarks && make benchmark-farmhash'
