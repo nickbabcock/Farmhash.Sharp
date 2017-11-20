@@ -171,14 +171,13 @@ The following benchmark was done:
 
 Please click on the image for a better look!
 
-In each configuration, which library has the highest throughput compared competitors?
+In each configuration, which library has the highest relative throughput compared to competitors in the same row?
 
 [![relative-throughput](img/relative-throughput.png)](img/relative-throughput.png)
 
 Previous heatmap detailed relative throughput, but that was for each facet's
-payload size. How can one tell if in terms of absolute throughput what
-configuration yields the highest throughput at a given payload size. Welcome to
-the next heatmap.
+(configuration's) payload size. How can one tell what configuration yields the
+highest throughput at a given payload size. Welcome to the next heatmap.
 
 [![absolute-throughput](img/absolute-throughput.png)](img/absolute-throughput.png)
 
@@ -189,7 +188,7 @@ according to your constraints. If you're interested in highest throughput:
 - Stick with 64bit hash functions
 - Stick with either .NET Core or .NET Ryu
 - For small payloads (~ 11 bytes) use Farmhash.Sharp
-- For larger payloads, Farmhash.Sharp remains competitive, but the XXHash found in Sparrow's codebase and Spookily are good options as well.
+- For larger payloads, Farmhash.Sharp remains competitive, but [XXHash](https://github.com/ravendb/ravendb/blob/b87a422e91dcf7d4590bad631c9266258be7cab3/Raven.Sparrow/Sparrow/Hashing.cs) found within the Sparrow module of RavenDB is a good option as well.
 
 ### C# vs. C++
 
