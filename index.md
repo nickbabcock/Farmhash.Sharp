@@ -9,29 +9,12 @@ characteristics when calculating 64bit hashes, especially on short strings or a
 subsequence of byte arrays. See [benchmarks](#comparison-with-other-libraries)
 comparing other libraries to Farmhash.Sharp.
 
-## Quick Sample
+## Quickstart
 
-{% highlight C# %}
-
+{% highlight csharp %}
 using Farmhash.Sharp;
-using System.Text;
 
-// Let's print out the 32 and 64 bit Farmhash
-// for ascii encoded "hello"
-string str = "hello";
-byte[] data = Encoding.ASCII.GetBytes(str);
-uint hash32 = Farmhash.Hash32(data, data.Length);
-Console.WriteLine("32-bit hash: {0}", hash32);
-// - will print 2039911270
-
-ulong hash64 = Farmhash.Hash64(data, data.Length);
-Console.WriteLine("64-bit hash: {0}", hash64);
-// - will print 13009744463427800296
-
-// And for the lazy, one can elect to not choose an encoding
-Console.WriteLine("32-bit hash: {0}", Farmhash.Hash32(str));
-// - in this case will print 1185801527 and may 
-//   not be the same in future versions
+ulong hash = Farmhash.Hash64("Hello world");
 {% endhighlight %}
 
 ## Installation and Compatibility
@@ -56,46 +39,25 @@ marked `unsafe`. Almost all platforms should be unaffected by this detail.
 The 32bit hash will output a four byte hash (32 bits in length), while the
 64bit hash will output an eight byte hash (64 bits in length).
 
-The way Farmhash.Sharp knows how to hash a string of arbitrary encoding is to
-look at the raw bytes that compose the string. This is great for convenience,
-but may not be the best if working directly with arrays or strings across
-encodings.
+Let's see the API in action (this time with a byte array).
 
-To get bytes from our text, we need to decide on the encoding. Common examples
-are ASCII, UTF-8, and Windows-1252. In this tutorial, we're going to keep
-things simple and assume that our text is encoded as ASCII
-
-{% highlight C# %}
-
-using System.Text;
-byte[] bytes = Encoding.ASCII.GetBytes(text)
-
-{% endhighlight %}
-
-With our bytes handy, it is now time to calculate the hash! Choosing which hash
-to use may be the hardest decision in this library. If you need the lowest
-probability of collisions and speed, then your choice is simple, go with
-Hash64. Else memory constraints will make you want to lean towards calculating
-32bit hash.
-
-See the benchmarking section for concrete numbers.
-
-For more information on disabling the 32bit preference, see the following [blog
-post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
-
-And for good measure, let's see the API in action once again.
-
-{% highlight C# %}
+{% highlight csharp %}
+byte[] bytes = new byte[] { /* ... */ };
 
 uint hash32 = Farmhash.Hash32(bytes, bytes.Length)
 ulong hash64 = Farmhash.Hash64(bytes, bytes.Length)
 
 Console.WriteLine("32-bit hash: {0}", hash32);
 Console.WriteLine("64-bit hash: {0}", hash64);
-
 {% endhighlight %}
 
 Congratulations, you're now an expert at using the Farmhash.Sharp library!
+
+The way Farmhash.Sharp knows how to hash a string of an arbitrary encoding is to
+look at the raw bytes that compose the string.
+
+For information on disabling the 32bit preference, see the following [blog
+post](http://www.neovolve.com/2015/07/31/disable-prefer-32-bit/).
 
 ## Benchmarking
 
