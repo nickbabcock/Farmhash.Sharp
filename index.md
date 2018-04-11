@@ -195,6 +195,10 @@ Code used to generate the graphs can be found in analysis.R in the github repo.
 
 ## Changelog
 
+### 0.5 - April 10th 2018
+
+* Strong sign assemblies so that other strong signed assemblies can use Farmhash.Sharp
+
 ### 0.4 - November 13th 2017
 * Expose internal methods using byte pointers as part of the public interface
 
