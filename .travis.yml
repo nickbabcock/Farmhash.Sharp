@@ -1,7 +1,7 @@
 language: csharp
 mono: latest
 dist: trusty
-dotnet: 1.0.1
+dotnet: 1.1.5
 solution: Farmhash.Sharp.sln
 install:
   - dotnet restore
