@@ -8,7 +8,7 @@ install:
   - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
   - mono nuget.exe install Classic/packages.config -OutputDirectory packages
 script:
-  - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  - dotnet test -f netcoreapp2.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - msbuild Classic/Classic.csproj
   - mono ./packages/xunit.runner.console.2.3.0/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
 
