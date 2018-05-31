@@ -38,7 +38,6 @@ namespace Farmhash.Sharp.Benchmarks
             data = Encoding.ASCII.GetBytes(dataStr);
         }
 
-
         [Params(4, 11, 25, 100, 1000, 10000)]
         public int PayloadLength { get; set; }
 
