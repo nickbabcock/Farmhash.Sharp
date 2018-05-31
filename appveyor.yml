@@ -2,6 +2,7 @@ os: Previous Visual Studio 2017
 build_script:
   # - dotnet restore
   # - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  - nuget.exe restore Farmhash.Sharp\Farmhash.Sharp.csproj
   - nuget.exe install Classic\packages.config -OutputDirectory packages
   - msbuild /p:TargetFramework=netstandard1.0 Farmhash.Sharp\Farmhash.Sharp.csproj
   - msbuild Classic/Classic.csproj
