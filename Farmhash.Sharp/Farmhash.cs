@@ -563,6 +563,14 @@ namespace Farmhash.Sharp
         }
 
 #if NETCOREAPP2_1
+        public static unsafe ulong Hash32(ReadOnlySpan<byte> span)
+        {
+            fixed (byte* buf = span)
+            {
+                return Hash32(buf, (uint)span.Length);
+            }
+        }
+
         public static unsafe ulong Hash64(ReadOnlySpan<byte> span)
         {
             fixed (byte* buf = span)

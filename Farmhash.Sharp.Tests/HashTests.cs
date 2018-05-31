@@ -52,6 +52,11 @@ namespace Farmhash.Sharp.Tests
             {
                 Assert.Equal(Farmhash.Hash32(ptr, (uint)bytes.Length), expected);
             }
+
+#if NETCOREAPP2_1
+            Span<byte> sp = bytes;
+            Assert.Equal(Farmhash.Hash32(sp), expected);
+#endif
         }
 
         [Theory]
@@ -115,6 +120,15 @@ namespace Farmhash.Sharp.Tests
             Span<byte> sp = data;
             var expected = Farmhash.Hash64(data, data.Length);
             Assert.Equal(Farmhash.Hash64(sp), expected);
+        }
+
+        [Fact]
+        public void TestHash32Span()
+        {
+            var data = new byte[] {1};
+            Span<byte> sp = data;
+            var expected = Farmhash.Hash32(data, data.Length);
+            Assert.Equal(Farmhash.Hash32(sp), expected);
         }
 #endif
     }
