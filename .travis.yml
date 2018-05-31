@@ -5,10 +5,11 @@ dist: trusty
 # solution: Farmhash.Sharp.sln
 install:
   # - dotnet restore
-  # - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+  - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
   - mono nuget.exe install Classic/packages.config -OutputDirectory packages
 script:
   # - dotnet test -f netcoreapp2.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  - msbuild /p:TargetFramework=netstandard1.0 Farmhash.Sharp\Farmhash.Sharp.csproj
   - msbuild Classic/Classic.csproj
   - mono ./packages/xunit.runner.console.2.3.0/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
 
