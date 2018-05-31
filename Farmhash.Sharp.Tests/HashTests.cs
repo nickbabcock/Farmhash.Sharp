@@ -93,5 +93,16 @@ namespace Farmhash.Sharp.Tests
             var bytes = Encoding.ASCII.GetBytes(str);
             Assert.Equal(Farmhash.Hash64(bytes, bytes.Length), expected);
         }
+
+#if NETCOREAPP2_1
+        [Fact]
+        public void TestHash64Span()
+        {
+            var data = new byte[] {1};
+            Span<byte> sp = data;
+            var expected = Farmhash.Hash64(data, data.Length);
+            Assert.Equal(Farmhash.Hash64(sp), expected);
+        }
+#endif
     }
 }

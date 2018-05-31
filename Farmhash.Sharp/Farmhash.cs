@@ -3,6 +3,10 @@
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 
 using System.Runtime.CompilerServices;
+#if NETCOREAPP2_1
+using System.Runtime.InteropServices;
+#endif
+using System;
 
 namespace Farmhash.Sharp
 {
@@ -566,5 +570,16 @@ namespace Farmhash.Sharp
                 return Hash64((byte*)buffer, (uint)(s.Length * sizeof(char)));
             }
         }
+
+#if NETCOREAPP2_1
+        public static unsafe ulong Hash64(ReadOnlySpan<byte> span)
+        {
+            fixed (byte* buf = span)
+            {
+                return Hash64(buf, (uint)span.Length);
+            }
+        }
+#endif
     }
+
 }

@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>netstandard1.0;netcoreapp2.1</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
 
     <Product>Farmhash.Sharp</Product>
     <Description>A .NET Port of Google's blazingly fast hashing algorithm</Description>
@@ -29,5 +30,4 @@
     <AssemblyOriginatorKeyFile>farmhash.sharp.key.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
-
 </Project>
