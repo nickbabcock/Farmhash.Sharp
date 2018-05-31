@@ -1,8 +1,9 @@
 os: Previous Visual Studio 2017
 build_script:
-  - dotnet restore
-  - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
-  - nuget.exe install Classic\packages.config -OutputDirectory packages
-  - msbuild Classic/Classic.csproj
-  - .\packages\xunit.runner.console.2.3.0\tools\net452\xunit.console.exe Classic\bin\Debug\Classic.dll
+  - echo "A"
+  # - dotnet restore
+  # - dotnet test -f netcoreapp1.0 ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  # - nuget.exe install Classic\packages.config -OutputDirectory packages
+  # - msbuild Classic/Classic.csproj
+  # - .\packages\xunit.runner.console.2.3.0\tools\net452\xunit.console.exe Classic\bin\Debug\Classic.dll
 test: off
