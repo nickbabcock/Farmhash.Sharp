@@ -66,7 +66,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1042-L1051
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static uint Hash32Len0to4(byte[] s, uint len, uint seed = 0)
+        private static unsafe uint Hash32Len0to4(byte* s, uint len, uint seed = 0)
         {
             uint b = seed;
             uint c = 9;
@@ -128,7 +128,8 @@ namespace Farmhash.Sharp
         {
             if (len <= 24)
             {
-                return len <= 12 ? Hash32Len5to12(s, len) :
+                return len <= 12 ?
+                    (len <= 4 ? Hash32Len0to4(s, len) : Hash32Len5to12(s, len)) :
                     Hash32Len13to24(s, len);
             }
 
@@ -191,16 +192,6 @@ namespace Farmhash.Sharp
         /// <returns>A 32bit hash</returns>
         public static unsafe uint Hash32(byte[] s, int len)
         {
-            // Micro-optimization. Fixing the buffer takes a relatively long
-            // time if the buffer is not large and not thoroughly used. For a
-            // length of 4 or less, this micro-optimization allowed the
-            // algorithm to execute ~15,000 additional iterations per
-            // millisecond.
-            if (len <= 4)
-            {
-                return Hash32Len0to4(s, (uint)len);
-            }
-
             fixed (byte* buf = s)
             {
                 return Hash32(buf, (uint)len);

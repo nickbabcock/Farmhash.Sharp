@@ -44,10 +44,14 @@ namespace Farmhash.Sharp.Tests
         [InlineData("Even if I could be Shakespeare, I think I should still choose to be Faraday. - A. Huxley", 0xe2053c2cu)]
         [InlineData("The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule", 0x11c493bbu)]
         [InlineData("How can you write a big system without C++?  -Paul Glick", 0x0819a4e8u)]
-        public void TestHash32(String str, uint expected)
+        public unsafe void TestHash32(String str, uint expected)
         {
             var bytes = Encoding.ASCII.GetBytes(str);
             Assert.Equal(Farmhash.Hash32(bytes, bytes.Length), expected);
+            fixed (byte* ptr = bytes)
+            {
+                Assert.Equal(Farmhash.Hash32(ptr, (uint)bytes.Length), expected);
+            }
         }
 
         [Theory]
@@ -88,10 +92,19 @@ namespace Farmhash.Sharp.Tests
         [InlineData("Even if I could be Shakespeare, I think I should still choose to be Faraday. - A. Huxley", 0x4c349a4ff7ac0c89UL)]
         [InlineData("The fugacity of a constituent in a mixture of gases at a given temperature is proportional to its mole fraction.  Lewis-Randall Rule", 0x98eff6958c5e91aUL)]
         [InlineData("Go is a tool for managing Go source code.Usage: go command [arguments]The commands are:    build       compile packages and dependencies    clean       remove object files    env         print Go environment information    fix         run go tool fix on packages    fmt         run gofmt on package sources    generate    generate Go files by processing source    get         download and install packages and dependencies    install     compile and install packages and dependencies    list        list packages    run         compile and run Go program    test        test packages    tool        run specified go tool    version     print Go version    vet         run go tool vet on packagesUse go help [command] for more information about a command.Additional help topics:    c           calling between Go and C    filetype    file types    gopath      GOPATH environment variable    importpath  import path syntax    packages    description of package lists    testflag    description of testing flags    testfunc    description of testing functionsUse go help [topic] for more information about that topic.", 0x21609f6764c635edUL)]
-        public void TestHash64(String str, ulong expected)
+        public unsafe void TestHash64(String str, ulong expected)
         {
             var bytes = Encoding.ASCII.GetBytes(str);
             Assert.Equal(Farmhash.Hash64(bytes, bytes.Length), expected);
+            fixed (byte* ptr = bytes)
+            {
+                Assert.Equal(Farmhash.Hash64(ptr, (uint)bytes.Length), expected);
+            }
+
+#if NETCOREAPP2_1
+            Span<byte> sp = bytes;
+            Assert.Equal(Farmhash.Hash64(sp), expected);
+#endif
         }
 
 #if NETCOREAPP2_1
