@@ -1,10 +1,11 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Data.HashFunction.CityHash;
+using System.Data.HashFunction.SpookyHash;
+using BenchmarkDotNet.Attributes;
 using System.Text;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Columns;
 
 #if !CORE
-using System.Data.HashFunction;
 using xxHashSharp;
 #endif
 
@@ -21,6 +22,12 @@ namespace Farmhash.Sharp.Benchmarks
 
     public class HashBenchmark64
     {
+        private static readonly ICityHash City64 = CityHashFactory.Instance.Create(
+            new CityHashConfig { HashSizeInBits = 64 });
+
+        private static readonly ISpookyHash Spooky64 = SpookyHashV2Factory.Instance.Create(
+            new SpookyHashConfig() { HashSizeInBits = 64});
+
         private byte[] data;
         private string dataStr;
 
@@ -41,21 +48,19 @@ namespace Farmhash.Sharp.Benchmarks
         [Benchmark]
         public ulong SparrowXXHash() => SparrowHashing.XXHash64.Calculate(data, data.Length);
 
+        [Benchmark]
+        public byte[] HFCityHash() => City64.ComputeHash(data).Hash;
+
+        [Benchmark]
+        public byte[] SpookyHash() => Spooky64.ComputeHash(data).Hash;
+
 #if !CORE
-        private static readonly SpookyHashV2 Spooky64 = new SpookyHashV2(64);
-        private static readonly System.Data.HashFunction.CityHash hcity64 = new System.Data.HashFunction.CityHash(64);
 
         [Benchmark]
         public uint XXHash() =>  xxHash.CalculateHash(data);
 
         [Benchmark]
         public ulong CityHashNet() => CityHash.CityHash.CityHash64(dataStr);
-
-        [Benchmark]
-        public byte[] HFCityHash() => hcity64.ComputeHash(data);
-
-        [Benchmark]
-        public byte[] SpookyHash() => Spooky64.ComputeHash(data);
 
         [Benchmark]
         public unsafe ulong Spookily()
