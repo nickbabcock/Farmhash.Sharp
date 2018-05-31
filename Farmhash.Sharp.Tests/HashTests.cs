@@ -53,6 +53,9 @@ namespace Farmhash.Sharp.Tests
                 Assert.Equal(Farmhash.Hash32(ptr, (uint)bytes.Length), expected);
             }
 
+            var strBytes = Encoding.Unicode.GetBytes(str);
+            Assert.Equal(Farmhash.Hash32(strBytes, strBytes.Length), Farmhash.Hash32(str));
+
 #if NETCOREAPP2_1
             Span<byte> sp = bytes;
             Assert.Equal(Farmhash.Hash32(sp), expected);
@@ -105,6 +108,9 @@ namespace Farmhash.Sharp.Tests
             {
                 Assert.Equal(Farmhash.Hash64(ptr, (uint)bytes.Length), expected);
             }
+
+            var strBytes = Encoding.Unicode.GetBytes(str);
+            Assert.Equal(Farmhash.Hash64(strBytes, strBytes.Length), Farmhash.Hash64(str));
 
 #if NETCOREAPP2_1
             Span<byte> sp = bytes;
