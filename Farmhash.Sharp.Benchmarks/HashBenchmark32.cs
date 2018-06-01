@@ -62,13 +62,6 @@ namespace Farmhash.Sharp.Benchmarks
         [Benchmark]
         public byte[] SpookyHash() => Spooky64.ComputeHash(data).Hash;
 
-#if !CORE
-        [Benchmark]
-        public uint XXHash() => xxHash.CalculateHash(data);
-
-        [Benchmark]
-        public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
-
         [Benchmark]
         public unsafe uint Spookily()
         {
@@ -77,6 +70,13 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash32(buffer, data.Length, 0);
             }
         }
+
+#if !CORE
+        [Benchmark]
+        public uint XXHash() => xxHash.CalculateHash(data);
+
+        [Benchmark]
+        public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
 #endif
     }
 }
