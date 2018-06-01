@@ -1,3 +1,8 @@
+### 0.6 - June 1st 2018
+
+* Fix bug affecting Hash32 users who used the `byte*` signature that would calculate the wrong hash for inputs with length of four or less
+* Introduce `ReadOnlySpan<byte>` methods for Hash64 and Hash32
+
 ### 0.5 - April 10th 2018
 
 * Strong sign assemblies so that other strong signed assemblies can use Farmhash.Sharp
