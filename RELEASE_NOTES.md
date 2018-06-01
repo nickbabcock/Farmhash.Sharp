@@ -1,6 +1,6 @@
 ### 0.6 - June 1st 2018
 
-* Fix bug affecting Hash32 users who used the `byte*` signature that would calculate the wrong hash for inputs with length of four or less
+* Fix bug affecting Hash32 users who used the `byte*` signature that would calculate the wrong hash for inputs with length of four or less bytes
 * Introduce `ReadOnlySpan<byte>` methods for Hash64 and Hash32
 
 ### 0.5 - April 10th 2018
