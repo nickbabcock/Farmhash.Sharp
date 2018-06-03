@@ -3,9 +3,6 @@
 
 THE_USER=${SUDO_USER:=$USER}
 
-sudo -u $THE_USER dotnet restore
-sudo -u $THE_USER dotnet restore -r net46
-
 dotnet run -c Release -f netcoreapp2.1 -p \
     Farmhash.Sharp.Benchmarks/Farmhash.Sharp.Benchmarks.csproj
 
