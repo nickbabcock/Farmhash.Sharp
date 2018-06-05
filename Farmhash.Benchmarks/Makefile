@@ -32,5 +32,6 @@ $(BENCH_DIR)/src/libbenchmark.a:
 				make
 
 clean:
+				make -C "../lib/benchmark" clean
 				make -C "../lib/farmhash" clean
 				rm -f $(OBJS) $(OBJS_NO_HA) $(EXECUTABLE) $(EXECUTABLE_NO_HA)
