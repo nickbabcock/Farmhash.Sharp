@@ -1,4 +1,4 @@
-Travis: [![Build Status](https://travis-ci.org/nickbabcock/Farmhash.Sharp.svg?branch=master)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) Appveyor: [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp)
+[![Build Status](https://travis-ci.org/nickbabcock/Farmhash.Sharp.svg?branch=master)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp) [![codecov](https://codecov.io/gh/nickbabcock/Farmhash.Sharp/branch/master/graph/badge.svg)](https://codecov.io/gh/nickbabcock/Farmhash.Sharp)
 
 # Farmhash.Sharp
 
