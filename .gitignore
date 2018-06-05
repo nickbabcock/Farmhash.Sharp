@@ -265,3 +265,4 @@ BenchmarkDotNet.Artifacts/
 benchmark-farmhash
 benchmark-farmhash-no-ha
 nuget.exe
+coverage.xml
