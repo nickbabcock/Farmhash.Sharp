@@ -4,7 +4,7 @@
 
 static void BM_Farmhash(benchmark::State& state) {
   auto payload = std::string(state.range(0), '.');
-  while (state.KeepRunning())
+  for (auto _ : state)
     util::Hash64(payload);
   state.SetBytesProcessed(int64_t(state.iterations()) * int64_t(state.range(0)));
 }
