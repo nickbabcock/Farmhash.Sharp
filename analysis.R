@@ -20,6 +20,7 @@ ggplot(fm, aes(as.factor(PayloadLength), Throughput)) +
   labs(x='Payload (bytes)', y='Throughput MB/s') +
   ggtitle('Cryptographic vs Non-Cryptographic Hash Function',
           subtitle = "Using 32bit CLR with 32bit Farmhash as a baseline")
+ggsave('crypt-vs-non-crypt.png', width = 12, height = 7, dpi = 100)
 
 # Next we're going to see the performance difference when the 64bit Farmhash
 # function is executed in a 64bit Clr Runtime
@@ -32,6 +33,7 @@ ggplot(clr_run, aes(as.factor(PayloadLength), Throughput)) +
   labs(x='Payload (bytes)', y='Throughput MB/s') + 
   ggtitle("Throughput by Jit Runtime",
           subtitle = "64bit Farmhash Performance on the Clr")
+ggsave('throughput-by-jit.png', width = 12, height = 7, dpi = 100)
 
 # Does the same hold true for Mono?
 mono_run <- df %>%
@@ -43,6 +45,7 @@ ggplot(mono_run, aes(as.factor(PayloadLength), Throughput)) +
   labs(x='Payload (bytes)', y='Throughput MB/s') + 
   ggtitle("Throughput by Jit Runtime",
           subtitle = "64bit Farmhash Performance on the Mono")
+ggsave('mono-throughput.png', width = 12, height = 7, dpi = 100)
 
 # Now let's compare core, mono, and clr
 runtime_df <- df %>%
@@ -55,6 +58,7 @@ ggplot(runtime_df, aes(as.factor(PayloadLength), Throughput)) +
   labs(x='Payload (bytes)', y='Throughput MB/s') + 
   ggtitle("Throughput by Runtime",
           subtitle = "32 and 64bit Farmhash Performance across Core, Mono, and Clr")
+ggsave('runtime-throughput.png', width = 12, height = 7, dpi = 100)
 
 # Moving on to comparing relative throughput of every hashing library, on every
 # platform, for all payload sizes, for 32bit and 64bit hashes. Careful, this
@@ -79,6 +83,7 @@ df2 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
   ggtitle("Non-cryptographic Hash Functions with Relative Throughput",
           subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
   labs(caption = "Shaded by payload and facet. For instance, SparrowXXHash has 70% of the throughput of Farmhash.Sharp\nwhen calculating the 64bit hash and both given a 4 byte payload on the .NET Ryu platform (64bits)")
+ggsave('relative-throughput.png', width = 12, height = 10, dpi = 100)
 
 # Previous heatmap detailed relative throughput, but that was for each facet's
 # payload size. How can one tell if in terms of absolute throughput what
@@ -105,6 +110,7 @@ df3 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
   ggtitle("Non-cryptographic Hash Functions with Throughput (GB/s)",
           subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
   labs(caption = "Shaded by payload. For instance, for payloads of 4 bytes, the fastest is\nFarmhash.Sharp on .NET Ryu 64bit calculating 64bit hashes (1.2 GB/s)")
+ggsave('absolute-throughput.png', width = 12, height = 10, dpi = 100)
 
 # This is the C++ data. Since the benchmark doesn't output a csv these
 # numbers are handcoded from a C++ benchmark run
@@ -128,3 +134,4 @@ ggplot(new_df, aes(as.factor(PayloadLength), Relative)) +
   labs(x='Payload (bytes)', y='Relative Throughput (1.0 is highest throughput)') +
   ggtitle("Throughput of C++ Farmhash vs Farmhash.Sharp",
           subtitle = "Where farmhash-ha uses hardware acceleration")
+ggsave('c-sharp-vs-cpp.png', width = 12, height = 7, dpi = 100)
