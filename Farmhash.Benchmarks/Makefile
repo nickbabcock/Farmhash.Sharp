@@ -28,7 +28,7 @@ farmhash-no-ha.o: ../lib/farmhash/src/farmhash.cc ../lib/farmhash/src/farmhash.h
 
 $(BENCH_DIR)/src/libbenchmark.a:
 				cd $(BENCH_DIR) && \
-				cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_LTO=true . && \
+				cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DBENCHMARK_ENABLE_LTO=true . && \
 				make
 
 clean:
