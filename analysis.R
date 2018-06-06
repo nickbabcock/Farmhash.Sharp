@@ -110,8 +110,8 @@ df3 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
 # numbers are handcoded from a C++ benchmark run
 cpp <- rep(c("farmhash-ha", "farmhash"), each = 6)
 cpp_loads <- rep(c(4, 11, 25, 100, 1000, 10000), 2)
-cpp_through <- c(911, 2037, 4862, 5460, 12500, 23520,
-                 1379, 3240, 6706, 5941, 14147, 16077)
+cpp_through <- c(1138, 2943, 6263, 6773, 15310, 28434,
+                 1715, 4164, 8301, 7029, 17075, 20601)
 cpp_df <- data.frame(cpp, cpp_loads, cpp_through)
 colnames(cpp_df) <- c("Job", "PayloadLength", "Throughput")
 
