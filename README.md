@@ -37,10 +37,10 @@ marked `unsafe`. Almost all platforms should be unaffected by this detail.
 
 ## Building
 
-To build and test everything with the .NET Core 2.0 SDK:
+To build and test everything with the .NET Core 2.1 SDK:
 
 ```
-dotnet test -f netcoreapp2.0 Farmhash.Test/Farmhash.Test.csproj
+dotnet test -f netcoreapp2.1 Farmhash.Test/Farmhash.Test.csproj
 ```
 
 ## Motivation
