@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using System.Security.Cryptography;
