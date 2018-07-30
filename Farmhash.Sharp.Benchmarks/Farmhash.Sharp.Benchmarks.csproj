@@ -2,16 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>$(DefineConstants);CLASSIC</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net461' ">
-    <DefineConstants>$(DefineConstants);CORE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,11 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Farmhash.Sharp\Farmhash.Sharp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="CityHash.Net" Version="1.0.1" />
-    <PackageReference Include="xxHashSharp" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

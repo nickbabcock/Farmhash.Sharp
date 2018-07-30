@@ -21,41 +21,17 @@ namespace Farmhash.Sharp.Benchmarks
             Add(StatisticColumn.StdErr);
             Add(StatisticColumn.StdDev);
             Add(StatisticColumn.Median);
-#if CORE
+
             // dotnet cli toolchain supports only x64 compilation
-            Add(new Job("core-64bit")
-            {
-                Environment = { Runtime = Runtime.Core, Jit = Jit.RyuJit, Platform = Platform.X64 }
-            });
-#endif
-#if CLASSIC
-            Add(new Job("net-legacy-32bit")
-            {
-                Environment = { Runtime = Runtime.Clr, Jit = Jit.LegacyJit, Platform = Platform.X86 }
-            });
+            Add(new Job("core-64bit", EnvironmentMode.Core));
 
-            Add(new Job("net-legacy-64bit")
-            {
-                Environment = { Runtime = Runtime.Clr, Jit = Jit.LegacyJit, Platform = Platform.X64 }
-            });
+            Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86));
+            Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64));
 
-            // Ryu is only for 64bit jobs
-            Add(new Job("net-ryu-64bit")
-            {
-                Environment = { Runtime = Runtime.Clr, Jit = Jit.RyuJit, Platform = Platform.X64 }
-            });
-#endif
-#if MONO
-            Add(new Job("mono-32bit")
-            {
-                Environment = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X86 }
-            });
+            Add(new Job("net-ryu-64bit", EnvironmentMode.RyuJitX64));
 
-            Add(new Job("mono-64bit")
-            {
-                Environment = { Runtime = Runtime.Mono, Jit = Jit.Llvm, Platform = Platform.X64 }
-            });
-#endif
+            Add(new Job("mono-64bit", EnvironmentMode.Mono).With(Platform.X64));
+            Add(new Job("mono-32bit", EnvironmentMode.Mono).With(Platform.X86));
         }
     }
 }

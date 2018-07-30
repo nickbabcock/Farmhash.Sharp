@@ -5,10 +5,6 @@ using System.Text;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Columns;
 
-#if !CORE
-using xxHashSharp;
-#endif
-
 namespace Farmhash.Sharp.Benchmarks
 {
     public class Config64 : ManualConfig
@@ -20,6 +16,7 @@ namespace Farmhash.Sharp.Benchmarks
         }
     }
 
+    [Config(typeof(Config64))]
     public class HashBenchmark64
     {
         private static readonly ICityHash City64 = CityHashFactory.Instance.Create(
@@ -61,13 +58,5 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash64(buffer, data.Length, 0);
             }
         }
-
-#if !CORE
-        [Benchmark]
-        public uint XXHash() =>  xxHash.CalculateHash(data);
-
-        [Benchmark]
-        public ulong CityHashNet() => CityHash.CityHash.CityHash64(dataStr);
-#endif
     }
 }

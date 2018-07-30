@@ -6,10 +6,6 @@ using System.Data.HashFunction.CityHash;
 using System.Data.HashFunction.SpookyHash;
 using System.Text;
 
-#if !CORE
-using xxHashSharp;
-#endif
-
 namespace Farmhash.Sharp.Benchmarks
 {
     public class Config32 : ManualConfig
@@ -21,6 +17,7 @@ namespace Farmhash.Sharp.Benchmarks
         }
     }
 
+    [Config(typeof(Config32))]
     public class HashBenchmark32
     {
         private static readonly ICityHash City64 = CityHashFactory.Instance.Create(
@@ -69,13 +66,5 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash32(buffer, data.Length, 0);
             }
         }
-
-#if !CORE
-        [Benchmark]
-        public uint XXHash() => xxHash.CalculateHash(data);
-
-        [Benchmark]
-        public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
-#endif
     }
 }
