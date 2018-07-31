@@ -1,0 +1,1 @@
+dotnet run -c release -f netcoreapp2.1 -p Farmhash.Sharp.Benchmarks -- --filter "*"
