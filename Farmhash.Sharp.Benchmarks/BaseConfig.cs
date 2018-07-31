@@ -3,6 +3,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
 
 namespace Farmhash.Sharp.Benchmarks
 {
@@ -23,7 +24,8 @@ namespace Farmhash.Sharp.Benchmarks
             Add(StatisticColumn.Median);
 
             // dotnet cli toolchain supports only x64 compilation
-            Add(new Job("core-64bit", EnvironmentMode.Core));
+            Add(new Job("core-64bit", EnvironmentMode.Core)
+                .With(CsProjCoreToolchain.NetCoreApp21));
 
             Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86));
             Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64));
