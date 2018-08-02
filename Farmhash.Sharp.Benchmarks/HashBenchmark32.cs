@@ -66,5 +66,19 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash32(buffer, data.Length, 0);
             }
         }
+
+#if NET461
+        [Benchmark]
+        public uint XXHash() => xxHashSharp.xxHash.CalculateHash(data);
+
+        [Benchmark]
+        public uint CityHashNet() => CityHash.CityHash.CityHash32(dataStr);
+#else
+        [Benchmark]
+        public uint XXHash() => 0;
+
+        [Benchmark]
+        public uint CityHashNet() => 0;
+#endif
     }
 }

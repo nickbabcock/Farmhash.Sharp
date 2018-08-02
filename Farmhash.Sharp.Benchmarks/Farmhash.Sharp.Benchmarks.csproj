@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Farmhash.Sharp\Farmhash.Sharp.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <PackageReference Include="CityHash.Net" Version="1.0.1" />
+    <PackageReference Include="xxHashSharp" Version="1.0.0" />
+  </ItemGroup>
 </Project>

@@ -58,5 +58,13 @@ namespace Farmhash.Sharp.Benchmarks
                 return SpookilySharp.SpookyHash.Hash64(buffer, data.Length, 0);
             }
         }
+
+#if NET461
+        [Benchmark]
+        public ulong CityHashNet() => CityHash.CityHash.CityHash64(dataStr);
+#else
+        [Benchmark]
+        public ulong CityHashNet() => 0;
+#endif
     }
 }
