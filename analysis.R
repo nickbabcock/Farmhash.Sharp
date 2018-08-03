@@ -3,6 +3,9 @@ library(readr)
 
 df <- read_csv("./benchmarks.csv")
 
+# Remove libraries that are not .NET Core compatible and have a median elapsed time of 0ns
+df <- filter(df, !(Runtime == "Core" & (Method == "XXHash" | Method == "CityHashNet")))
+
 # Calculate the throughput by computing MB/s. There are 10^6 bytes in a
 # MB and 10^9 nanoseconds in a second.
 df <- mutate(df, Throughput = PayloadLength * 10^9 / (Mean * 10^6))
@@ -82,7 +85,7 @@ df2 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
   theme(plot.caption = element_text(hjust=0)) +
   ggtitle("Non-cryptographic Hash Functions with Relative Throughput",
           subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
-  labs(caption = "Shaded by payload and facet. For instance, SparrowXXHash has 70% of the throughput of Farmhash.Sharp\nwhen calculating the 64bit hash and both given a 4 byte payload on the .NET Ryu platform (64bits)")
+  labs(caption = "Shaded by payload and facet. For instance, SparrowXXHash has 60% of the throughput of Farmhash.Sharp\nwhen calculating the 64bit hash and both given a 4 byte payload on the .NET Ryu platform (64bits)")
 ggsave('relative-throughput.png', width = 12, height = 10, dpi = 100)
 
 # Previous heatmap detailed relative throughput, but that was for each facet's
@@ -109,7 +112,7 @@ df3 %>% ggplot(aes(Method, as.factor(PayloadLength))) +
   theme(plot.caption = element_text(hjust=0)) +
   ggtitle("Non-cryptographic Hash Functions with Throughput (GB/s)",
           subtitle = "32bit and 64bit hash functions on Mono, Ryu, Core, and Legacy Jits") +
-  labs(caption = "Shaded by payload. For instance, for payloads of 4 bytes, the fastest is\nFarmhash.Sharp on .NET Ryu 64bit calculating 64bit hashes (1.2 GB/s)")
+  labs(caption = "Shaded by payload. For instance, for payloads of 4 bytes, the fastest is\nFarmhash.Sharp on .NET Ryu 64bit calculating 64bit hashes (1.3 GB/s)")
 ggsave('absolute-throughput.png', width = 12, height = 10, dpi = 100)
 
 # This is the C++ data. Since the benchmark doesn't output a csv these
