@@ -118,6 +118,24 @@ namespace Farmhash.Sharp.Tests
 #endif
         }
 
+        [Fact]
+        public void TestStringEncodingChangesOutput()
+        {
+            // The Unicode code point for "€" is U+20AC
+            var payload = new byte[] { 0xE2, 0x82, 0xAC };
+            var windows1252 = CodePagesEncodingProvider.Instance.GetEncoding(1252);
+            var first = Encoding.UTF8.GetString(payload);
+            var second = windows1252.GetString(payload);
+
+            // Even though we can roundtrip back to the original payload
+            Assert.Equal(payload, Encoding.UTF8.GetBytes(first));
+            Assert.Equal(payload, windows1252.GetBytes(second));
+
+            // Hashes are different
+            Assert.NotEqual(Farmhash.Hash64(first), Farmhash.Hash64(second));
+            Assert.NotEqual(Farmhash.Hash32(first), Farmhash.Hash32(second));
+        }
+
 #if NETCOREAPP2_1
         [Fact]
         public void TestHash64Span()
