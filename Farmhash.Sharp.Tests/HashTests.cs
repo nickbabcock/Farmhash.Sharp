@@ -118,6 +118,7 @@ namespace Farmhash.Sharp.Tests
 #endif
         }
 
+#if NETCOREAPP2_1
         [Fact]
         public void TestStringEncodingChangesOutput()
         {
@@ -136,7 +137,6 @@ namespace Farmhash.Sharp.Tests
             Assert.Equal(hashStr, hashUtf16);
         }
 
-#if NETCOREAPP2_1
         [Fact]
         public void TestHash64Span()
         {
