@@ -121,19 +121,19 @@ namespace Farmhash.Sharp.Tests
         [Fact]
         public void TestStringEncodingChangesOutput()
         {
-            // The Unicode code point for "€" is U+20AC
-            var payload = new byte[] { 0xE2, 0x82, 0xAC };
+            const string payload = "Hellø";
             var windows1252 = CodePagesEncodingProvider.Instance.GetEncoding(1252);
-            var first = Encoding.UTF8.GetString(payload);
-            var second = windows1252.GetString(payload);
+            var winBytes = windows1252.GetBytes(payload);
+            var utf8Bytes = Encoding.UTF8.GetBytes(payload);
+            var utf16Bytes = Encoding.Unicode.GetBytes(payload);
 
-            // Even though we can roundtrip back to the original payload
-            Assert.Equal(payload, Encoding.UTF8.GetBytes(first));
-            Assert.Equal(payload, windows1252.GetBytes(second));
+            Assert.NotEqual(winBytes, utf8Bytes);
+            Assert.NotEqual(utf8Bytes, utf16Bytes);
+            Assert.NotEqual(winBytes, utf16Bytes);
 
-            // Hashes are different
-            Assert.NotEqual(Farmhash.Hash64(first), Farmhash.Hash64(second));
-            Assert.NotEqual(Farmhash.Hash32(first), Farmhash.Hash32(second));
+            var hashStr = Farmhash.Hash64(payload);
+            var hashUtf16 = Farmhash.Hash64(utf16Bytes, utf16Bytes.Length);
+            Assert.Equal(hashStr, hashUtf16);
         }
 
 #if NETCOREAPP2_1
