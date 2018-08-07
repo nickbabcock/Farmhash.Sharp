@@ -10,7 +10,11 @@ using System;
 namespace Farmhash.Sharp
 {
     /// <summary>
-    /// Class that can calculate 32bit and 64bit hashes using Google's farmhash algorithm
+    /// Class that can calculate 32bit and 64bit hashes using
+    /// <see href="https://github.com/google/farmhash">
+    /// Google's farmhash
+    /// </see>
+    /// algorithm
     /// </summary>
     public static class Farmhash
     {
