@@ -122,6 +122,12 @@ namespace Farmhash.Sharp
             return fmix(seed ^ Mur(c, Mur(b, Mur(a, d))));
         }
 
+        /// <summary>
+        /// Calculates a 32bit hash from a given byte array upto a certain length
+        /// </summary>
+        /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
+        /// <param name="len">number of bytes to consume to calculate hash</param>
+        /// <returns>A 32bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe uint Hash32(byte* s, uint len)
@@ -198,7 +204,16 @@ namespace Farmhash.Sharp
             }
         }
 
-        /// <summary>Calculates a 32bit hash from a given string</summary>
+        /// <summary>
+        /// Calculates a 32bit hash from a given string.
+        /// <para>
+        /// See the
+        /// <see href="/articles/guides/strings.html">article on strings</see>
+        /// for longform explanation
+        /// </para>
+        /// </summary>
+        /// <param name="s">String to hash</param>
+        /// <returns>A 32bit hash</returns>
         public static unsafe uint Hash32(string s)
         {
             fixed (char* buffer = s)
@@ -517,6 +532,12 @@ namespace Farmhash.Sharp
                              mul);
         }
 
+        /// <summary>
+        /// Calculates a 64bit hash from a given byte array upto a certain length
+        /// </summary>
+        /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
+        /// <param name="len">number of bytes to consume to calculate hash</param>
+        /// <returns>A 64bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe ulong Hash64(byte* s, uint len)
@@ -553,7 +574,16 @@ namespace Farmhash.Sharp
             }
         }
 
-        /// <summary>Calculates a 64bit hash from a given string</summary>
+        /// <summary>
+        /// Calculates a 64bit hash from a given string.
+        /// <para>
+        /// See the
+        /// <see href="/articles/guides/strings.html">article on strings</see>
+        /// for longform explanation
+        /// </para>
+        /// </summary>
+        /// <param name="s">String to hash</param>
+        /// <returns>A 64bit hash</returns>
         public static unsafe ulong Hash64(string s)
         {
             fixed (char* buffer = s)
@@ -563,6 +593,11 @@ namespace Farmhash.Sharp
         }
 
 #if NETCOREAPP2_1
+        /// <summary>
+        /// Calculates the 32bit from a readonly span of byte data
+        /// </summary>
+        /// <param name="span">span of data to hash</param>
+        /// <returns>A 32bit hash</returns>
         public static unsafe ulong Hash32(ReadOnlySpan<byte> span)
         {
             fixed (byte* buf = span)
@@ -571,6 +606,11 @@ namespace Farmhash.Sharp
             }
         }
 
+        /// <summary>
+        /// Calculates the 64bit from a readonly span of byte data
+        /// </summary>
+        /// <param name="span">span of data to hash</param>
+        /// <returns>A 64bit hash</returns>
         public static unsafe ulong Hash64(ReadOnlySpan<byte> span)
         {
             fixed (byte* buf = span)
@@ -580,5 +620,4 @@ namespace Farmhash.Sharp
         }
 #endif
     }
-
 }
