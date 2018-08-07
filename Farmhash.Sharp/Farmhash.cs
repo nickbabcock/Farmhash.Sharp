@@ -4,7 +4,6 @@
 
 using System.Runtime.CompilerServices;
 #if NETCOREAPP2_1
-using System.Runtime.InteropServices;
 using System;
 #endif
 
