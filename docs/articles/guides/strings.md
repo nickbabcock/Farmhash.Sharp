@@ -94,7 +94,20 @@ as a grapheme cluster – and as such, applications dealing with Unicode
 strings, whatever the encoding, have to cope with the fact that they cannot
 arbitrarily split and combine strings.
 
-Finally for proof that that hashing "𤭢" and the UTF-16 bytes of "𤭢" are the same:
+Thus we can say that the grapheme cluster of "𤭢" is composed of two UTF-16 characters, or four bytes. For an extreme example, let's take the family emoji: 👨‍👨‍👧‍👧, a grapheme cluster that is 11 UTF-16 characters.
+
+```csharp
+Encoding.UTF8.GetByteCount("👨‍👨‍👧‍👧")
+// 25
+
+Encoding.Unicode.GetByteCount("👨‍👨‍👧‍👧")
+// 22
+
+Encoding.UTF32.GetByteCount("👨‍👨‍👧‍👧")
+// 28
+```
+
+For proof that that directly hashing "𤭢" and the UTF-16 bytes of "𤭢" are the same:
 
 ```csharp
 var d = Encoding.Unicode.GetBytes("𤭢");
