@@ -107,7 +107,7 @@ Encoding.UTF32.GetByteCount("👨‍👨‍👧‍👧")
 // 28
 ```
 
-For proof that that directly hashing "𤭢" and the UTF-16 bytes of "𤭢" are the same:
+So again we see how one grapheme cluster is encoded differently depending encoding used. For proof that Farmhash.Sharp works over UTF-16 encoded strings, we show that directly hashing "𤭢" and the UTF-16 bytes of "𤭢" are the same:
 
 ```csharp
 var d = Encoding.Unicode.GetBytes("𤭢");
