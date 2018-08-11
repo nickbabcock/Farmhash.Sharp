@@ -601,7 +601,7 @@ namespace Farmhash.Sharp
         /// </summary>
         /// <param name="span">span of data to hash</param>
         /// <returns>A 32bit hash</returns>
-        public static unsafe ulong Hash32(ReadOnlySpan<byte> span)
+        public static unsafe uint Hash32(ReadOnlySpan<byte> span)
         {
             fixed (byte* buf = span)
             {
