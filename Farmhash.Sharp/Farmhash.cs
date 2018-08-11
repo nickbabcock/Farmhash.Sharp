@@ -129,12 +129,13 @@ namespace Farmhash.Sharp
         /// Calculates a 32bit hash from a given byte array upto a certain length
         /// </summary>
         /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
-        /// <param name="len">number of bytes to consume to calculate hash</param>
+        /// <param name="length">number of bytes to consume to calculate hash</param>
         /// <returns>A 32bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe uint Hash32(byte* s, uint len)
+        public static unsafe uint Hash32(byte* s, int length)
         {
+            uint len = (uint) length;
             if (len <= 24)
             {
                 return len <= 12 ?
@@ -197,13 +198,13 @@ namespace Farmhash.Sharp
         /// Calculates a 32bit hash from a given byte array upto a certain length
         /// </summary>
         /// <param name="s">Byte array to calculate the hash on</param>
-        /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
+        /// <param name="length">Number of bytes from the buffer to calculate the hash with</param>
         /// <returns>A 32bit hash</returns>
-        public static unsafe uint Hash32(byte[] s, int len)
+        public static unsafe uint Hash32(byte[] s, int length)
         {
             fixed (byte* buf = s)
             {
-                return Hash32(buf, (uint)len);
+                return Hash32(buf, length);
             }
         }
 
@@ -221,7 +222,7 @@ namespace Farmhash.Sharp
         {
             fixed (char* buffer = s)
             {
-                return Hash32((byte*)buffer, (uint)(s.Length * sizeof(char)));
+                return Hash32((byte*)buffer, s.Length * sizeof(char));
             }
         }
 
@@ -539,12 +540,13 @@ namespace Farmhash.Sharp
         /// Calculates a 64bit hash from a given byte array upto a certain length
         /// </summary>
         /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
-        /// <param name="len">number of bytes to consume to calculate hash</param>
+        /// <param name="length">number of bytes to consume to calculate hash</param>
         /// <returns>A 64bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ulong Hash64(byte* s, uint len)
+        public static unsafe ulong Hash64(byte* s, int length)
         {
+            uint len = (uint)length;
             if (len <= 32)
             {
                 // NOTE: Do not try and optimize HashLen0to16 to use an unfixed
@@ -567,13 +569,13 @@ namespace Farmhash.Sharp
         /// Calculates a 64bit hash from a given byte array upto a certain length
         /// </summary>
         /// <param name="s">Byte array to calculate the hash on</param>
-        /// <param name="len">Number of bytes from the buffer to calculate the hash with</param>
+        /// <param name="length">Number of bytes from the buffer to calculate the hash with</param>
         /// <returns>A 64bit hash</returns>
-        public static unsafe ulong Hash64(byte[] s, int len)
+        public static unsafe ulong Hash64(byte[] s, int length)
         {
             fixed (byte* buf = s)
             {
-                return Hash64(buf, (uint)len);
+                return Hash64(buf, len);
             }
         }
 
@@ -591,7 +593,7 @@ namespace Farmhash.Sharp
         {
             fixed (char* buffer = s)
             {
-                return Hash64((byte*)buffer, (uint)(s.Length * sizeof(char)));
+                return Hash64((byte*)buffer, s.Length * sizeof(char));
             }
         }
 
@@ -605,7 +607,7 @@ namespace Farmhash.Sharp
         {
             fixed (byte* buf = span)
             {
-                return Hash32(buf, (uint)span.Length);
+                return Hash32(buf, span.Length);
             }
         }
 
@@ -618,7 +620,7 @@ namespace Farmhash.Sharp
         {
             fixed (byte* buf = span)
             {
-                return Hash64(buf, (uint)span.Length);
+                return Hash64(buf, span.Length);
             }
         }
 #endif
