@@ -1,0 +1,89 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Farmhash.Sharp
+  name: Farmhash.Sharp
+  href: api/Farmhash.Sharp.html
+  commentId: N:Farmhash.Sharp
+  fullName: Farmhash.Sharp
+  nameWithType: Farmhash.Sharp
+- uid: Farmhash.Sharp.Farmhash
+  name: Farmhash
+  href: api/Farmhash.Sharp.Farmhash.html
+  commentId: T:Farmhash.Sharp.Farmhash
+  fullName: Farmhash.Sharp.Farmhash
+  nameWithType: Farmhash
+- uid: Farmhash.Sharp.Farmhash.Hash32(System.Byte*,System.Int32)
+  name: Hash32(Byte*, Int32)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash32_System_Byte__System_Int32_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash32(System.Byte*,System.Int32)
+  fullName: Farmhash.Sharp.Farmhash.Hash32(System.Byte*, System.Int32)
+  nameWithType: Farmhash.Hash32(Byte*, Int32)
+- uid: Farmhash.Sharp.Farmhash.Hash32(System.Byte[],System.Int32)
+  name: Hash32(Byte[], Int32)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash32_System_Byte___System_Int32_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash32(System.Byte[],System.Int32)
+  name.vb: Hash32(Byte(), Int32)
+  fullName: Farmhash.Sharp.Farmhash.Hash32(System.Byte[], System.Int32)
+  fullName.vb: Farmhash.Sharp.Farmhash.Hash32(System.Byte(), System.Int32)
+  nameWithType: Farmhash.Hash32(Byte[], Int32)
+  nameWithType.vb: Farmhash.Hash32(Byte(), Int32)
+- uid: Farmhash.Sharp.Farmhash.Hash32(System.ReadOnlySpan{System.Byte})
+  name: Hash32(ReadOnlySpan<Byte>)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash32_System_ReadOnlySpan_System_Byte__
+  commentId: M:Farmhash.Sharp.Farmhash.Hash32(System.ReadOnlySpan{System.Byte})
+  name.vb: Hash32(ReadOnlySpan(Of Byte))
+  fullName: Farmhash.Sharp.Farmhash.Hash32(System.ReadOnlySpan<System.Byte>)
+  fullName.vb: Farmhash.Sharp.Farmhash.Hash32(System.ReadOnlySpan(Of System.Byte))
+  nameWithType: Farmhash.Hash32(ReadOnlySpan<Byte>)
+  nameWithType.vb: Farmhash.Hash32(ReadOnlySpan(Of Byte))
+- uid: Farmhash.Sharp.Farmhash.Hash32(System.String)
+  name: Hash32(String)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash32_System_String_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash32(System.String)
+  fullName: Farmhash.Sharp.Farmhash.Hash32(System.String)
+  nameWithType: Farmhash.Hash32(String)
+- uid: Farmhash.Sharp.Farmhash.Hash32*
+  name: Hash32
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash32_
+  commentId: Overload:Farmhash.Sharp.Farmhash.Hash32
+  isSpec: "True"
+  fullName: Farmhash.Sharp.Farmhash.Hash32
+  nameWithType: Farmhash.Hash32
+- uid: Farmhash.Sharp.Farmhash.Hash64(System.Byte*,System.Int32)
+  name: Hash64(Byte*, Int32)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash64_System_Byte__System_Int32_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash64(System.Byte*,System.Int32)
+  fullName: Farmhash.Sharp.Farmhash.Hash64(System.Byte*, System.Int32)
+  nameWithType: Farmhash.Hash64(Byte*, Int32)
+- uid: Farmhash.Sharp.Farmhash.Hash64(System.Byte[],System.Int32)
+  name: Hash64(Byte[], Int32)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash64_System_Byte___System_Int32_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash64(System.Byte[],System.Int32)
+  name.vb: Hash64(Byte(), Int32)
+  fullName: Farmhash.Sharp.Farmhash.Hash64(System.Byte[], System.Int32)
+  fullName.vb: Farmhash.Sharp.Farmhash.Hash64(System.Byte(), System.Int32)
+  nameWithType: Farmhash.Hash64(Byte[], Int32)
+  nameWithType.vb: Farmhash.Hash64(Byte(), Int32)
+- uid: Farmhash.Sharp.Farmhash.Hash64(System.ReadOnlySpan{System.Byte})
+  name: Hash64(ReadOnlySpan<Byte>)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash64_System_ReadOnlySpan_System_Byte__
+  commentId: M:Farmhash.Sharp.Farmhash.Hash64(System.ReadOnlySpan{System.Byte})
+  name.vb: Hash64(ReadOnlySpan(Of Byte))
+  fullName: Farmhash.Sharp.Farmhash.Hash64(System.ReadOnlySpan<System.Byte>)
+  fullName.vb: Farmhash.Sharp.Farmhash.Hash64(System.ReadOnlySpan(Of System.Byte))
+  nameWithType: Farmhash.Hash64(ReadOnlySpan<Byte>)
+  nameWithType.vb: Farmhash.Hash64(ReadOnlySpan(Of Byte))
+- uid: Farmhash.Sharp.Farmhash.Hash64(System.String)
+  name: Hash64(String)
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash64_System_String_
+  commentId: M:Farmhash.Sharp.Farmhash.Hash64(System.String)
+  fullName: Farmhash.Sharp.Farmhash.Hash64(System.String)
+  nameWithType: Farmhash.Hash64(String)
+- uid: Farmhash.Sharp.Farmhash.Hash64*
+  name: Hash64
+  href: api/Farmhash.Sharp.Farmhash.html#Farmhash_Sharp_Farmhash_Hash64_
+  commentId: Overload:Farmhash.Sharp.Farmhash.Hash64
+  isSpec: "True"
+  fullName: Farmhash.Sharp.Farmhash.Hash64
+  nameWithType: Farmhash.Hash64

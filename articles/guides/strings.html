@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>String Hashing | Farmhash.Sharp </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="String Hashing | Farmhash.Sharp ">
+    <meta name="generator" content="docfx 2.37.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/logo-51x51.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="string-hashing">String Hashing</h1>
+
+<p>It is very easy to hash a string with Farmhash.Sharp with performance equivalent to hashing bytes directly</p>
+<pre><code class="lang-csharp">ulong hash64 = Farmhash.Hash64(&quot;Hello&quot;);
+uint hash32 = Farmhash.Hash32(&quot;Hello&quot;);
+</code></pre>
+<p>At this point all the public APIs with strings have been covered, but there is some additional information that may help one understand the implementation and use cases.</p>
+<h2 id="behind-the-scenes">Behind the Scenes</h2>
+<p>The Farmhash algorithm operates on a sequence of bytes. A string is a sequence of characters. These two seem fundamentally at odds. Googling &quot;C# string to bytes&quot; will yield the <a href="https://stackoverflow.com/q/16072709/433785">top Stackoverflow question</a> and <a href="https://www.dotnetperls.com/convert-string-byte-array">dot net perls</a> as the second result. Both of these pages instruct one to decode the string according to a <a href="https://en.wikipedia.org/wiki/Character_encoding">character encoding</a>. This would be bad advice for Farmhash.Sharp for two reasons:</p>
+<ul>
+<li>Would incur a performance penalty as a intermediate byte array would be allocated</li>
+<li>Would complicate the API by forcing the user to pass in an <a href="https://msdn.microsoft.com/en-us/library/system.text.encoding(v=vs.110).aspx"><code>Encoding</code></a> class else risk increased hash collisions due to decoding issues.</li>
+</ul>
+<p>To illustrate the hash collision:</p>
+<pre><code class="lang-csharp">var payload = &quot;ø&quot;;
+
+var data = Encoding.ASCII.GetBytes(payload);
+// byte[1] { 63 }
+
+Encoding.ASCII.GetString(data)
+// &quot;?&quot;
+</code></pre>
+<p>Thus if we ASCII decoded &quot;ø&quot;, we'd get the same hash as &quot;?&quot;. Collision via replacement characters would be a terrible property of any hash function.</p>
+<p>Encodings are incredibly important, as the choice can affect the byte representation. The Hindi character for you (यू) decoded in UTF8, UTF16, and UTF32 will yield 3 different results</p>
+<pre><code class="lang-csharp">Encoding.UTF8.GetBytes(&quot;यू&quot;)
+// byte[6] { 224, 164, 175, 224, 165, 130 }
+
+Encoding.Unicode.GetBytes(&quot;यू&quot;)
+// byte[4] { 47, 9, 66, 9 }
+
+Encoding.UTF32.GetBytes(&quot;यू&quot;)
+// byte[8] { 47, 9, 0, 0, 66, 9, 0, 0 }
+</code></pre>
+<p>All three byte arrays are valid, but are near useless as one can't recover the original string without keeping track of the encoding. While recognizing the encoding of the data you are working with is always good idea, chaining users to an <code>Encoding</code> before they can use Farmhash.Sharp would be an ergonomic hurdle. The way I think of it, hashing a string should be akin to <code>String::GetHashCode</code> in simplicity.</p>
+<h2 id="performance">Performance</h2>
+<p>We can avoid any performance penalties of converting a string to bytes without any downsides with the following approach:</p>
+<pre><code class="lang-csharp">public static unsafe ulong Hash64(string s)
+{
+    fixed (char* buffer = s)
+    {
+        return Hash64((byte*)buffer, s.Length * sizeof(char));
+    }
+}
+</code></pre>
+<ul>
+<li>A string is UTF16 encoded</li>
+<li>We get the string's raw character buffer</li>
+<li>Cast it to a byte array</li>
+<li>Since a byte is 8 bits, a <a href="https://msdn.microsoft.com/en-us/library/system.string.length(v=vs.110).aspx">string's length is the number of characters in the string</a>, and a char is 16 bits representing a UTF16 code point (<a href="https://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf">C# Language Specification: 9.3.6 Integral types</a>), we can arrive at the total length of the byte array by essentially multiplying the string's length by 2 (number of bytes in a <code>char</code>).</li>
+</ul>
+<p>Some may state that this will fail for characters that fall into the surrogate pair range. When it's necessary to join two 16 bit characters to form single character, it's called a surrogate pair. Surrogate pairs are necessary to encode less commonly used symbols, as there are more than 65536 (16 bits) symbols across all languages, emojis, etc. I'll address the two failure points that one might think could occur: buffer overflow causing undefined behavior, and not consuming the entire byte buffer, resulting in an increase of hash collisions.</p>
+<p>Let's take the Mandarin compound &quot;to shatter&quot;: 𤭢</p>
+<pre><code class="lang-csharp">&quot;𤭢&quot;.Length
+// 2
+
+&quot;𤭢&quot;.ToCharArray()
+// char[2] { '\ud852', '\udf62' }
+
+var data = Encoding.Unicode.GetBytes(&quot;𤭢&quot;)
+// byte[4] { 82, 216, 98, 223 }
+
+Encoding.Unicode.GetString(data)
+// &quot;𤭢&quot;
+</code></pre>
+<p>While &quot;𤭢&quot; may be a single symbol, it is composed of multiple characters, so our implementation earlier will handle it smoothly and accurately interpret the string as composed of four bytes. For a bit of context on why the string has a length of 2 instead of 1, <a href="https://en.wikipedia.org/wiki/UTF-16#Usage">Wikipedia has the explanation</a>:</p>
+<blockquote>
+<p>String implementations based on UTF-16 typically return lengths and allow
+indexing in terms of code units, not code points. Neither code points nor code
+units correspond to anything an end user might recognize as a &quot;character&quot;; the
+things users identify as characters may in general consist of a base code
+point and a sequence of combining characters (or be a sequence of code points
+of other kind, for example Hangul conjoining jamos) – Unicode refers to this
+as a grapheme cluster – and as such, applications dealing with Unicode
+strings, whatever the encoding, have to cope with the fact that they cannot
+arbitrarily split and combine strings.</p>
+</blockquote>
+<p>Thus we can say that the grapheme cluster of &quot;𤭢&quot; is composed of two UTF-16 characters, or four bytes. For an extreme example, let's take the family emoji: 👨‍👨‍👧‍👧, a grapheme cluster that is 11 UTF-16 characters.</p>
+<pre><code class="lang-csharp">Encoding.UTF8.GetByteCount(&quot;👨‍👨‍👧‍👧&quot;)
+// 25
+
+Encoding.Unicode.GetByteCount(&quot;👨‍👨‍👧‍👧&quot;)
+// 22
+
+Encoding.UTF32.GetByteCount(&quot;👨‍👨‍👧‍👧&quot;)
+// 28
+</code></pre>
+<p>So again we see how one grapheme cluster is encoded differently depending encoding used. For proof that Farmhash.Sharp works over UTF-16 encoded strings, we show that directly hashing &quot;𤭢&quot; and the UTF-16 bytes of &quot;𤭢&quot; are the same:</p>
+<pre><code class="lang-csharp">var d = Encoding.Unicode.GetBytes(&quot;𤭢&quot;);
+Farmhash.Hash64(d, d.Length).ToString(&quot;X2&quot;)
+// 7D9D6CEA9FCF031D
+
+Farmhash.Hash64(&quot;𤭢&quot;).ToString(&quot;X2&quot;)
+// 7D9D6CEA9FCF031D
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>A single sentence can sum up the Farmhash.Sharp string implementation:</p>
+<blockquote>
+<p>Farmhash.Sharp hashes strings in a zero allocation implementation by interpreting the UTF-16 characters as bytes.</p>
+</blockquote>
+<p>Sounds too simplistic, right? Like we're doing something wrong, as the internet is rife to suggest, but sometimes the best answer is the simplest one.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &copy; 2015-. Contributors of Farmhash.Sharp
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

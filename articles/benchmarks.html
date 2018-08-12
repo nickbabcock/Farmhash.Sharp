@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Benchmarks | Farmhash.Sharp </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Benchmarks | Farmhash.Sharp ">
+    <meta name="generator" content="docfx 2.37.2.0">
+    
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo-51x51.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="benchmarks">Benchmarks</h1>
+
+<h2 id="cryptographic-vs-non-cryptographic">Cryptographic vs Non-Cryptographic</h2>
+<p>For the first graph we will compare a cryptographic (albeit a bad one, as
+it's MD5) with Farmhash.Sharp, which is a non-cryptographic hash function.
+Whereas a non-cryptographic function only has to optimize against collisions
+and speed, a cryptographic function needs to also minimize pathological input.</p>
+<p><a href="/images/crypt-vs-non-crypt.png"><img src="/images/crypt-vs-non-crypt.png" alt="Farmhash-benchmark1"></a></p>
+<p>Without getting bogged down into too many specifics, Farmhash easily crushes
+MD5.</p>
+<h2 id="32bit-vs-64bit-runtime">32bit vs 64bit Runtime</h2>
+<p>What may be surprising is that depending on the runtime Farmhash is running on,
+the throughput can be dramatically affected. To show this, I've restricted the
+data to only show the 64bit hash of Farmhash across different Clr Jit runtimes to
+see which Jit wins.</p>
+<p><a href="/images/throughput-by-jit.png"><img src="/images/throughput-by-jit.png" alt="throughput-by-jit"></a></p>
+<p>I suppose the .NET team should be commended, as the latest Jit (their 64bit Ryu Jit)
+has 5-10x more throughput than the old Jit with results more pronounced against the
+legacy 32bit Jit.</p>
+<p>Does mono have the same behavior?</p>
+<p><a href="/images/mono-throughput.png"><img src="/images/mono-throughput.png" alt="mono-throughput"></a></p>
+<p>Nope. 32bit and 64bit Mono have approximately the same throughput for 64bit Farmhash.
+If you have a keen eye, you may have noticed that the y axis scale changed, which naturally
+lends itself to the question of how Mono, Clr, and the new Core runtime compare against
+each other.</p>
+<p><a href="/images/runtime-throughput.png"><img src="/images/runtime-throughput.png" alt="runtime-throughput"></a></p>
+<p>For both 32bit and 64bit Farmhash functions, the 64bit core and 64bit ryu runtimes
+win across any sized payload. Both the core and ryu probably use a lot of the same
+code under under the hood.</p>
+<h2 id="comparison-with-other-libraries">Comparison with other libraries</h2>
+<p>The following benchmark was done:</p>
+<ul>
+<li>For each payload (4, 11, 25, 100, 1000, 10000)
+<ul>
+<li>For each platform (.NET Core 64bit, Mono 32/64, .NET legacy 32/64, .NET Ryu 64bit)
+<ul>
+<li>Determine the throughput of calculating a 32bit and 64bit hash</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Please click on the image for a better look!</p>
+<p>In each configuration, which library has the highest relative throughput compared to competitors in the same row?</p>
+<p><a href="/images/relative-throughput.png"><img src="/images/relative-throughput.png" alt="relative-throughput"></a></p>
+<p>Previous heatmap detailed relative throughput, but that was for each facet's
+(configuration's) payload size. How can one tell what configuration yields the
+highest throughput at a given payload size. Welcome to the next heatmap.</p>
+<p><a href="/images/absolute-throughput.png"><img src="/images/absolute-throughput.png" alt="absolute-throughput"></a></p>
+<p>What are some takeaways? Well, if you are constrained to a platform you are
+deploying, you'll choose the library that performed the best relative to others
+according to your constraints. If you're interested in highest throughput:</p>
+<ul>
+<li>Stick with 64bit hash functions</li>
+<li>Stick with either .NET Core or .NET Ryu</li>
+<li>For small payloads (~ 11 bytes) use Farmhash.Sharp</li>
+<li>For larger payloads, Farmhash.Sharp remains competitive, but <a href="https://github.com/ravendb/ravendb/blob/b87a422e91dcf7d4590bad631c9266258be7cab3/Raven.Sparrow/Sparrow/Hashing.cs">XXHash</a> found within the Sparrow module of RavenDB is a good option as well.</li>
+</ul>
+<h2 id="c-vs-c">C# vs. C++</h2>
+<p>A good question would be how much efficiency is lost because we're using
+C# and not C++, as the original farmhash algorithm uses C++. You can find the
+benchmark code <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3ffc22a1b70b7875dc0b5ae73be496a45fb28/src/Farmhash.Benchmarks">here</a>.
+It uses two versions of the algorithm, one that uses hardware acceleration
+(<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions), denoted by <code>-ha</code>
+in the graph, and another compilation that does not use hardware acceleration.</p>
+<p><a href="/images/c-sharp-vs-cpp.png"><img src="/images/c-sharp-vs-cpp.png" alt="Farmhash-benchmark4"></a></p>
+<p>I'm pleased to report that for small payloads (&lt;= 25 bytes), Farmhash.Sharp
+is around about the fastest if not the fastest. It's only at larger payloads
+do we see C++'s lead extend as hardware acceleration becomes more effective.
+Still, for large payloads, Farmhash.Sharp has half the throughput as hardware
+accelerated C++, which in my opinion, is quite impressive.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>When deploying on a 64bit application, always choose the 64bit Farmhash
+version. If, for whatever reason, Farmhash isn't for you, choose xxHash found
+in Ravendb.</p>
+<p>Code used to generate the graphs can be found in analysis.R in the github repo.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &copy; 2015-. Contributors of Farmhash.Sharp
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

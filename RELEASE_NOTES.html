@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Release Notes | Farmhash.Sharp </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Release Notes | Farmhash.Sharp ">
+    <meta name="generator" content="docfx 2.37.2.0">
+    
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="images/logo-51x51.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="release-notes">Release Notes</h2>
+
+<h3 id="07---august-11th-2018">0.7 - August 11th 2018</h3>
+<ul>
+<li>Fixed the return type for 32bit hashes taking a span as an argument, so that it is consistent with the return types of the other 32bit hash functions.</li>
+</ul>
+<pre><code class="lang-diff">- ulong Hash32(ReadOnlySpan&lt;byte&gt; span)
++ uint Hash32(ReadOnlySpan&lt;byte&gt; span)
+</code></pre>
+<ul>
+<li>Hash functions receiving a byte pointer and length has had the length parameter changed from <code>uint</code> to <code>int</code> to match the other public hash functions (which match return type of <code>Array::length</code>)</li>
+</ul>
+<pre><code class="lang-diff">- uint Hash32(byte* s, uint len)
++ uint Hash32(byte* s, int len)
+
+- ulong Hash64(byte* s, uint len)
++ ulong Hash64(byte* s, int len)
+</code></pre>
+<h3 id="06---june-1st-2018">0.6 - June 1st 2018</h3>
+<ul>
+<li>Fix bug affecting Hash32 users who used the <code>byte*</code> signature that would calculate the wrong hash for inputs with length of four or less bytes</li>
+<li>Introduce <code>ReadOnlySpan&lt;byte&gt;</code> methods for Hash64 and Hash32</li>
+</ul>
+<h3 id="05---april-10th-2018">0.5 - April 10th 2018</h3>
+<ul>
+<li>Strong sign assemblies so that other strong signed assemblies can use Farmhash.Sharp</li>
+</ul>
+<h3 id="04---november-13th-2017">0.4 - November 13th 2017</h3>
+<ul>
+<li>Expose internal methods using byte pointers as part of the public interface (#12)</li>
+</ul>
+<h3 id="03---april-25th-2017">0.3 - April 25th 2017</h3>
+<ul>
+<li>Release Farmhash.Sharp under netstandard 1.0</li>
+<li>Switch to new MSBuild project files</li>
+</ul>
+<h3 id="02---june-25th-2016">0.2 - June 25th 2016</h3>
+<ul>
+<li>String helper functions</li>
+<li>40% faster processing large (&gt; 1KB) inputs</li>
+</ul>
+<h3 id="01---november-12th-2015">0.1 - November 12th 2015</h3>
+<ul>
+<li>32bit Farmhash implemented</li>
+<li>64bit Farmhash implemented</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &copy; 2015-. Contributors of Farmhash.Sharp
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
