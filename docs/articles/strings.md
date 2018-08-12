@@ -54,7 +54,7 @@ public static unsafe ulong Hash64(string s)
 {
     fixed (char* buffer = s)
     {
-        return Hash64((byte*)buffer, (s.Length * sizeof(char)));
+        return Hash64((byte*)buffer, s.Length * sizeof(char));
     }
 }
 ```

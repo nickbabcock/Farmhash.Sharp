@@ -2,7 +2,7 @@
   href: intro.md
 - name: Motivation
   href: motivation.md
-- name: Guides
-  href: guides/toc.yml
+- name: String Hashing
+  href: strings.md
 - name: Benchmarks
   href: benchmarks.md
