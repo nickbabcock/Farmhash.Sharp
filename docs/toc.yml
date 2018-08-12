@@ -4,6 +4,6 @@
   href: api/
   homepage: api/index.md
 - name: Changelog
-  href: /RELEASE_NOTES.html
+  href: ../RELEASE_NOTES.md
 - name: GitHub
   href: https://github.com/nickbabcock/Farmhash.Sharp
