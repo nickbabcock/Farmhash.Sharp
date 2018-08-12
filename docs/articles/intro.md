@@ -50,4 +50,4 @@ ReadOnlySpan<byte> sp = data;
 ulong hash2 = Farmhash.Hash64(sp);
 ```
 
-The recommendation is to use 64bit hash in almost all circumstances because more resistant to hash collisions and it is [faster](/articles/benchmarks.html).
+The recommendation is to use 64bit hash in almost all circumstances because more resistant to hash collisions and it is [faster](benchmarks.md).
