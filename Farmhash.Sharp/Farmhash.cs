@@ -575,7 +575,7 @@ namespace Farmhash.Sharp
         {
             fixed (byte* buf = s)
             {
-                return Hash64(buf, len);
+                return Hash64(buf, length);
             }
         }
 

@@ -50,7 +50,7 @@ namespace Farmhash.Sharp.Tests
             Assert.Equal(Farmhash.Hash32(bytes, bytes.Length), expected);
             fixed (byte* ptr = bytes)
             {
-                Assert.Equal(Farmhash.Hash32(ptr, (uint)bytes.Length), expected);
+                Assert.Equal(Farmhash.Hash32(ptr, bytes.Length), expected);
             }
 
             var strBytes = Encoding.Unicode.GetBytes(str);
@@ -106,7 +106,7 @@ namespace Farmhash.Sharp.Tests
             Assert.Equal(Farmhash.Hash64(bytes, bytes.Length), expected);
             fixed (byte* ptr = bytes)
             {
-                Assert.Equal(Farmhash.Hash64(ptr, (uint)bytes.Length), expected);
+                Assert.Equal(Farmhash.Hash64(ptr, bytes.Length), expected);
             }
 
             var strBytes = Encoding.Unicode.GetBytes(str);
