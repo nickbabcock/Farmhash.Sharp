@@ -74,7 +74,7 @@
 it's MD5) with Farmhash.Sharp, which is a non-cryptographic hash function.
 Whereas a non-cryptographic function only has to optimize against collisions
 and speed, a cryptographic function needs to also minimize pathological input.</p>
-<p><a href="/images/crypt-vs-non-crypt.png"><img src="/images/crypt-vs-non-crypt.png" alt="Farmhash-benchmark1"></a></p>
+<p><a href="../images/crypt-vs-non-crypt.png"><img src="../images/crypt-vs-non-crypt.png" alt="Farmhash-benchmark1"></a></p>
 <p>Without getting bogged down into too many specifics, Farmhash easily crushes
 MD5.</p>
 <h2 id="32bit-vs-64bit-runtime">32bit vs 64bit Runtime</h2>
@@ -82,17 +82,17 @@ MD5.</p>
 the throughput can be dramatically affected. To show this, I've restricted the
 data to only show the 64bit hash of Farmhash across different Clr Jit runtimes to
 see which Jit wins.</p>
-<p><a href="/images/throughput-by-jit.png"><img src="/images/throughput-by-jit.png" alt="throughput-by-jit"></a></p>
+<p><a href="../images/throughput-by-jit.png"><img src="../images/throughput-by-jit.png" alt="throughput-by-jit"></a></p>
 <p>I suppose the .NET team should be commended, as the latest Jit (their 64bit Ryu Jit)
 has 5-10x more throughput than the old Jit with results more pronounced against the
 legacy 32bit Jit.</p>
 <p>Does mono have the same behavior?</p>
-<p><a href="/images/mono-throughput.png"><img src="/images/mono-throughput.png" alt="mono-throughput"></a></p>
+<p><a href="../images/mono-throughput.png"><img src="../images/mono-throughput.png" alt="mono-throughput"></a></p>
 <p>Nope. 32bit and 64bit Mono have approximately the same throughput for 64bit Farmhash.
 If you have a keen eye, you may have noticed that the y axis scale changed, which naturally
 lends itself to the question of how Mono, Clr, and the new Core runtime compare against
 each other.</p>
-<p><a href="/images/runtime-throughput.png"><img src="/images/runtime-throughput.png" alt="runtime-throughput"></a></p>
+<p><a href="../images/runtime-throughput.png"><img src="../images/runtime-throughput.png" alt="runtime-throughput"></a></p>
 <p>For both 32bit and 64bit Farmhash functions, the 64bit core and 64bit ryu runtimes
 win across any sized payload. Both the core and ryu probably use a lot of the same
 code under under the hood.</p>
@@ -111,11 +111,11 @@ code under under the hood.</p>
 </ul>
 <p>Please click on the image for a better look!</p>
 <p>In each configuration, which library has the highest relative throughput compared to competitors in the same row?</p>
-<p><a href="/images/relative-throughput.png"><img src="/images/relative-throughput.png" alt="relative-throughput"></a></p>
+<p><a href="../images/relative-throughput.png"><img src="../images/relative-throughput.png" alt="relative-throughput"></a></p>
 <p>Previous heatmap detailed relative throughput, but that was for each facet's
 (configuration's) payload size. How can one tell what configuration yields the
 highest throughput at a given payload size. Welcome to the next heatmap.</p>
-<p><a href="/images/absolute-throughput.png"><img src="/images/absolute-throughput.png" alt="absolute-throughput"></a></p>
+<p><a href="../images/absolute-throughput.png"><img src="../images/absolute-throughput.png" alt="absolute-throughput"></a></p>
 <p>What are some takeaways? Well, if you are constrained to a platform you are
 deploying, you'll choose the library that performed the best relative to others
 according to your constraints. If you're interested in highest throughput:</p>
@@ -132,7 +132,7 @@ benchmark code <a href="https://github.com/nickbabcock/Farmhash.Sharp/tree/5ef3f
 It uses two versions of the algorithm, one that uses hardware acceleration
 (<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions), denoted by <code>-ha</code>
 in the graph, and another compilation that does not use hardware acceleration.</p>
-<p><a href="/images/c-sharp-vs-cpp.png"><img src="/images/c-sharp-vs-cpp.png" alt="Farmhash-benchmark4"></a></p>
+<p><a href="../images/c-sharp-vs-cpp.png"><img src="../images/c-sharp-vs-cpp.png" alt="Farmhash-benchmark4"></a></p>
 <p>I'm pleased to report that for small payloads (&lt;= 25 bytes), Farmhash.Sharp
 is around about the fastest if not the fastest. It's only at larger payloads
 do we see C++'s lead extend as hardware acceleration becomes more effective.
