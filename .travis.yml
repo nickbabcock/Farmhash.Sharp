@@ -7,13 +7,13 @@ install:
   - curl -O -L "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
   - mono nuget.exe install Classic/packages.config -OutputDirectory packages
 script:
-  - dotnet test -f netcoreapp2.1 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
+  - dotnet test -f netcoreapp2.1 /p:CollectCoverage=true /p:Exclude="[xunit*]*" /p:CoverletOutputFormat=opencover ./Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
   - curl -s https://codecov.io/bash > codecov
   - chmod +x codecov
   - ./codecov -f Farmhash.Sharp.Tests/coverage.xml
   - msbuild /p:TargetFramework=netstandard1.0 Farmhash.Sharp/Farmhash.Sharp.csproj
   - msbuild Classic/Classic.csproj
-  - mono ./packages/xunit.runner.console.2.3.0/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
+  - mono ./packages/xunit.runner.console.2.4.1/tools/net452/xunit.console.exe Classic/bin/Debug/Classic.dll
 
   # Travis CI doesn't support all the hardware accelerations in farmhash, so we
   # only build the version without hardware acceleration. It's still a good
