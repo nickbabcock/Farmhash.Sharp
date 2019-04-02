@@ -6,5 +6,5 @@ build_script:
   - nuget.exe install Classic\packages.config -OutputDirectory packages
   - msbuild /p:TargetFramework=netstandard1.0 Farmhash.Sharp\Farmhash.Sharp.csproj
   - msbuild Classic/Classic.csproj
-  - .\packages\xunit.runner.console.2.3.0\tools\net452\xunit.console.exe Classic\bin\Debug\Classic.dll
+  - .\packages\xunit.runner.console.2.4.1\tools\net452\xunit.console.exe Classic\bin\Debug\Classic.dll
 test: off
