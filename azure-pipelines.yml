@@ -40,6 +40,8 @@ jobs:
      matrix:
        netstandard1:
          target_framework: netstandard1.0
+       netstandard2:
+         target_framework: netstandard2.0
        netcoreapp2:
          target_framework: netcoreapp2.1
    pool:
