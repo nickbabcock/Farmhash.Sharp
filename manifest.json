@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/projects/farmhash.sharp/docs",
+  "source_base_path": "C:/projects/Farmhash.Sharp/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "RELEASE_NOTES.html",
-          "hash": "tmK4QBkD6dj406Xm/5Ft8w=="
+          "hash": "NPAoeuoe/umBY8at90fR7A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Farmhash.Sharp.Farmhash.html",
-          "hash": "jiO1lKrkx6IwdsaoDEIE0A=="
+          "hash": "1cJaKjXv3rW9wJ2RX7G1xw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "api/Farmhash.Sharp.html",
-          "hash": "EydK5n6gcA4FkbfdzuP35Q=="
+          "hash": "RDYeUTR0SzmyJww6DK9EMA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +45,10 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "5CcR53mS/agACClqk9Zb1Q=="
+          "hash": "OLpqNaLjFmNjQivwczl2jg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "U6VmiY7sVQhQwPKRhNh7Og=="
+          "hash": "dh+b+3qG1tudrb9M5Leekg=="
         }
       },
       "is_incremental": false,
@@ -69,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/benchmarks.html",
-          "hash": "UdfPYwMRlmuZODBQSOT6HA=="
+          "hash": "cDQ6ziZKOUqAmy2P1iu38w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "gO2aLCgBA2euERz0QT3BYw=="
+          "hash": "L1Q7rAE2A+OpiN0Cudh+rA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/motivation.html",
-          "hash": "CJmty3o47fNXa4XUSn9Jxg=="
+          "hash": "QKJZJWUCqKeBX3DyeyN/tw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/strings.html",
-          "hash": "LS2AGEqjNpRIRDN1cDgsqA=="
+          "hash": "03QSyoP64wGAFpjsHLRJKQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "WfqgCPHx1Ai6KShjWphb+g=="
+          "hash": "NWlGZMdoOxwHClYH69cZtQ=="
         }
       },
       "is_incremental": false,
@@ -239,10 +239,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "yDSQ+6OWKg0DASyGJZuJ1A=="
+          "hash": "TDR9Y6dT76xWYn2CS/NSxQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -251,7 +251,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "VG43f3nPXzKW0xIASwUACw=="
+          "hash": "/78kC41p5Ve+GW6SEZlJ8A=="
         }
       },
       "is_incremental": false,
@@ -261,35 +261,49 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
-        "incrementalPhase": "build"
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build"
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build"
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 7,
+          "skipped_file_count": 0
         }
       }
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
-        "incrementalPhase": "postProcessing"
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
       },
       "processors": {}
     }
