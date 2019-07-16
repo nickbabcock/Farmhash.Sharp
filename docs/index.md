@@ -29,6 +29,7 @@ ulong hash2 = Farmhash.Hash64(sp);
 ## Links
 
 - [Overview](articles/intro.md)
+- [NuGet Link](https://www.nuget.org/packages/Farmhash.Sharp/)
 - [Motivation behind this library](articles/motivation.md)
 - [Compare C# farmhash performance to C++](articles/benchmarks.md#c-vs-c)
 - [Compare C# farmhash to other C# hash libraries](articles/benchmarks.md#comparison-with-other-libraries)

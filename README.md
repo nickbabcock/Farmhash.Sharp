@@ -13,6 +13,7 @@ strings or a subsequence of byte arrays.
 Links:
 
 - [Overview](https://nickbabcock.github.io/Farmhash.Sharp/articles/intro.html)
+- [NuGet Link](https://www.nuget.org/packages/Farmhash.Sharp/)
 - [Motivation behind this library](https://nickbabcock.github.io/Farmhash.Sharp/articles/motivation.html)
 - [Compare C# farmhash performance to C++](https://nickbabcock.github.io/Farmhash.Sharp/articles/benchmarks.html#c-vs-c)
 - [Compare C# farmhash to other C# hash libraries](https://nickbabcock.github.io/Farmhash.Sharp/articles/benchmarks.html#comparison-with-other-libraries)
