@@ -1,5 +1,9 @@
 ## Release Notes
 
+### 0.8 - July 16th 2019
+
+* .NET Standard 2.0 has been added as a target framework to enable dependency-less builds on all possible .NET Standard 2.0 platforms instead of only on .NET Core App 2.1.
+
 ### 0.7 - August 11th 2018
 
 * Fixed the return type for 32bit hashes taking a span as an argument, so that it is consistent with the return types of the other 32bit hash functions.
