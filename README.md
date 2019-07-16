@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nickbabcock/Farmhash.Sharp.svg?branch=master)](https://travis-ci.org/nickbabcock/Farmhash.Sharp) [![Build status](https://ci.appveyor.com/api/projects/status/w550d3vtweb4vsmq?svg=true)](https://ci.appveyor.com/project/nickbabcock/farmhash-sharp) [![codecov](https://codecov.io/gh/nickbabcock/Farmhash.Sharp/branch/master/graph/badge.svg)](https://codecov.io/gh/nickbabcock/Farmhash.Sharp)
+[![Build Status](https://dev.azure.com/nbabcock19/nbabcock19/_apis/build/status/nickbabcock.Farmhash.Sharp?branchName=master)](https://dev.azure.com/nbabcock19/nbabcock19/_build/latest?definitionId=5&branchName=master)
 
 # Farmhash.Sharp
 
@@ -23,5 +23,5 @@ Links:
 To build and test everything with the .NET Core 2.1 SDK:
 
 ```
-dotnet test -f netcoreapp2.1 Farmhash.Test/Farmhash.Test.csproj
+dotnet test Farmhash.Test/Farmhash.Test.csproj
 ```
