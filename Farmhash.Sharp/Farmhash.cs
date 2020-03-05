@@ -126,9 +126,9 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>
-        /// Calculates a 32bit hash from a given byte array upto a certain length
+        /// Calculates a 32bit hash from a given byte array up to a certain length
         /// </summary>
-        /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
+        /// <param name="s">pointer to bytes that contain at least <paramref name="length"/> bytes</param>
         /// <param name="length">number of bytes to consume to calculate hash</param>
         /// <returns>A 32bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L1061-L1117
@@ -195,7 +195,7 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>
-        /// Calculates a 32bit hash from a given byte array upto a certain length
+        /// Calculates a 32bit hash from a given byte array up to a certain length
         /// </summary>
         /// <param name="s">Byte array to calculate the hash on</param>
         /// <param name="length">Number of bytes from the buffer to calculate the hash with</param>
@@ -537,9 +537,9 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>
-        /// Calculates a 64bit hash from a given byte array upto a certain length
+        /// Calculates a 64bit hash from a given byte array up to a certain length
         /// </summary>
-        /// <param name="s">pointer to bytes that contain at least <paramref name="len"/> bytes</param>
+        /// <param name="s">pointer to bytes that contain at least <paramref name="length"/> bytes</param>
         /// <param name="length">number of bytes to consume to calculate hash</param>
         /// <returns>A 64bit hash</returns>
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L732-L748
@@ -566,7 +566,7 @@ namespace Farmhash.Sharp
         }
 
         /// <summary>
-        /// Calculates a 64bit hash from a given byte array upto a certain length
+        /// Calculates a 64bit hash from a given byte array up to a certain length
         /// </summary>
         /// <param name="s">Byte array to calculate the hash on</param>
         /// <param name="length">Number of bytes from the buffer to calculate the hash with</param>
