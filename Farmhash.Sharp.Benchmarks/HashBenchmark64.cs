@@ -4,6 +4,7 @@ using BenchmarkDotNet.Attributes;
 using System.Text;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Columns;
+using Farmhash.Sharp.Safe;
 
 namespace Farmhash.Sharp.Benchmarks
 {
@@ -40,6 +41,9 @@ namespace Farmhash.Sharp.Benchmarks
 
         [Benchmark]
         public ulong FarmHash() => Farmhash.Hash64(data, data.Length);
+
+        [Benchmark]
+        public ulong FarmHashSafe() => FarmhashSafe.Hash64(data, data.Length);
 
         [Benchmark]
         public ulong SparrowXXHash() => SparrowHashing.XXHash64.Calculate(data, data.Length);

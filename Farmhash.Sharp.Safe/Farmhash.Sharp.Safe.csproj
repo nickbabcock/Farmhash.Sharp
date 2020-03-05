@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+
+    <Product>Farmhash.Sharp.Safe</Product>
+    <Description>A .NET Port of Google's blazingly fast hashing algorithm</Description>
+    <Copyright>Nick Babcock</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Nick Babcock</Authors>
+    <PackageTags>hash</PackageTags>
+    <PackageIconUrl>https://nickbabcock.github.io/Farmhash.Sharp/img/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://nickbabcock.github.io/Farmhash.Sharp/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/nickbabcock/Farmhash.Sharp/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/nickbabcock/Farmhash.Sharp</RepositoryUrl>
+
+    <Major>0</Major>
+    <Minor>8</Minor>
+    <Revision>0</Revision>
+    <AssemblyVersion>$(Major).$(Minor).$(Revision)</AssemblyVersion>
+    <AssemblyFileVersion>$(Major).$(Minor).$(Revision)</AssemblyFileVersion>
+    <InformationalVersion>$(Major).$(Minor).$(Revision)</InformationalVersion>
+    <Version>$(Major).$(Minor).$(Revision)</Version>
+    <FileVersion>$(Major).$(Minor).$(Revision)</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>farmhash.sharp.key.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+</Project>

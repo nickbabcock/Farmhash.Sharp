@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Data.HashFunction.CityHash;
 using System.Data.HashFunction.SpookyHash;
 using System.Text;
+using Farmhash.Sharp.Safe;
 
 namespace Farmhash.Sharp.Benchmarks
 {
@@ -42,6 +43,9 @@ namespace Farmhash.Sharp.Benchmarks
 
         [Benchmark]
         public uint FarmHash() => Farmhash.Hash32(data, data.Length);
+
+        [Benchmark]
+        public uint FarmHashSafe() => FarmhashSafe.Hash32(data, data.Length);
 
         [Benchmark]
         public byte[] Md5() => md5.ComputeHash(data);

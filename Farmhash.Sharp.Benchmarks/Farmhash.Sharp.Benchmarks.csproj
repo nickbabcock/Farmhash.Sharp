@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Farmhash.Sharp.Safe\Farmhash.Sharp.Safe.csproj" />
     <ProjectReference Include="..\Farmhash.Sharp\Farmhash.Sharp.csproj" />
   </ItemGroup>
 

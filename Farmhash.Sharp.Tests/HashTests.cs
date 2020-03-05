@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Farmhash.Sharp.Safe;
 using Xunit;
 
 namespace Farmhash.Sharp.Tests
@@ -52,6 +53,8 @@ namespace Farmhash.Sharp.Tests
             {
                 Assert.Equal(Farmhash.Hash32(ptr, bytes.Length), expected);
             }
+
+            Assert.Equal(FarmhashSafe.Hash32(bytes, bytes.Length), expected);
 
             var strBytes = Encoding.Unicode.GetBytes(str);
             Assert.Equal(Farmhash.Hash32(strBytes, strBytes.Length), Farmhash.Hash32(str));
@@ -108,6 +111,8 @@ namespace Farmhash.Sharp.Tests
             {
                 Assert.Equal(Farmhash.Hash64(ptr, bytes.Length), expected);
             }
+
+            Assert.Equal(FarmhashSafe.Hash64(bytes, bytes.Length), expected);
 
             var strBytes = Encoding.Unicode.GetBytes(str);
             Assert.Equal(Farmhash.Hash64(strBytes, strBytes.Length), Farmhash.Hash64(str));
