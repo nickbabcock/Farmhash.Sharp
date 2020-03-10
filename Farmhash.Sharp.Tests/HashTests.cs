@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Farmhash.Sharp.Safe;
 using Xunit;
 
 namespace Farmhash.Sharp.Tests

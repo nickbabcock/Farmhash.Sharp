@@ -9,7 +9,7 @@ using System.Text;
 using System;
 #endif
 
-namespace Farmhash.Sharp.Safe
+namespace Farmhash.Sharp
 {
     /// <summary>
     /// Class that can calculate 32bit and 64bit hashes using

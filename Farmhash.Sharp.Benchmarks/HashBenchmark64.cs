@@ -4,7 +4,6 @@ using BenchmarkDotNet.Attributes;
 using System.Text;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Columns;
-using Farmhash.Sharp.Safe;
 
 namespace Farmhash.Sharp.Benchmarks
 {

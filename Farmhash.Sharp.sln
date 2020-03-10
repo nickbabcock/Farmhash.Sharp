@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classic", "Classic\Classic.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farmhash.Sharp.Safe", "Farmhash.Sharp.Safe\Farmhash.Sharp.Safe.csproj", "{81AE9510-1147-4060-B0EB-7F5B2AD272FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farmhash.Sharp.SqlServerClrUdf", "Farmhash.Sharp.SqlServerClrUdf\Farmhash.Sharp.SqlServerClrUdf.csproj", "{2E1F4F01-B151-444B-A25A-9FDE37F34092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{81AE9510-1147-4060-B0EB-7F5B2AD272FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81AE9510-1147-4060-B0EB-7F5B2AD272FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81AE9510-1147-4060-B0EB-7F5B2AD272FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1F4F01-B151-444B-A25A-9FDE37F34092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1F4F01-B151-444B-A25A-9FDE37F34092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1F4F01-B151-444B-A25A-9FDE37F34092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1F4F01-B151-444B-A25A-9FDE37F34092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

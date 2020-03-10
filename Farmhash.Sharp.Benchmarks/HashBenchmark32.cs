@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Data.HashFunction.CityHash;
 using System.Data.HashFunction.SpookyHash;
 using System.Text;
-using Farmhash.Sharp.Safe;
 
 namespace Farmhash.Sharp.Benchmarks
 {
