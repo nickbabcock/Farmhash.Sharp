@@ -5,7 +5,7 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
 
-    <Product>Farmhash.Sharp.Safe</Product>
+    <Product>Farmhash.Sharp</Product>
     <Description>A .NET Port of Google's blazingly fast hashing algorithm</Description>
     <Copyright>Nick Babcock</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>

@@ -47,6 +47,9 @@
     <Reference Include="Farmhash.Sharp">
       <HintPath>..\Farmhash.Sharp\bin\Debug\netstandard1.0\Farmhash.Sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Farmhash.Sharp.Safe">
+      <HintPath>..\Farmhash.Sharp.Safe\bin\Debug\netstandard1.0\Farmhash.Sharp.Safe.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
