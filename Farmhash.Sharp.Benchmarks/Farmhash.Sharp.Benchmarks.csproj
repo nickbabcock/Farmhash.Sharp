@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
     <PackageReference Include="System.Data.HashFunction.CityHash" Version="2.0.0" />
     <PackageReference Include="System.Data.HashFunction.SpookyHash" Version="2.0.0" />
     <PackageReference Include="SpookilySharp" Version="1.2.0" />
