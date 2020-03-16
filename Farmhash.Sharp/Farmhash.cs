@@ -2,7 +2,10 @@
 // ReSharper disable SuggestVarOrType_Elsewhere
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics.X86;
+
 #if NETCOREAPP2_1
 using System;
 #endif
@@ -374,7 +377,7 @@ namespace Farmhash.Sharp
 
         // https://github.com/google/farmhash/blob/34c13ddfab0e35422f4c3979f360635a8c050260/src/farmhash.cc#L592-L681
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe ulong Hash64_uo(byte* s, uint len)
+        private static unsafe ulong   Hash64_uo(byte* s, uint len)
         {
             const ulong seed0 = 81;
             const ulong seed1 = 0;
@@ -595,6 +598,13 @@ namespace Farmhash.Sharp
             {
                 return Hash64((byte*)buffer, s.Length * sizeof(char));
             }
+        }
+
+        public static unsafe ulong Hash64Simd(byte* s, uint len)
+        {
+            const long seed0 = 81;
+            const long seed1 = 0;
+            return Simd.Hash64Long(s, len, seed0, seed1);
         }
 
 #if NETCOREAPP2_1

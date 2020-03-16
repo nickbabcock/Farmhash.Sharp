@@ -118,6 +118,8 @@ namespace Farmhash.Sharp.Tests
 #endif
         }
 
+
+
 #if NETCOREAPP2_1
         [Fact]
         public void TestStringEncodingChangesOutput()
