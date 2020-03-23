@@ -29,8 +29,8 @@ namespace Farmhash.Sharp.Benchmarks
             Add(new Job("core-64bit").With(CoreRuntime.Core21).WithId("Core")
                 .With(CsProjCoreToolchain.NetCoreApp21));
 
-            Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86).With(CsProjClassicNetToolchain.Net48));
-            Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64).With(CsProjClassicNetToolchain.Net48));
+            Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86).With(CsProjClassicNetToolchain.Net461));
+            Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64).With(CsProjClassicNetToolchain.Net461));
 
             Add(new Job("net-ryu-64bit", EnvironmentMode.RyuJitX64));
 
