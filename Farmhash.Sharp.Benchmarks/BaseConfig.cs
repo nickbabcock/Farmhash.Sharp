@@ -11,12 +11,14 @@ namespace Farmhash.Sharp.Benchmarks
     {
         public BaseConfig()
         {
-            Add(new CsvExporter(CsvSeparator.CurrentCulture,
-                new BenchmarkDotNet.Reports.SummaryStyle
-                {
-                    PrintUnitsInContent = false,
-                    TimeUnit = BenchmarkDotNet.Horology.TimeUnit.Nanosecond
-                }));
+            Add(new CsvExporter(
+                CsvSeparator.CurrentCulture,
+                new BenchmarkDotNet.Reports.SummaryStyle(
+                    false,
+                    null,
+                    BenchmarkDotNet.Horology.TimeUnit.Nanosecond,
+                    false)
+            ));
 
             Add(StatisticColumn.Mean);
             Add(StatisticColumn.StdErr);
@@ -24,16 +26,16 @@ namespace Farmhash.Sharp.Benchmarks
             Add(StatisticColumn.Median);
 
             // dotnet cli toolchain supports only x64 compilation
-            Add(new Job("core-64bit", EnvironmentMode.Core)
+            Add(new Job("core-64bit").With(CoreRuntime.Core21).WithId("Core")
                 .With(CsProjCoreToolchain.NetCoreApp21));
 
-            Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86));
-            Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64));
+            Add(new Job("net-legacy-32bit", EnvironmentMode.LegacyJitX86).With(CsProjClassicNetToolchain.Net461));
+            Add(new Job("net-legacy-64bit", EnvironmentMode.LegacyJitX64).With(CsProjClassicNetToolchain.Net461));
 
             Add(new Job("net-ryu-64bit", EnvironmentMode.RyuJitX64));
 
-            Add(new Job("mono-64bit", EnvironmentMode.Mono).With(Platform.X64));
-            Add(new Job("mono-32bit", EnvironmentMode.Mono).With(Platform.X86));
+            Add(new Job("mono-64bit").With(MonoRuntime.Default).With(Platform.X64));
+            Add(new Job("mono-32bit").With(MonoRuntime.Default).With(Platform.X86));
         }
     }
 }
