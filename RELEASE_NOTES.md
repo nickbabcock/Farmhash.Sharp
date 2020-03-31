@@ -1,5 +1,10 @@
 ## Release Notes
 
+### 0.9 - April 1st, 2020
+
+* .NET Standard 2.1 has been added as a target to allow hashing `Span` outside the .NET core environment
+* .NET 4.5 has been added as a target to allow farmhash to be integrated into environments that expect an explicit .NET target (eg: SQL Server UDF)
+
 ### 0.8 - July 16th 2019
 
 * .NET Standard 2.0 has been added as a target framework to enable dependency-less builds on all possible .NET Standard 2.0 platforms instead of only on .NET Core App 2.1.
