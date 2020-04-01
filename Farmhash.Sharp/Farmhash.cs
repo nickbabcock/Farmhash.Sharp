@@ -3,7 +3,7 @@
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 
 using System.Runtime.CompilerServices;
-#if NETCOREAPP2_1
+#if (NETCOREAPP2_1 || NETSTANDARD2_1)
 using System;
 #endif
 
@@ -597,7 +597,7 @@ namespace Farmhash.Sharp
             }
         }
 
-#if NETCOREAPP2_1
+#if (NETCOREAPP2_1 || NETSTANDARD2_1)
         /// <summary>
         /// Calculates the 32bit from a readonly span of byte data
         /// </summary>

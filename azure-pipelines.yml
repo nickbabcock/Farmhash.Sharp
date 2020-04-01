@@ -42,14 +42,16 @@ jobs:
          target_framework: netstandard1.0
        netstandard2:
          target_framework: netstandard2.0
+       netstandard21:
+         target_framework: netstandard2.1
        netcoreapp2:
          target_framework: netcoreapp2.1
    pool:
      vmImage: ubuntu-16.04
    steps:
-     - task: DotNetCoreInstaller@0
+     - task: UseDotNet@2
        inputs:
-         version: '2.2.105'
+         version: '3.0.x'
      - script: dotnet build -f $TARGET_FRAMEWORK Farmhash.Sharp/Farmhash.Sharp.csproj
      - script: dotnet test /p:Exclude="[xunit*]*" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura --logger:xunit Farmhash.Sharp.Tests/Farmhash.Sharp.Tests.csproj
      - task: PublishTestResults@2
