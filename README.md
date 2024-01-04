@@ -1,5 +1,3 @@
-[![Build Status](https://dev.azure.com/nbabcock19/nbabcock19/_apis/build/status/nickbabcock.Farmhash.Sharp?branchName=master)](https://dev.azure.com/nbabcock19/nbabcock19/_build/latest?definitionId=5&branchName=master)
-
 # Farmhash.Sharp
 
 [Farmhash.Sharp](https://nickbabcock.github.io/Farmhash.Sharp) is a .NET port
@@ -17,12 +15,3 @@ Links:
 - [Motivation behind this library](https://nickbabcock.github.io/Farmhash.Sharp/articles/motivation.html)
 - [Compare C# farmhash performance to C++](https://nickbabcock.github.io/Farmhash.Sharp/articles/benchmarks.html#c-vs-c)
 - [Compare C# farmhash to other C# hash libraries](https://nickbabcock.github.io/Farmhash.Sharp/articles/benchmarks.html#comparison-with-other-libraries)
-
-
-## Building
-
-To build and test everything with the .NET Core 2.1 SDK:
-
-```
-dotnet test Farmhash.Test/Farmhash.Test.csproj
-```
